@@ -126,6 +126,10 @@ def p_asignacion_cadena(t):
                                 |   CARACTER'''
     t[0] = ExpresionComilla(t[1])
 
+def p_asignacion_copia(t):
+    '''expresion_asignacion     :   TEMPORAL'''
+    t[0] = ExpresionIdentificador(t[1])
+
 def p_expresion_cadena(t):
     'expresion_cadena : CADENA'
     t[0] = ExpresionComilla(t[1])

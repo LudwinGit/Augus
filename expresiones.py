@@ -40,9 +40,6 @@ class ExpresionNumero(ExpresionAsignacion) :
         self.valor = valor
 
 class ExpresionIdentificador(ExpresionAsignacion) :
-    '''
-        Esta clase representa un identificador.
-    '''
     def __init__(self, id = "") :
         self.id = id
 
