@@ -10,7 +10,7 @@ tokens = [
     'TEMPORAL','PARAMETRO','RETURN','RA','PILA','PUNTEROPILA',
 
     #TIPOS
-    'ENTERO','DECIMAL','CADENA',
+    'ENTERO','DECIMAL','CADENA','CARACTER',
 
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS'
@@ -59,6 +59,11 @@ def t_ENTERO(t):
         print("DEMASIADO GRANDE PARA CONVERTIR A INT %d", t.value)
         t.value = 0
     return t
+
+def t_CARACTER(t):
+    r'\'.\''
+    t.value = t.value[1:-1] # remuevo las comillas
+    return t 
 
 def t_CADENA(t):
     r'\'.*?\''
@@ -115,6 +120,11 @@ def p_asignacion_numero(t):
     '''expresion_asignacion     :   ENTERO
                                 |   DECIMAL'''
     t[0] = ExpresionNumero(t[1])
+
+def p_asignacion_cadena(t):
+    '''expresion_asignacion     :   CADENA
+                                |   CARACTER'''
+    t[0] = ExpresionComilla(t[1])
 
 def p_expresion_cadena(t):
     'expresion_cadena : CADENA'
