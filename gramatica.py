@@ -13,7 +13,8 @@ tokens = [
     'ENTERO','DECIMAL','CADENA','CARACTER',
 
     #SIMBOLOS
-    'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS'
+    'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
+    'MAS','MUL','DIV',
 ]
 
 # Tokens
@@ -39,6 +40,9 @@ t_IGUAL= r'\='
 t_ABREPARENTESIS = r'\('
 t_CIERRAPARENTESIS = r'\)'
 t_MENOS = r'\-'
+t_MAS = r'\+'
+t_MUL = r'\*'
+t_DIV = r'\/'
 
 # Caracteres ignorados
 t_ignore = " \t"
@@ -88,11 +92,11 @@ import ply.lex as lex
 lexer = lex.lex()
 
 # Asociación de operadores y precedencia
-# precedence = (
-# #     ('left','MAS','MENOS'),
-# #     ('left','POR','DIVIDIDO'),
-#     ('right','NEGATIVO'),
-# )
+precedence = (
+    ('left','MAS','MENOS'),
+    ('left','MUL','DIV'),
+    ('right','NEGATIVO'),
+    )
 
 from instrucciones import *
 from expresiones import *
@@ -139,6 +143,10 @@ def p_expresion_asignacion(t):
 #     elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
 #     elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
 
+def p_expresion_negativo(t):
+    'expresion_numerica : MENOS expresion_numerica %prec NEGATIVO'
+    t[0] = ExpresionNegativo(t[2])
+
 def p_asignacion_numero(t):
     '''expresion_numerica       :   ENTERO
                                 |   DECIMAL'''
@@ -152,10 +160,6 @@ def p_asignacion_cadena(t):
     '''expresion_cadena         :   CADENA
                                 |   CARACTER'''
     t[0] = ExpresionComilla(t[1])
-
-# def p_expresion_negativo(t):
-#     'expresion_numerica : MENOS expresion %prec NEGATIVO'
-#     t[0] = ExpresionNegativo(t[2])
 
 def p_error(t):
     print(t)

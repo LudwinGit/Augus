@@ -27,8 +27,8 @@ class ExpresionBinaria(ExpresionAsignacion) :
         self.operador = operador
 
 class ExpresionNegativo(ExpresionAsignacion) :
-    def __init__(self, exp) :
-        self.exp = exp
+    def __init__(self, expresion) :
+        self.expresion = expresion
 
 
 class ExpresionNumero(ExpresionAsignacion) :
