@@ -33,6 +33,8 @@ def resolver_expresion_asignacion(expresionAsignacion,tablasimbolos):
             return None
         else:
             return tablasimbolos.obtener(expresionAsignacion.id).valor
+    else:
+        print("otro")
 
 def resolver_cadena(expresionCadena, tablasimbolos) :
     if isinstance(expresionCadena, ExpresionComilla) :

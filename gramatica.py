@@ -13,7 +13,7 @@ tokens = [
     'ENTERO','DECIMAL','CADENA','CARACTER',
 
     #SIMBOLOS
-    'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS'
+    'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS'
 ]
 
 # Tokens
@@ -38,6 +38,7 @@ t_PUNTOCOMA= r'\;'
 t_IGUAL= r'\='
 t_ABREPARENTESIS = r'\('
 t_CIERRAPARENTESIS = r'\)'
+t_MENOS = r'\-'
 
 # Caracteres ignorados
 t_ignore = " \t"
@@ -71,7 +72,7 @@ def t_CADENA(t):
     return t 
 
 def t_COMENTARIO(t):
-    r'//.*\n'
+    r'\#.*(\n)?'
     t.lexer.lineno += 1
 
 def t_newline(t):
@@ -85,6 +86,13 @@ def t_error(t):
 # Construyendo el analizador léxico
 import ply.lex as lex
 lexer = lex.lex()
+
+# Asociación de operadores y precedencia
+# precedence = (
+# #     ('left','MAS','MENOS'),
+# #     ('left','POR','DIVIDIDO'),
+#     ('right','NEGATIVO'),
+# )
 
 from instrucciones import *
 from expresiones import *
@@ -116,32 +124,42 @@ def p_instruccion_asignacion(t):
     'asignacion_instruccion    :   TEMPORAL IGUAL expresion_asignacion PUNTOCOMA'
     t[0] = Asignacion(t[1],t[3])
 
+def p_expresion_asignacion(t):
+    '''expresion_asignacion     :   expresion_numerica
+                                |   expresion_cadena'''
+    t[0] = t[1]
+
+# def p_expresion_aritmetica(t):
+#     '''expresion_numerica   : expresion_numerica MAS expresion_numerica
+#                             | expresion_numerica MENOS expresion_numerica
+#                             | expresion_numerica POR expresion_numerica
+#                             | expresion_numerica DIVIDIDO expresion_numerica'''
+#     if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
+#     elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
+#     elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
+#     elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
+
 def p_asignacion_numero(t):
-    '''expresion_asignacion     :   ENTERO
+    '''expresion_numerica       :   ENTERO
                                 |   DECIMAL'''
     t[0] = ExpresionNumero(t[1])
 
+def p_asignacion_variable(t):
+    '''expresion_numerica       :   TEMPORAL'''
+    t[0] = ExpresionIdentificador(t[1])
+
 def p_asignacion_cadena(t):
-    '''expresion_asignacion     :   CADENA
+    '''expresion_cadena         :   CADENA
                                 |   CARACTER'''
     t[0] = ExpresionComilla(t[1])
 
-def p_asignacion_copia(t):
-    '''expresion_asignacion     :   TEMPORAL'''
-    t[0] = ExpresionIdentificador(t[1])
+# def p_expresion_negativo(t):
+#     'expresion_numerica : MENOS expresion %prec NEGATIVO'
+#     t[0] = ExpresionNegativo(t[2])
 
-def p_expresion_cadena(t):
-    'expresion_cadena : CADENA'
-    t[0] = ExpresionComilla(t[1])
-
-# def p_expresion_numerica:
-
-# def p_expresion_array:
-
-# def p_instruccion
-# # def p_main(t):
-# #     'expresion : MAIN'
-
+def p_error(t):
+    print(t)
+    print("Error sintáctico en '%s'" % t.value)
 
 import ply.yacc as yacc
 parser = yacc.yacc()

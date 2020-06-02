@@ -27,10 +27,6 @@ class ExpresionBinaria(ExpresionAsignacion) :
         self.operador = operador
 
 class ExpresionNegativo(ExpresionAsignacion) :
-    '''
-        Esta clase representa la Expresión Aritmética Negativa.
-        Esta clase recibe la expresion
-    '''
     def __init__(self, exp) :
         self.exp = exp
 
