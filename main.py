@@ -11,7 +11,11 @@ def procesar_asignacion(instruccion,tablasimbolos):
     simbolo = TABLASIMBOLOS.Simbolo(instruccion.id, TABLASIMBOLOS.TIPO_DATO.STRING, val)
     if(type(val)==int): simbolo = TABLASIMBOLOS.Simbolo(instruccion.id, TABLASIMBOLOS.TIPO_DATO.NUMERO, val)
     elif(type(val)==float): simbolo = TABLASIMBOLOS.Simbolo(instruccion.id, TABLASIMBOLOS.TIPO_DATO.FLOAT, val)
-    # elif(type(val)==char) simbolo = TABLASIMBOLOS.Simbolo(instruccion.id, TABLASIMBOLOS.TIPO_DATO.FLOAT, val)
+    elif(type(val)==str):
+        if(len(val) == 1):
+            simbolo = TABLASIMBOLOS.Simbolo(instruccion.id, TABLASIMBOLOS.TIPO_DATO.CHAR, val)
+        else:
+            simbolo = TABLASIMBOLOS.Simbolo(instruccion.id, TABLASIMBOLOS.TIPO_DATO.STRING, val)
     if(tablasimbolos.obtener(simbolo.id) == None):
         tablasimbolos.agregar(simbolo)
     else:
@@ -19,6 +23,8 @@ def procesar_asignacion(instruccion,tablasimbolos):
 
 def resolver_expresion_asignacion(expresionAsignacion,tablasimbolos):
     if isinstance(expresionAsignacion,ExpresionNumero):
+        return expresionAsignacion.valor
+    elif isinstance(expresionAsignacion,ExpresionComilla):
         return expresionAsignacion.valor
 
 def resolver_cadena(expresionCadena, tablasimbolos) :
