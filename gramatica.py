@@ -98,12 +98,23 @@ def p_instrucciones_instruccion(t):
     t[0] = [t[1]]
 
 def p_instruccion(t):
-    '''instruccion  : print_instruccion'''
+    '''instruccion  :   print_instruccion
+                    |   asignacion_instruccion
+                                        '''
     t[0] = t[1]
 
 def p_instruccion_print(t):
-    'print_instruccion : PRINT ABREPARENTESIS expresion_cadena CIERRAPARENTESIS'
+    'print_instruccion : PRINT ABREPARENTESIS expresion_cadena CIERRAPARENTESIS PUNTOCOMA'
     t[0] = Print(t[3])
+
+def p_instruccion_asignacion(t):
+    'asignacion_instruccion    :   TEMPORAL IGUAL expresion_asignacion PUNTOCOMA'
+    t[0] = Asignacion(t[1],t[3])
+
+def p_asignacion_numero(t):
+    '''expresion_asignacion     :   ENTERO
+                                |   DECIMAL'''
+    t[0] = ExpresionNumero(t[1])
 
 def p_expresion_cadena(t):
     'expresion_cadena : CADENA'

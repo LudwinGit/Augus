@@ -12,12 +12,10 @@ class OPERACION_LOGICA(Enum) :
     IGUAL = 3
     DIFERENTE = 4
 
-class ExpresionNumerica:
-    '''
-        Esta clase representa una expresión numérica
-    '''
+class ExpresionAsignacion:
+    '''Clase abstracta para la asignacion de variables'''
 
-class ExpresionBinaria(ExpresionNumerica) :
+class ExpresionBinaria(ExpresionAsignacion) :
     '''
         Esta clase representa la Expresión Aritmética Binaria.
         Esta clase recibe los operandos y el operador
@@ -28,7 +26,7 @@ class ExpresionBinaria(ExpresionNumerica) :
         self.exp2 = exp2
         self.operador = operador
 
-class ExpresionNegativo(ExpresionNumerica) :
+class ExpresionNegativo(ExpresionAsignacion) :
     '''
         Esta clase representa la Expresión Aritmética Negativa.
         Esta clase recibe la expresion
@@ -37,19 +35,14 @@ class ExpresionNegativo(ExpresionNumerica) :
         self.exp = exp
 
 
-class ExpresionNumero(ExpresionNumerica) :
-    '''
-        Esta clase representa una expresión numérica entera o decimal.
-    '''
+class ExpresionNumero(ExpresionAsignacion) :
+    def __init__(self, valor = 0) :
+        self.valor = valor
 
-    def __init__(self, val = 0) :
-        self.val = val
-
-class ExpresionIdentificador(ExpresionNumerica) :
+class ExpresionIdentificador(ExpresionAsignacion) :
     '''
         Esta clase representa un identificador.
     '''
-
     def __init__(self, id = "") :
         self.id = id
 

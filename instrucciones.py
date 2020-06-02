@@ -26,14 +26,9 @@ class Definicion(Instruccion) :
         self.id = id
 
 class Asignacion(Instruccion) :
-    '''
-        Esta clase representa la instrucción de asignación de variables
-        Recibe como parámetro el identificador a asignar y el valor que será asignado.
-    '''
-
-    def __init__(self, id, expNumerica) :
+    def __init__(self, id, expresionAsignacion) :
         self.id = id
-        self.expNumerica = expNumerica
+        self.expresionAsignacion = expresionAsignacion
 
 class If(Instruccion) : 
     '''
