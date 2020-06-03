@@ -35,7 +35,6 @@ class ExpresionNegativo(ExpresionAsignacion) :
     def __init__(self, expresion) :
         self.expresion = expresion
 
-
 class ExpresionNumero(ExpresionAsignacion) :
     def __init__(self, valor = 0) :
         self.valor = valor

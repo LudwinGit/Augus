@@ -29,7 +29,6 @@ class TablaDeSimbolos() :
         return self.simbolos[id]
 
     def actualizar(self, simbolo) :
-        print(simbolo.id)
         if not simbolo.id in self.simbolos :
             print('Error: variable ', simbolo.id, ' no definida.')
         else :
@@ -39,4 +38,4 @@ class TablaDeSimbolos() :
         if not simbolo.id in self.simbolos :
             print('Error: variable ', simbolo.id, ' no definida.')
         else :
-            self.simbolos.remove(simbolo.id)
+            del self.simbolos[simbolo.id]

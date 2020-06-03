@@ -118,6 +118,7 @@ def p_instrucciones_instruccion(t):
 def p_instruccion(t):
     '''instruccion  :   print_instruccion
                     |   asignacion_instruccion
+                    |   unset_instruccion
                                         '''
     t[0] = t[1]
 
@@ -167,6 +168,10 @@ def p_asignacion_cadena(t):
 def p_asignacion_puntero(t):
     '''expresion_puntero  :   AMPERSAN TEMPORAL'''
     t[0] = ExpresionPuntero(t.stack[2].value,t[2])
+
+def p_unset_instruccion(t):
+    'unset_instruccion    :   UNSET ABREPARENTESIS TEMPORAL CIERRAPARENTESIS PUNTOCOMA'
+    t[0] = Unset(t[3])
 
 def p_error(t):
     print(t)

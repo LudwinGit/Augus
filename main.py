@@ -3,6 +3,14 @@ import tablasimbolos as TABLASIMBOLOS
 from expresiones import *
 from instrucciones import *
 
+def procesar_unset(instruccion,tablasimbolos):
+    simbolo = tablasimbolos.obtener(instruccion.id)
+    if(simbolo==None):
+        print("La variable: \'"+instruccion.id+"\' no esta definida ")
+    else:
+        tablasimbolos.eliminar(simbolo)
+        print("Variable eliminada")
+
 def procesar_print(instruccion, tablasimbolos) :
     print('> ', resolver_cadena(instruccion.cadena, tablasimbolos))
 
@@ -47,36 +55,6 @@ def resolver_cadena(expresionCadena, tablasimbolos) :
     else :
         print('Error: Expresión cadena no válida')
 
-def procesar_instrucciones(instrucciones, tablasimbolos) :
-    for instruccion in instrucciones :
-        if isinstance(instruccion, Print) : procesar_print(instruccion, tablasimbolos)
-        elif isinstance(instruccion, Asignacion) : procesar_asignacion(instruccion, tablasimbolos)
-        else : print('Error: instrucción no válida')
-
-def cambiar_valores_punteros(simbolo,tablasimbolos):
-    TABLASIMBOLOS.Simbolo(instruccion.id, TABLASIMBOLOS.TIPO_DATO.FLOAT, val)
-    # print(simbolo)
-    if(tablasimbolos.obtener(simbolo.id) == None):
-        tablasimbolos.agregar(simbolo)
-    else:
-        tablasimbolos.actualizar(simbolo)
-
-    #buscar los identificadores donde se realizado un puntero al id actual
-    # for s in tablasimbolos.simbolos:
-    #     simboloActualizar = tablasimbolos.obtener(s)
-    #     print(str(simboloActualizar.id_puntero)+" "+str(simbolo.id))
-    #     if(simboloActualizar.id_puntero == simbolo.id):
-    #         print(s+":");
-    #         simboloActualizar = tablasimbolos.obtener(s)
-    #         simboloActualizar.valor = simbolo.valor
-    #         tablasimbolos.actualizar(simboloActualizar)
-
-    #Buscar el identificador del puntero del id actual
-    # if(str(simbolo.id_puntero) != "0"):
-    #     simboloActualizar = tablasimbolos.obtener(simbolo.id_puntero)
-    #     simboloActualizar.valor = simbolo.valor
-    #     tablasimbolos.actualizar(simboloActualizar)
-
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)
     nuevoSimbolo=TABLASIMBOLOS.Simbolo(id, tipo_dato, val,puntero)
@@ -98,6 +76,13 @@ def imprimirTabla(tablasimbolos):
     for s in tablasimbolos.simbolos:
         simbolo = tablasimbolos.obtener(s)
         print("id:"+str(simbolo.id) +" valor:"+str(simbolo.valor)+" puntero:"+str(simbolo.puntero))
+
+def procesar_instrucciones(instrucciones, tablasimbolos) :
+    for instruccion in instrucciones :
+        if isinstance(instruccion, Print) : procesar_print(instruccion, tablasimbolos)
+        elif isinstance(instruccion, Asignacion) : procesar_asignacion(instruccion, tablasimbolos)
+        elif isinstance(instruccion,Unset) : procesar_unset(instruccion,tablasimbolos)
+        else : print('Error: instrucción no válida')
 
 f = open("./entrada.txt", "r")
 input = f.read()

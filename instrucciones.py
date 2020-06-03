@@ -5,6 +5,15 @@ class Print(Instruccion) :
     def __init__(self,  cadena) :
         self.cadena = cadena
 
+class Asignacion(Instruccion) :
+    def __init__(self, id, expresionAsignacion) :
+        self.id = id
+        self.expresionAsignacion = expresionAsignacion
+
+class Unset(Instruccion):
+    def __init__(self,id):
+        self.id = id
+
 class Mientras(Instruccion) :
     '''
         Esta clase representa la instrucción mientras.
@@ -24,11 +33,6 @@ class Definicion(Instruccion) :
 
     def __init__(self, id) :
         self.id = id
-
-class Asignacion(Instruccion) :
-    def __init__(self, id, expresionAsignacion) :
-        self.id = id
-        self.expresionAsignacion = expresionAsignacion
 
 class If(Instruccion) : 
     '''
