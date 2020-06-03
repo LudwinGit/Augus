@@ -7,11 +7,11 @@ class TIPO_DATO(Enum) :
     STRING = 4
 
 class Simbolo() :
-    def __init__(self, id, tipo, valor,id_puntero=0) :
+    def __init__(self, id, tipo, valor,puntero) :
         self.id = id
         self.tipo = tipo
         self.valor = valor
-        self.id_puntero = id_puntero
+        self.puntero = puntero
         # self.dimension = dimension
         # self.declarada_en = declarada_en
         # self.referencia = referencia
@@ -29,6 +29,7 @@ class TablaDeSimbolos() :
         return self.simbolos[id]
 
     def actualizar(self, simbolo) :
+        print(simbolo.id)
         if not simbolo.id in self.simbolos :
             print('Error: variable ', simbolo.id, ' no definida.')
         else :
