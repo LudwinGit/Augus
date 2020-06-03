@@ -12,15 +12,28 @@ class OPERACION_LOGICA(Enum) :
     IGUAL = 3
     DIFERENTE = 4
 
-class ExpresionAsignacion:
-    '''Clase abstracta para la asignacion de variables'''
 
-class ExpresionPuntero(ExpresionAsignacion):
+class ExpresionNumerica:
+    '''Clase abstracta para las producciones numericas de variables'''
+
+class ExpresionPuntero():
     def __init__(self,id,puntero):
         self.id = id
         self.puntero = puntero
 
-class ExpresionBinaria(ExpresionAsignacion) :
+class ExpresionNumero(ExpresionNumerica) :
+    def __init__(self, valor = 0) :
+        self.valor = valor
+
+class ExpresionNegativo(ExpresionNumerica) :
+    def __init__(self, expresion) :
+        self.expresion = expresion
+
+class ExpresionIdentificador(ExpresionNumerica) :
+    def __init__(self, id = "") :
+        self.id = id
+
+class ExpresionBinaria() :
     '''
         Esta clase representa la Expresión Aritmética Binaria.
         Esta clase recibe los operandos y el operador
@@ -30,18 +43,6 @@ class ExpresionBinaria(ExpresionAsignacion) :
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
-
-class ExpresionNegativo(ExpresionAsignacion) :
-    def __init__(self, expresion) :
-        self.expresion = expresion
-
-class ExpresionNumero(ExpresionAsignacion) :
-    def __init__(self, valor = 0) :
-        self.valor = valor
-
-class ExpresionIdentificador(ExpresionAsignacion) :
-    def __init__(self, id = "") :
-        self.id = id
 
 class ExpresionCadena :
     '''Clase abstracta para cadena'''

@@ -12,10 +12,12 @@ def procesar_unset(instruccion,tablasimbolos):
         print("Variable eliminada")
 
 def procesar_print(instruccion, tablasimbolos) :
-    print('> ', resolver_cadena(instruccion.cadena, tablasimbolos))
+    resultado = resolver_cadena(instruccion.cadena, tablasimbolos)
+    if resultado != None:
+        print('> ', str(resultado))
 
 def procesar_asignacion(instruccion,tablasimbolos):
-    val = resolver_expresion_asignacion(instruccion.expresionAsignacion, tablasimbolos)    
+    val = resolver_asignacion(instruccion.expresionAsignacion, tablasimbolos)    
     if(val != None):
         if(type(val)==int): agregar_simbolo(instruccion.id,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
         elif(type(val)==float): agregar_simbolo(instruccion.id,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos)
@@ -25,35 +27,53 @@ def procesar_asignacion(instruccion,tablasimbolos):
             else:
                 agregar_simbolo(instruccion.id,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
 
-def resolver_expresion_asignacion(expresionAsignacion,tablasimbolos):
-    if isinstance(expresionAsignacion,ExpresionNumero):
-        return expresionAsignacion.valor
-    elif isinstance(expresionAsignacion,ExpresionComilla):
-        return expresionAsignacion.valor
-    elif isinstance(expresionAsignacion,ExpresionIdentificador):
-        if(tablasimbolos.obtener(expresionAsignacion.id)==None):
-            print("La variable: \'"+expresionAsignacion.id+"\' no esta definida ")
-            return None
-        else:
-            return tablasimbolos.obtener(expresionAsignacion.id).valor
-    elif isinstance(expresionAsignacion,ExpresionNegativo):
-        return resolver_expresion_asignacion(expresionAsignacion.expresion,tablasimbolos) * -1
-    elif isinstance(expresionAsignacion,ExpresionPuntero):
-        simboloPuntero = tablasimbolos.obtener(expresionAsignacion.puntero)
-        if(simboloPuntero == None):
-            print("La variable: \'"+expresionAsignacion.puntero+"\' no esta definida ")
-            return None
-        else: 
-            agregar_simbolo(expresionAsignacion.id,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,tablasimbolos,simboloPuntero.id)
+def resolver_asignacion(expresion,tablasimbolos):
+    if isinstance(expresion,ExpresionNumerica):
+        return resolver_aritmetica(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionComilla):
+        return resolver_cadena(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionIdentificador):
+        return resolver_identificador(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionNegativo):
+        return resolver_aritmetica(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionPuntero):
+        return resolver_puntero(expresion,tablasimbolos)
+
+def resolver_identificador(expresion,tablasimbolos):
+    if(tablasimbolos.obtener(expresion.id)==None):
+        print("La variable: \'"+expresion.id+"\' no esta definida ")
+        return None
+    else:
+        return tablasimbolos.obtener(expresion.id).valor
+
+def resolver_puntero(expresion,tablasimbolos):
+    simboloPuntero = tablasimbolos.obtener(expresion.puntero)
+    if(simboloPuntero == None):
+        print("La variable: \'"+expresion.puntero+"\' no esta definida ")
+        return None
+    else: 
+        agregar_simbolo(expresion.id,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,tablasimbolos,simboloPuntero.id)
         return simboloPuntero.valor
 
-def resolver_cadena(expresionCadena, tablasimbolos) :
-    if isinstance(expresionCadena, ExpresionComilla) :
-        return expresionCadena.valor
-    # elif isinstance(expresionCadena, ExpresionCadenaNumerico) :
-    #     return str(resolver_expresion_aritmetica(expresionCadena.exp, tablasimbolos))
+def resolver_cadena(expresion, tablasimbolos) :
+    if isinstance(expresion, ExpresionComilla) :
+        return expresion.valor
+    elif isinstance(expresion, ExpresionNumerica) :
+        return resolver_aritmetica(expresion, tablasimbolos)
     else :
         print('Error: Expresión cadena no válida')
+
+def resolver_aritmetica(expresion,tablasimbolos):
+    if isinstance(expresion,ExpresionNumero):
+        return expresion.valor
+    elif isinstance(expresion,ExpresionNegativo):
+        return resolver_aritmetica(expresion.expresion,tablasimbolos) * -1
+    elif isinstance(expresion,ExpresionIdentificador):
+        if(tablasimbolos.obtener(expresion.id)==None):
+            print("La variable: \'"+expresion.id+"\' no esta definida ")
+            return None
+        else:
+            return tablasimbolos.obtener(expresion.id).valor
 
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)
@@ -90,4 +110,4 @@ input = f.read()
 instrucciones = g.parse(input)
 tablasimbolos_global = TABLASIMBOLOS.TablaDeSimbolos()
 procesar_instrucciones(instrucciones, tablasimbolos_global)
-imprimirTabla(tablasimbolos_global)
+# imprimirTabla(tablasimbolos_global)
