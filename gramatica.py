@@ -120,8 +120,13 @@ def p_instruccion(t):
                     |   asignacion_instruccion
                     |   unset_instruccion
                     |   read_instruccion
+                    |   exit_instruccion
                                         '''
     t[0] = t[1]
+
+def p_exit_instruccion(t):
+    'exit_instruccion   :   EXIT PUNTOCOMA'
+    t[0] = Exit()
 
 def p_instruccion_read(t):
     'read_instruccion   :   TEMPORAL IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'

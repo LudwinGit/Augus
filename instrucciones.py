@@ -18,6 +18,9 @@ class Read(Instruccion):
     def __init__(self,id):
         self.id = id
 
+class Exit(Instruccion):
+    '''Clase para la instruccion Exit'''
+
 class Mientras(Instruccion) :
     '''
         Esta clase representa la instrucción mientras.

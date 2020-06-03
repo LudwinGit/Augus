@@ -13,6 +13,7 @@ $t7=&$t2;
 $t7=10;
 $t1=&$t12;
 unset($t1);
+exit;
 # unset($t1);
 print(-1);
 print($t1);

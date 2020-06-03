@@ -3,6 +3,9 @@ import tablasimbolos as TABLASIMBOLOS
 from expresiones import *
 from instrucciones import *
 
+def procesar_exit(instruccion,tablasimbolos):
+    exit()
+
 def procesar_read(instruccion,tablasimbolos):
     val = print("simula")
     # crear_variable(instruccion.id,val,tablasimbolos)
@@ -110,6 +113,7 @@ def procesar_instrucciones(instrucciones, tablasimbolos) :
         elif isinstance(instruccion, Asignacion) : procesar_asignacion(instruccion, tablasimbolos)
         elif isinstance(instruccion,Unset) : procesar_unset(instruccion,tablasimbolos)
         elif isinstance(instruccion,Read) : procesar_read(instruccion,tablasimbolos)
+        elif isinstance(instruccion,Exit) : procesar_exit(instruccion,tablasimbolos)
         else : print('Error: instrucción no válida')
 
 f = open("./entrada.txt", "r")
