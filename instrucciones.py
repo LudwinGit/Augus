@@ -6,13 +6,13 @@ class Print(Instruccion) :
         self.cadena = cadena
 
 class Asignacion(Instruccion) :
-    def __init__(self, id, expresionAsignacion) :
-        self.id = id
+    def __init__(self, expresionVariable, expresionAsignacion) :
+        self.expresionVariable = expresionVariable
         self.expresionAsignacion = expresionAsignacion
 
 class Unset(Instruccion):
-    def __init__(self,id):
-        self.id = id
+    def __init__(self,variable):
+        self.variable = variable
 
 class Read(Instruccion):
     def __init__(self,id):

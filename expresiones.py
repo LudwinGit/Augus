@@ -3,8 +3,9 @@ from enum import Enum
 class OPERACION_ARITMETICA(Enum) :
     MAS = 1
     MENOS = 2
-    POR = 3
-    DIVIDIDO = 4
+    MUL = 3
+    DIV = 4
+    RESIDUO = 5
 
 class OPERACION_LOGICA(Enum) :
     MAYOR_QUE = 1
@@ -17,8 +18,8 @@ class ExpresionNumerica:
     '''Clase abstracta para las producciones numericas de variables'''
 
 class ExpresionPuntero():
-    def __init__(self,id,puntero):
-        self.id = id
+    def __init__(self,variable,puntero):
+        self.variable = variable
         self.puntero = puntero
 
 class ExpresionNumero(ExpresionNumerica) :
@@ -30,15 +31,14 @@ class ExpresionNegativo(ExpresionNumerica) :
         self.expresion = expresion
 
 class ExpresionIdentificador(ExpresionNumerica) :
-    def __init__(self, id = "") :
-        self.id = id
+    def __init__(self, variable = "") :
+        self.variable = variable
+
+class ExpresionAbsoluto(ExpresionNumerica):
+    def __init__(self,expresion):
+        self.expresion = expresion
 
 class ExpresionBinaria() :
-    '''
-        Esta clase representa la Expresión Aritmética Binaria.
-        Esta clase recibe los operandos y el operador
-    '''
-
     def __init__(self, exp1, exp2, operador) :
         self.exp1 = exp1
         self.exp2 = exp2
@@ -69,3 +69,7 @@ class ExpresionLogica() :
         self.exp1 = exp1
         self.exp2 = exp2
         self.operador = operador
+
+class ExpresionVariable():
+    def __init__(self,valor):
+        self.valor = valor

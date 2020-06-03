@@ -11,7 +11,7 @@ def procesar_read(instruccion,tablasimbolos):
     # crear_variable(instruccion.id,val,tablasimbolos)
 
 def procesar_unset(instruccion,tablasimbolos):
-    simbolo = tablasimbolos.obtener(instruccion.id)
+    simbolo = tablasimbolos.obtener(instruccion.variable.valor)
     if(simbolo==None):
         print("La variable: \'"+instruccion.id+"\' no esta definida ")
     else:
@@ -25,17 +25,17 @@ def procesar_print(instruccion, tablasimbolos) :
 
 def procesar_asignacion(instruccion,tablasimbolos):
     val = resolver_asignacion(instruccion.expresionAsignacion, tablasimbolos)
-    crear_variable(instruccion.id,val,tablasimbolos)
+    crear_variable(instruccion.expresionVariable,val,tablasimbolos)
 
-def crear_variable(id,val,tablasimbolos):
+def crear_variable(expresionVariable,val,tablasimbolos):
     if(val != None):
-        if(type(val)==int): agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
-        elif(type(val)==float): agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos)
+        if(type(val)==int): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
+        elif(type(val)==float): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos)
         elif(type(val)==str):
             if(len(val) == 1):
-                agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
+                agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
             else:
-                agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
+                agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
 
 def resolver_asignacion(expresion,tablasimbolos):
     if isinstance(expresion,ExpresionNumerica):
@@ -48,6 +48,8 @@ def resolver_asignacion(expresion,tablasimbolos):
         return resolver_aritmetica(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionPuntero):
         return resolver_puntero(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionBinaria):
+        return resolver_aritmetica(expresion,tablasimbolos)
 
 def resolver_identificador(expresion,tablasimbolos):
     if(tablasimbolos.obtener(expresion.id)==None):
@@ -57,12 +59,12 @@ def resolver_identificador(expresion,tablasimbolos):
         return tablasimbolos.obtener(expresion.id).valor
 
 def resolver_puntero(expresion,tablasimbolos):
-    simboloPuntero = tablasimbolos.obtener(expresion.puntero)
+    simboloPuntero = tablasimbolos.obtener(expresion.puntero.valor)
     if(simboloPuntero == None):
-        print("La variable: \'"+expresion.puntero+"\' no esta definida ")
+        print("La variable: \'"+expresion.puntero.valor+"\' no esta definida ")
         return None
     else: 
-        agregar_simbolo(expresion.id,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,tablasimbolos,simboloPuntero.id)
+        agregar_simbolo(expresion.variable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,tablasimbolos,simboloPuntero.id)
         return simboloPuntero.valor
 
 def resolver_cadena(expresion, tablasimbolos) :
@@ -79,11 +81,19 @@ def resolver_aritmetica(expresion,tablasimbolos):
     elif isinstance(expresion,ExpresionNegativo):
         return resolver_aritmetica(expresion.expresion,tablasimbolos) * -1
     elif isinstance(expresion,ExpresionIdentificador):
-        if(tablasimbolos.obtener(expresion.id)==None):
-            print("La variable: \'"+expresion.id+"\' no esta definida ")
+        if(tablasimbolos.obtener(expresion.variable.valor)==None):
+            print("La variable: \'"+expresion.variable.valor+"\' no esta definida ")
             return None
         else:
-            return tablasimbolos.obtener(expresion.id).valor
+            return tablasimbolos.obtener(expresion.variable.valor).valor
+    elif isinstance(expresion,ExpresionBinaria):
+        exp1 = resolver_aritmetica(expresion.exp1, tablasimbolos)
+        exp2 = resolver_aritmetica(expresion.exp2, tablasimbolos)
+        if expresion.operador == OPERACION_ARITMETICA.MAS : return exp1 + exp2
+        if expresion.operador == OPERACION_ARITMETICA.MENOS : return exp1 - exp2
+        if expresion.operador == OPERACION_ARITMETICA.MUL : return exp1 * exp2
+        if expresion.operador == OPERACION_ARITMETICA.DIV : return exp1 / exp2
+        if expresion.operador == OPERACION_ARITMETICA.RESIDUO : return exp1 / exp2
 
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)
@@ -122,4 +132,4 @@ input = f.read()
 instrucciones = g.parse(input)
 tablasimbolos_global = TABLASIMBOLOS.TablaDeSimbolos()
 procesar_instrucciones(instrucciones, tablasimbolos_global)
-# imprimirTabla(tablasimbolos_global)
+imprimirTabla(tablasimbolos_global)

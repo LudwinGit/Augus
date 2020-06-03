@@ -6,7 +6,7 @@
 tokens = [
     #RESERVADAS
     'MAIN','LABEL','GOTO','UNSET','PRINT','READ','EXIT','INT','FLOAT','CHAR',
-    #REGISTROS
+    #VARIABLES
     'TEMPORAL','PARAMETRO','RETURN','RA','PILA','PUNTEROPILA',
 
     #TIPOS
@@ -14,7 +14,7 @@ tokens = [
 
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
-    'MAS','MUL','DIV','AMPERSAN',
+    'MAS','MUL','DIV','AMPERSAN','RESIDUO'
 ]
 
 # Tokens
@@ -43,8 +43,8 @@ t_MENOS = r'\-'
 t_MAS = r'\+'
 t_MUL = r'\*'
 t_DIV = r'\/'
+t_RESIDUO = r'\%'
 t_AMPERSAN = r'&'
-
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -129,7 +129,7 @@ def p_exit_instruccion(t):
     t[0] = Exit()
 
 def p_instruccion_read(t):
-    'read_instruccion   :   TEMPORAL IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'
+    'read_instruccion   :   variable IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'
     t[0] = Read(t[1])
 
 def p_instruccion_print(t):
@@ -142,7 +142,7 @@ def p_expresion_print(t):
     t[0] = t[1]
 
 def p_instruccion_asignacion(t):
-    'asignacion_instruccion    :   TEMPORAL IGUAL expresion_asignacion PUNTOCOMA'
+    'asignacion_instruccion    :   variable IGUAL expresion_asignacion PUNTOCOMA'
     t[0] = Asignacion(t[1],t[3])
 
 def p_expresion_asignacion(t):
@@ -152,15 +152,17 @@ def p_expresion_asignacion(t):
                                 '''
     t[0] = t[1]
 
-# def p_expresion_aritmetica(t):
-#     '''expresion_numerica   : expresion_numerica MAS expresion_numerica
-#                             | expresion_numerica MENOS expresion_numerica
-#                             | expresion_numerica POR expresion_numerica
-#                             | expresion_numerica DIVIDIDO expresion_numerica'''
-#     if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
-#     elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
-#     elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.POR)
-#     elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIVIDIDO)
+def p_expresion_aritmetica(t):
+    '''expresion_numerica   : expresion_numerica MAS expresion_numerica
+                            | expresion_numerica MENOS expresion_numerica
+                            | expresion_numerica MUL expresion_numerica
+                            | expresion_numerica DIV expresion_numerica
+                            | expresion_numerica RESIDUO expresion_numerica'''
+    if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
+    elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
+    elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MUL)
+    elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIV)
+    elif t[2] == '%': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.RESIDUO)
 
 def p_expresion_negativo(t):
     'expresion_numerica : MENOS expresion_numerica %prec NEGATIVO'
@@ -172,7 +174,7 @@ def p_asignacion_numero(t):
     t[0] = ExpresionNumero(t[1])
 
 def p_asignacion_variable(t):
-    '''expresion_numerica       :   TEMPORAL'''
+    '''expresion_numerica       :   variable'''
     t[0] = ExpresionIdentificador(t[1])
 
 def p_asignacion_cadena(t):
@@ -181,16 +183,21 @@ def p_asignacion_cadena(t):
     t[0] = ExpresionComilla(t[1])
 
 def p_asignacion_puntero(t):
-    '''expresion_puntero  :   AMPERSAN TEMPORAL'''
+    '''expresion_puntero  :   AMPERSAN variable'''
     t[0] = ExpresionPuntero(t.stack[2].value,t[2])
 
 def p_unset_instruccion(t):
-    'unset_instruccion    :   UNSET ABREPARENTESIS TEMPORAL CIERRAPARENTESIS PUNTOCOMA'
+    'unset_instruccion    :   UNSET ABREPARENTESIS variable CIERRAPARENTESIS PUNTOCOMA'
     t[0] = Unset(t[3])
 
+def p_variable(t):
+    '''variable     :   TEMPORAL
+                    |   PARAMETRO'''
+    t[0] = ExpresionVariable(t[1])
+
 def p_error(t):
-    print(t)
-    print("Error sintáctico en '%s'" % t.value)
+    print("Error sintáctocp",t)
+    # print("Error sintáctico en '%s'" % t.value)
 
 import ply.yacc as yacc
 parser = yacc.yacc()
