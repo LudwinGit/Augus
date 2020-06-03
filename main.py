@@ -35,6 +35,18 @@ def resolver_expresion_asignacion(expresionAsignacion,tablasimbolos):
             return tablasimbolos.obtener(expresionAsignacion.id).valor
     elif isinstance(expresionAsignacion,ExpresionNegativo):
         return resolver_expresion_asignacion(expresionAsignacion.expresion,tablasimbolos) * -1
+    elif isinstance(expresionAsignacion,ExpresionPuntero):
+        simboloPuntero = tablasimbolos.obtener(expresionAsignacion.puntero)
+        if(simboloPuntero == None):
+            print("La variable: \'"+expresionAsignacion.puntero+"\' no esta definida ")
+            return None
+        else: 
+            simbolo = TABLASIMBOLOS.Simbolo(expresionAsignacion.id, TABLASIMBOLOS.TIPO_DATO.STRING, simboloPuntero.valor,simboloPuntero.id)
+            if(tablasimbolos.obtener(simbolo.id) == None):
+                tablasimbolos.agregar(simbolo)
+            else:
+                tablasimbolos.actualizar(simbolo)
+        return simboloPuntero.valor
 
 def resolver_cadena(expresionCadena, tablasimbolos) :
     if isinstance(expresionCadena, ExpresionComilla) :
