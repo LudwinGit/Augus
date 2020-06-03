@@ -119,8 +119,13 @@ def p_instruccion(t):
     '''instruccion  :   print_instruccion
                     |   asignacion_instruccion
                     |   unset_instruccion
+                    |   read_instruccion
                                         '''
     t[0] = t[1]
+
+def p_instruccion_read(t):
+    'read_instruccion   :   TEMPORAL IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'
+    t[0] = Read(t[1])
 
 def p_instruccion_print(t):
     'print_instruccion : PRINT ABREPARENTESIS expresion_print CIERRAPARENTESIS PUNTOCOMA'

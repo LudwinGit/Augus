@@ -3,6 +3,10 @@ import tablasimbolos as TABLASIMBOLOS
 from expresiones import *
 from instrucciones import *
 
+def procesar_read(instruccion,tablasimbolos):
+    val = print("simula")
+    # crear_variable(instruccion.id,val,tablasimbolos)
+
 def procesar_unset(instruccion,tablasimbolos):
     simbolo = tablasimbolos.obtener(instruccion.id)
     if(simbolo==None):
@@ -17,15 +21,18 @@ def procesar_print(instruccion, tablasimbolos) :
         print('> ', str(resultado))
 
 def procesar_asignacion(instruccion,tablasimbolos):
-    val = resolver_asignacion(instruccion.expresionAsignacion, tablasimbolos)    
+    val = resolver_asignacion(instruccion.expresionAsignacion, tablasimbolos)
+    crear_variable(instruccion.id,val,tablasimbolos)
+
+def crear_variable(id,val,tablasimbolos):
     if(val != None):
-        if(type(val)==int): agregar_simbolo(instruccion.id,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
-        elif(type(val)==float): agregar_simbolo(instruccion.id,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos)
+        if(type(val)==int): agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
+        elif(type(val)==float): agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos)
         elif(type(val)==str):
             if(len(val) == 1):
-                agregar_simbolo(instruccion.id,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
+                agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
             else:
-                agregar_simbolo(instruccion.id,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
+                agregar_simbolo(id,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
 
 def resolver_asignacion(expresion,tablasimbolos):
     if isinstance(expresion,ExpresionNumerica):
@@ -102,6 +109,7 @@ def procesar_instrucciones(instrucciones, tablasimbolos) :
         if isinstance(instruccion, Print) : procesar_print(instruccion, tablasimbolos)
         elif isinstance(instruccion, Asignacion) : procesar_asignacion(instruccion, tablasimbolos)
         elif isinstance(instruccion,Unset) : procesar_unset(instruccion,tablasimbolos)
+        elif isinstance(instruccion,Read) : procesar_read(instruccion,tablasimbolos)
         else : print('Error: instrucción no válida')
 
 f = open("./entrada.txt", "r")

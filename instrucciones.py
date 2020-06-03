@@ -14,6 +14,10 @@ class Unset(Instruccion):
     def __init__(self,id):
         self.id = id
 
+class Read(Instruccion):
+    def __init__(self,id):
+        self.id = id
+
 class Mientras(Instruccion) :
     '''
         Esta clase representa la instrucción mientras.

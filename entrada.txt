@@ -16,3 +16,4 @@ unset($t1);
 # unset($t1);
 print(-1);
 print($t1);
+$t11=read();
