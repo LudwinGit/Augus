@@ -14,7 +14,7 @@ tokens = [
 
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
-    'MAS','MUL','DIV',
+    'MAS','MUL','DIV','AMPERSAN',
 ]
 
 # Tokens
@@ -43,6 +43,7 @@ t_MENOS = r'\-'
 t_MAS = r'\+'
 t_MUL = r'\*'
 t_DIV = r'\/'
+t_AMPERSAN = r'&'
 
 # Caracteres ignorados
 t_ignore = " \t"
@@ -130,7 +131,9 @@ def p_instruccion_asignacion(t):
 
 def p_expresion_asignacion(t):
     '''expresion_asignacion     :   expresion_numerica
-                                |   expresion_cadena'''
+                                |   expresion_cadena
+                                |   expresion_puntero
+                                '''
     t[0] = t[1]
 
 # def p_expresion_aritmetica(t):
@@ -160,6 +163,10 @@ def p_asignacion_cadena(t):
     '''expresion_cadena         :   CADENA
                                 |   CARACTER'''
     t[0] = ExpresionComilla(t[1])
+
+def p_asignacion_puntero(t):
+    '''expresion_puntero  :   AMPERSAN TEMPORAL'''
+    t[0] = ExpresionPuntero(t.stack[2].value,t[2])
 
 def p_error(t):
     print(t)

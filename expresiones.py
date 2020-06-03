@@ -15,6 +15,11 @@ class OPERACION_LOGICA(Enum) :
 class ExpresionAsignacion:
     '''Clase abstracta para la asignacion de variables'''
 
+class ExpresionPuntero(ExpresionAsignacion):
+    def __init__(self,id,puntero):
+        self.id = id
+        self.puntero = puntero
+
 class ExpresionBinaria(ExpresionAsignacion) :
     '''
         Esta clase representa la Expresión Aritmética Binaria.
