@@ -166,7 +166,7 @@ def p_asignacion_cadena(t):
 
 def p_asignacion_puntero(t):
     '''expresion_puntero  :   AMPERSAN TEMPORAL'''
-    t[0] = ExpresionPuntero(t[2],t.stack[2].value)
+    t[0] = ExpresionPuntero(t.stack[2].value,t[2])
 
 def p_error(t):
     print(t)
