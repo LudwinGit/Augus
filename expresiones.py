@@ -21,6 +21,12 @@ class OPERACION_RELACIONAL(Enum) :
     MAYOR = 5
     MENOR = 6
 
+class OPERACION_BIT(Enum):
+    NOT = 1
+    AND = 2
+    OR  = 3
+    XOR = 4
+
 class ExpresionNumerica:
     '''Clase abstracta para las producciones numericas de variables'''
 

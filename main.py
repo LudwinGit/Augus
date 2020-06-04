@@ -56,6 +56,21 @@ def resolver_bit(expresion,tablasimbolos):
                 return ~valor
         print("No se puede realizar la operación ~ a un tipo diferente de numero entero")
         return None
+    
+    valor1 = resolver_numerica(expresion.expresionNum1,tablasimbolos)
+    valor2 = resolver_numerica(expresion.expresionNum2,tablasimbolos)
+
+    if type(valor1) != int or type(valor2) != int:
+        print("No se puede realizar operaciones bit a un tipo diferente de numero entero")
+        return None
+    
+    if expresion.operador == OPERACION_BIT.AND:
+        return  valor1 & valor2
+    elif expresion.operador == OPERACION_BIT.OR:
+        return  valor1 | valor2
+    elif expresion.operador == OPERACION_BIT.XOR:
+        return  valor1 ^ valor2
+
     return None
 
 def resolver_relacional(expresion,tablasimbolos):
