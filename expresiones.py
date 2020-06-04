@@ -8,10 +8,18 @@ class OPERACION_ARITMETICA(Enum) :
     RESIDUO = 5
 
 class OPERACION_LOGICA(Enum) :
-    MAYOR_QUE = 1
-    MENOR_QUE = 2
-    IGUAL = 3
-    DIFERENTE = 4
+    NOT = 1
+    AND = 2
+    OR = 3
+    XOR = 4
+
+class OPERACION_RELACIONAL(Enum) :
+    IGUAL = 1
+    DIFERENTE = 2
+    MAYOR_IGUAL = 3
+    MENOR_IGUAL = 4
+    MAYOR = 5
+    MENOR = 6
 
 class ExpresionNumerica:
     '''Clase abstracta para las producciones numericas de variables'''
@@ -69,3 +77,9 @@ class ExpresionCasteo():
     def __init__(self,tipo,expresiongeneral):
         self.tipo = tipo
         self.expresiongeneral = expresiongeneral
+
+class ExpresionRelacional():
+    def __init__(self,expg1,expg2,operador):
+        self.expresiongeneral1 = expg1
+        self.expresiongeneral2 = expg2
+        self.operador = operador

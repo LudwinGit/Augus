@@ -14,7 +14,7 @@ tokens = [
 
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
-    'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR'
+    'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR','COMPARACION','DIFERENTE'
 ]
 
 # Tokens
@@ -50,6 +50,8 @@ t_AMPERSAN = r'&'
 t_NOT = r'\!'
 t_OR = r'\|\|'
 t_XOR = r'xor'
+t_COMPARACION= r'\=\='
+t_DIFERENTE= r'\!\='
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -156,9 +158,17 @@ def p_expresion_asignacion(t):
                                 |   expresion_logica
                                 |   expresion_general
                                 |   expresion_casteo
+                                |   expresion_relacional
                                 '''
     t[0] = t[1]
 
+def p_expresion_relacional(t):
+    '''expresion_relacional     :   expresion_general COMPARACION expresion_general
+                                |   expresion_general DIFERENTE expresion_general'''
+    if t[2]   == '==' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.IGUAL)
+    elif t[2] == '!=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.DIFERENTE)
+
+#Se puede agregar expresion_logica para una mayor funcionalidad en casteo,relacionales,etc 
 def p_expresion_general(t):
     '''expresion_general        :   expresion_numerica       
                                 |   expresion_cadena'''
