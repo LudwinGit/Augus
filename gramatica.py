@@ -5,7 +5,7 @@
 
 tokens = [
     #RESERVADAS
-    'MAIN','LABEL','GOTO','UNSET','PRINT','READ','EXIT','INT','FLOAT','CHAR',
+    'MAIN','LABEL','GOTO','UNSET','PRINT','READ','EXIT','INT','FLOAT','CHAR','ABS',
     #VARIABLES
     'TEMPORAL','PARAMETRO','RETURN','RA','PILA','PUNTEROPILA',
 
@@ -28,6 +28,7 @@ t_EXIT=r'exit'
 t_INT=r'int'
 t_FLOAT=r'float'
 t_CHAR=r'char'
+t_ABS=r'abs'
 t_TEMPORAL= r'\$t[0-9]+'
 t_PARAMETRO= r'\$a[0-9]+'
 t_RETURN= r'\$v[0-9]+'
@@ -94,6 +95,7 @@ lexer = lex.lex()
 
 # Asociación de operadores y precedencia
 precedence = (
+    ('left','ABSOLUTO'),
     ('left','MAS','MENOS'),
     ('left','MUL','DIV'),
     ('right','NEGATIVO'),
@@ -157,7 +159,8 @@ def p_expresion_aritmetica(t):
                             | expresion_numerica MENOS expresion_numerica
                             | expresion_numerica MUL expresion_numerica
                             | expresion_numerica DIV expresion_numerica
-                            | expresion_numerica RESIDUO expresion_numerica'''
+                            | expresion_numerica RESIDUO expresion_numerica
+                            '''
     if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
     elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
     elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MUL)
@@ -167,6 +170,10 @@ def p_expresion_aritmetica(t):
 def p_expresion_negativo(t):
     'expresion_numerica : MENOS expresion_numerica %prec NEGATIVO'
     t[0] = ExpresionNegativo(t[2])
+
+def p_expresion_absoluto(t):
+    'expresion_numerica :   ABS ABREPARENTESIS expresion_numerica CIERRAPARENTESIS %prec ABSOLUTO'
+    t[0] = ExpresionAbsoluto(t[3])
 
 def p_asignacion_numero(t):
     '''expresion_numerica       :   ENTERO

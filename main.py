@@ -25,7 +25,8 @@ def procesar_print(instruccion, tablasimbolos) :
 
 def procesar_asignacion(instruccion,tablasimbolos):
     val = resolver_asignacion(instruccion.expresionAsignacion, tablasimbolos)
-    crear_variable(instruccion.expresionVariable,val,tablasimbolos)
+    if val != None:
+        crear_variable(instruccion.expresionVariable,val,tablasimbolos)
 
 def crear_variable(expresionVariable,val,tablasimbolos):
     if(val != None):
@@ -40,16 +41,11 @@ def crear_variable(expresionVariable,val,tablasimbolos):
 def resolver_asignacion(expresion,tablasimbolos):
     if isinstance(expresion,ExpresionNumerica):
         return resolver_aritmetica(expresion,tablasimbolos)
-    elif isinstance(expresion,ExpresionComilla):
+    elif isinstance(expresion,ExpresionCadena):
         return resolver_cadena(expresion,tablasimbolos)
-    elif isinstance(expresion,ExpresionIdentificador):
-        return resolver_identificador(expresion,tablasimbolos)
-    elif isinstance(expresion,ExpresionNegativo):
-        return resolver_aritmetica(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionPuntero):
         return resolver_puntero(expresion,tablasimbolos)
-    elif isinstance(expresion,ExpresionBinaria):
-        return resolver_aritmetica(expresion,tablasimbolos)
+    return None
 
 def resolver_identificador(expresion,tablasimbolos):
     if(tablasimbolos.obtener(expresion.id)==None):
@@ -94,6 +90,8 @@ def resolver_aritmetica(expresion,tablasimbolos):
         if expresion.operador == OPERACION_ARITMETICA.MUL : return exp1 * exp2
         if expresion.operador == OPERACION_ARITMETICA.DIV : return exp1 / exp2
         if expresion.operador == OPERACION_ARITMETICA.RESIDUO : return exp1 / exp2
+    elif isinstance(expresion,ExpresionAbsoluto):
+        return abs(resolver_aritmetica(expresion.expresion,tablasimbolos))
 
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)
