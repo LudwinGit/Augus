@@ -152,11 +152,15 @@ def p_instruccion_asignacion(t):
     t[0] = Asignacion(t[1],t[3])
 
 def p_expresion_asignacion(t):
-    '''expresion_asignacion     :   expresion_numerica
-                                |   expresion_cadena
-                                |   expresion_puntero
+    '''expresion_asignacion     :   expresion_puntero
                                 |   expresion_logica
+                                |   expresion_general
                                 '''
+    t[0] = t[1]
+
+def p_expresion_general(t):
+    '''expresion_general        :   expresion_numerica       
+                                |   expresion_cadena'''
     t[0] = t[1]
 
 def p_expresion_aritmetica(t):
