@@ -32,6 +32,8 @@ $t5 = $t1+$t4;
 $t2 = 0 xor 1;
 $t6 = $t1-$t4;
 print($t6); #no debe mostar nada
-$t2=10;
+$t2=-500.0;
 $t1 = (int)$t2;
 $t3 = (float)$t2;
+$t4 = (char)20.0;
+$t5 = (char)"lucha";
