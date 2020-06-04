@@ -83,3 +83,13 @@ class ExpresionRelacional():
         self.expresiongeneral1 = expg1
         self.expresiongeneral2 = expg2
         self.operador = operador
+
+class ExpresionBit():
+    def __init__(self,expNum1,expNum2,operador):
+        self.expresionNum1 = expNum1
+        self.expresionNum2 = expNum2
+        self.operador = operador
+
+class ExpresionNotBit(ExpresionBit):
+    def __init__(self,expNum):
+        self.expresionNum = expNum

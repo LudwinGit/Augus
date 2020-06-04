@@ -43,6 +43,19 @@ def resolver_expresion(expresion,tablasimbolos):
         return resolver_casteo(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionRelacional):
         return resolver_relacional(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionBit):
+        return resolver_bit(expresion,tablasimbolos)
+    return None
+
+def resolver_bit(expresion,tablasimbolos):
+    #Las operaciones unitarias bit solo se pueden aplicar a numeros
+    if isinstance(expresion,ExpresionNotBit):
+        if isinstance(expresion.expresionNum,ExpresionNumerica):
+            valor = resolver_numerica(expresion.expresionNum,tablasimbolos)
+            if type(valor) == int:
+                return ~valor
+        print("No se puede realizar la operación ~ a un tipo diferente de numero entero")
+        return None
     return None
 
 def resolver_relacional(expresion,tablasimbolos):

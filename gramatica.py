@@ -15,7 +15,7 @@ tokens = [
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
     'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR','COMPARACION',
-    'DIFERENTE','MAYORIGUAL','MENORIGUAL','MAYOR','MENOR'
+    'DIFERENTE','MAYORIGUAL','MENORIGUAL','MAYOR','MENOR','NOTBIT'
 ]
 
 # Tokens
@@ -57,6 +57,7 @@ t_MAYORIGUAL=           r'\>\='
 t_MENORIGUAL=           r'\<\='
 t_MAYOR=                r'\>'
 t_MENOR=                r'\<'
+t_NOTBIT=               r'\~'
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -164,8 +165,13 @@ def p_expresion_asignacion(t):
                                 |   expresion_general
                                 |   expresion_casteo
                                 |   expresion_relacional
+                                |   expresion_bit
                                 '''
     t[0] = t[1]
+
+def p_expresion_bit(t):
+    '''expresion_bit            :   NOTBIT  expresion_numerica'''
+    t[0] = ExpresionNotBit(t[2])
 
 def p_expresion_relacional(t):
     '''expresion_relacional     :   expresion_general COMPARACION expresion_general
