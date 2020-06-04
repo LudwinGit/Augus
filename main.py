@@ -152,9 +152,11 @@ def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
         tablasimbolos.actualizar(nuevoSimbolo)
 
 def imprimirTabla(tablasimbolos):
+    print("==================================TABLA SIMBOLOS====================================")
     for s in tablasimbolos.simbolos:
         simbolo = tablasimbolos.obtener(s)
         print("id:"+str(simbolo.id) +" valor:"+str(simbolo.valor)+" puntero:"+str(simbolo.puntero))
+    print("====================================================================================")
 
 def procesar_instrucciones(instrucciones, tablasimbolos) :
     for instruccion in instrucciones :
