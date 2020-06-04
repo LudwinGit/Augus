@@ -52,18 +52,23 @@ def resolver_relacional(expresion,tablasimbolos):
     if expresion1 == None or expresion2 == None:
         return None
 
-        if str(expresion1) != "0" and str(expresion1) != "1":
-            print("Los valores permitidos para la operaciones logicas son 1 y 0")
-            return None
-        if str(expresion2) != "0" and str(expresion2) != "1":
-            print("Los valores permitidos para la operaciones logicas son 1 y 0")
-            return None
-
     if expresion.operador == OPERACION_RELACIONAL.IGUAL:
         if int(expresion1) == int(expresion2):return 1
         else: return 0
     elif expresion.operador == OPERACION_RELACIONAL.DIFERENTE:
         if int(expresion1) != int(expresion2): return 1
+        else: return 0
+    elif expresion.operador == OPERACION_RELACIONAL.MAYOR_IGUAL:
+        if int(expresion1)  >= int(expresion2): return 1
+        else: return 0
+    elif expresion.operador == OPERACION_RELACIONAL.MENOR_IGUAL:
+        if int(expresion1)  <= int(expresion2): return 1
+        else: return 0
+    elif expresion.operador == OPERACION_RELACIONAL.MAYOR:
+        if int(expresion1)  >  int(expresion2): return 1
+        else: return 0
+    elif expresion.operador == OPERACION_RELACIONAL.MENOR:
+        if int(expresion1)  <  int(expresion2): return 1
         else: return 0
     return None
     

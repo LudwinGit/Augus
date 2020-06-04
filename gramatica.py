@@ -14,44 +14,49 @@ tokens = [
 
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
-    'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR','COMPARACION','DIFERENTE'
+    'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR','COMPARACION',
+    'DIFERENTE','MAYORIGUAL','MENORIGUAL','MAYOR','MENOR'
 ]
 
 # Tokens
-t_MAIN= r'main'
-t_LABEL=r'label'
-t_GOTO=r'goto'
-t_UNSET=r'unset'
-t_PRINT=r'print'
-t_READ=r'read'
-t_EXIT=r'exit'
-t_INT=r'int'
-t_FLOAT=r'float'
-t_CHAR=r'char'
-t_ABS=r'abs'
-t_TEMPORAL= r'\$t[0-9]+'
-t_PARAMETRO= r'\$a[0-9]+'
-t_RETURN= r'\$v[0-9]+'
-t_RA= r'\$ra'
-t_PILA= r'\$s[0-9]'
-t_PUNTEROPILA= r'\$sp'
-t_DOSPUNTOS= r'\:'
-t_PUNTOCOMA= r'\;'
-t_IGUAL= r'\='
-t_ABREPARENTESIS = r'\('
-t_CIERRAPARENTESIS = r'\)'
-t_MENOS = r'\-'
-t_MAS = r'\+'
-t_MUL = r'\*'
-t_DIV = r'\/'
-t_RESIDUO = r'\%'
-t_AND = r'&&'
-t_AMPERSAN = r'&'
-t_NOT = r'\!'
-t_OR = r'\|\|'
-t_XOR = r'xor'
-t_COMPARACION= r'\=\='
-t_DIFERENTE= r'\!\='
+t_MAIN=                 r'main'
+t_LABEL=                r'label'
+t_GOTO=                 r'goto'
+t_UNSET=                r'unset'
+t_PRINT=                r'print'
+t_READ=                 r'read'
+t_EXIT=                 r'exit'
+t_INT=                  r'int'
+t_FLOAT=                r'float'
+t_CHAR=                 r'char'
+t_ABS=                  r'abs'
+t_TEMPORAL=             r'\$t[0-9]+'
+t_PARAMETRO=            r'\$a[0-9]+'
+t_RETURN=               r'\$v[0-9]+'
+t_RA=                   r'\$ra'
+t_PILA=                 r'\$s[0-9]'
+t_PUNTEROPILA=          r'\$sp'
+t_DOSPUNTOS=            r'\:'
+t_PUNTOCOMA=            r'\;'
+t_IGUAL=                r'\='
+t_ABREPARENTESIS =      r'\('
+t_CIERRAPARENTESIS =    r'\)'
+t_MENOS =               r'\-'
+t_MAS =                 r'\+'
+t_MUL =                 r'\*'
+t_DIV =                 r'\/'
+t_RESIDUO =             r'\%'
+t_AND =                 r'&&'
+t_AMPERSAN =            r'&'
+t_NOT =                 r'\!'
+t_OR =                  r'\|\|'
+t_XOR =                 r'xor'
+t_COMPARACION=          r'\=\='
+t_DIFERENTE=            r'\!\='
+t_MAYORIGUAL=           r'\>\='
+t_MENORIGUAL=           r'\<\='
+t_MAYOR=                r'\>'
+t_MENOR=                r'\<'
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -164,9 +169,18 @@ def p_expresion_asignacion(t):
 
 def p_expresion_relacional(t):
     '''expresion_relacional     :   expresion_general COMPARACION expresion_general
-                                |   expresion_general DIFERENTE expresion_general'''
+                                |   expresion_general DIFERENTE expresion_general
+                                |   expresion_general MAYORIGUAL expresion_general
+                                |   expresion_general MENORIGUAL expresion_general
+                                |   expresion_general MAYOR expresion_general
+                                |   expresion_general MENOR expresion_general
+                                '''
     if t[2]   == '==' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.IGUAL)
     elif t[2] == '!=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.DIFERENTE)
+    elif t[2] == '>=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR_IGUAL)
+    elif t[2] == '<=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR_IGUAL)
+    elif t[2] == '>'  : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR)
+    elif t[2] == '<'  : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR)
 
 #Se puede agregar expresion_logica para una mayor funcionalidad en casteo,relacionales,etc 
 def p_expresion_general(t):
