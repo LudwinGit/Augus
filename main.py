@@ -65,6 +65,14 @@ def resolver_casteo(expresion,tablasimbolos):
                 valor = ord(valor)
             else:
                 valor = ord(valor[0])
+    elif expresion.tipo == "float":
+        if type(valor) == int: valor=float(valor)
+        elif type(valor) == str:
+            if len(valor) == 1:
+                valor = ord(valor)
+            else:
+                valor = ord(valor[0])
+            valor = float(valor)
     return valor
 
 def resolver_identificador(expresion,tablasimbolos):
