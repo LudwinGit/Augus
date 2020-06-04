@@ -32,3 +32,5 @@ $t5 = $t1+$t4;
 $t2 = 0 xor 1;
 $t6 = $t1-$t4;
 print($t6); #no debe mostar nada
+$t2='ba';
+$t1 = (int)$t2;

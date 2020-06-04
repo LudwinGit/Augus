@@ -64,3 +64,8 @@ class ExpresionLogica() :
 class ExpresionNot(ExpresionLogica):
     def __init__(self,expresionnumeria):
         self.expresionnumeria = expresionnumeria
+
+class ExpresionCasteo():
+    def __init__(self,tipo,expresiongeneral):
+        self.tipo = tipo
+        self.expresiongeneral = expresiongeneral

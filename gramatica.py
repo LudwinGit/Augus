@@ -155,6 +155,7 @@ def p_expresion_asignacion(t):
     '''expresion_asignacion     :   expresion_puntero
                                 |   expresion_logica
                                 |   expresion_general
+                                |   expresion_casteo
                                 '''
     t[0] = t[1]
 
@@ -162,6 +163,10 @@ def p_expresion_general(t):
     '''expresion_general        :   expresion_numerica       
                                 |   expresion_cadena'''
     t[0] = t[1]
+
+def p_expresion_casteo(t):
+    '''expresion_casteo         :   ABREPARENTESIS  tipo_variable CIERRAPARENTESIS expresion_general'''
+    t[0] = ExpresionCasteo(t[2],t[4])
 
 def p_expresion_aritmetica(t):
     '''expresion_numerica   : expresion_numerica MAS expresion_numerica
@@ -220,6 +225,12 @@ def p_variable(t):
     '''variable     :   TEMPORAL
                     |   PARAMETRO'''
     t[0] = ExpresionVariable(t[1])
+
+def p_tipo_variable(t):
+    '''tipo_variable        :   INT
+                            |   FLOAT
+                            |   CHAR'''
+    t[0] = t[1]
 
 def p_error(t):
     print("Error sintáctocp",t)

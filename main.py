@@ -47,7 +47,25 @@ def resolver_asignacion(expresion,tablasimbolos):
         return resolver_puntero(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionLogica):
         return resolver_logica(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionCasteo):
+        return resolver_casteo(expresion,tablasimbolos)
     return None
+
+def resolver_casteo(expresion,tablasimbolos):
+    if isinstance(expresion.expresiongeneral,ExpresionNumerica):
+        valor = resolver_numerico(expresion.expresiongeneral,tablasimbolos)
+    elif isinstance(expresion.expresiongeneral,ExpresionCadena):
+        valor = resolver_cadena(expresion.expresiongeneral,tablasimbolos)
+    else: return None
+
+    if expresion.tipo == "int":
+        if type(valor) == float: valor=int(valor)
+        elif type(valor) == str:
+            if len(valor) == 1:
+                valor = ord(valor)
+            else:
+                valor = ord(valor[0])
+    return valor
 
 def resolver_identificador(expresion,tablasimbolos):
     if(tablasimbolos.obtener(expresion.id)==None):
