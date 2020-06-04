@@ -14,7 +14,7 @@ tokens = [
 
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
-    'MAS','MUL','DIV','AMPERSAN','RESIDUO'
+    'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT'
 ]
 
 # Tokens
@@ -46,6 +46,7 @@ t_MUL = r'\*'
 t_DIV = r'\/'
 t_RESIDUO = r'\%'
 t_AMPERSAN = r'&'
+t_NOT = r'\!'
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -151,6 +152,7 @@ def p_expresion_asignacion(t):
     '''expresion_asignacion     :   expresion_numerica
                                 |   expresion_cadena
                                 |   expresion_puntero
+                                |   expresion_logica
                                 '''
     t[0] = t[1]
 
@@ -175,7 +177,7 @@ def p_expresion_absoluto(t):
     'expresion_numerica :   ABS ABREPARENTESIS expresion_numerica CIERRAPARENTESIS %prec ABSOLUTO'
     t[0] = ExpresionAbsoluto(t[3])
 
-def p_asignacion_numero(t):
+def p_expresion_numero(t):
     '''expresion_numerica       :   ENTERO
                                 |   DECIMAL'''
     t[0] = ExpresionNumero(t[1])
@@ -184,14 +186,18 @@ def p_asignacion_variable(t):
     '''expresion_numerica       :   variable'''
     t[0] = ExpresionIdentificador(t[1])
 
-def p_asignacion_cadena(t):
+def p_expresion_cadena(t):
     '''expresion_cadena         :   CADENA
                                 |   CARACTER'''
     t[0] = ExpresionComilla(t[1])
 
-def p_asignacion_puntero(t):
+def p_expresion_puntero(t):
     '''expresion_puntero  :   AMPERSAN variable'''
     t[0] = ExpresionPuntero(t.stack[2].value,t[2])
+
+def p_expresion_logica(t):
+    '''expresion_logica     :   NOT expresion_numerica'''
+    t[0] = ExpresionNot(t[2])
 
 def p_unset_instruccion(t):
     'unset_instruccion    :   UNSET ABREPARENTESIS variable CIERRAPARENTESIS PUNTOCOMA'

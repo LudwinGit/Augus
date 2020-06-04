@@ -24,4 +24,5 @@ unset($t1);
 print(-1);
 print($t1);
 # $t11=read();
-$t2=abs(10);
+$t2=abs(0);
+$t3=!$t2;

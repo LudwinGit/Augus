@@ -45,6 +45,8 @@ def resolver_asignacion(expresion,tablasimbolos):
         return resolver_cadena(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionPuntero):
         return resolver_puntero(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionLogica):
+        return resolver_logica(expresion,tablasimbolos)
     return None
 
 def resolver_identificador(expresion,tablasimbolos):
@@ -92,6 +94,17 @@ def resolver_aritmetica(expresion,tablasimbolos):
         if expresion.operador == OPERACION_ARITMETICA.RESIDUO : return exp1 / exp2
     elif isinstance(expresion,ExpresionAbsoluto):
         return abs(resolver_aritmetica(expresion.expresion,tablasimbolos))
+
+def resolver_logica(expresion,tablasimbolos):
+    if isinstance(expresion,ExpresionNot):
+        resultado = resolver_aritmetica(expresion.expresionnumeria,tablasimbolos)
+        if resultado == 0:
+            return 1
+        elif resultado == 1:
+            return 0
+        else:
+            print("Los valores aceptados para el NOT son 1 y 0")
+            return None
 
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)

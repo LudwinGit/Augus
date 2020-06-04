@@ -13,14 +13,8 @@ class OPERACION_LOGICA(Enum) :
     IGUAL = 3
     DIFERENTE = 4
 
-
 class ExpresionNumerica:
     '''Clase abstracta para las producciones numericas de variables'''
-
-class ExpresionPuntero():
-    def __init__(self,variable,puntero):
-        self.variable = variable
-        self.puntero = puntero
 
 class ExpresionNumero(ExpresionNumerica) :
     def __init__(self, valor = 0) :
@@ -51,25 +45,18 @@ class ExpresionComilla(ExpresionCadena) :
     def __init__(self, cadena) :
         self.valor = cadena
 
-class ExpresionCadenaNumerico(ExpresionCadena) :
-    '''
-        Esta clase representa una expresión numérica tratada como cadena.
-        Recibe como parámetro la expresión numérica
-    '''
-    def __init__(self, exp) :
-        self.exp = exp
-
-class ExpresionLogica() :
-    '''
-        Esta clase representa la expresión lógica.
-        Esta clase recibe los operandos y el operador
-    '''
-
-    def __init__(self, exp1, exp2, operador) :
-        self.exp1 = exp1
-        self.exp2 = exp2
-        self.operador = operador
+class ExpresionPuntero():
+    def __init__(self,variable,puntero):
+        self.variable = variable
+        self.puntero = puntero
 
 class ExpresionVariable():
     def __init__(self,valor):
         self.valor = valor
+
+class ExpresionLogica() :
+    '''Clase abstracta para instrucciones logicas'''
+
+class ExpresionNot(ExpresionLogica):
+    def __init__(self,expresionnumeria):
+        self.expresionnumeria = expresionnumeria
