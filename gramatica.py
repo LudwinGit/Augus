@@ -15,7 +15,8 @@ tokens = [
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
     'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR','COMPARACION',
-    'DIFERENTE','MAYORIGUAL','MENORIGUAL','MAYOR','MENOR','NOTBIT','ORBIT','XORBIT'
+    'DIFERENTE','MAYORIGUAL','MENORIGUAL','MAYOR','MENOR','NOTBIT','ORBIT','XORBIT',
+    'SHIFTIZQ','SHIFTDER'
 ]
 
 # Tokens
@@ -60,6 +61,8 @@ t_MENOR=                r'\<'
 t_NOTBIT=               r'\~'
 t_ORBIT=                r'\|'
 t_XORBIT=               r'\^'
+t_SHIFTIZQ=             r'\<\<'
+t_SHIFTDER=             r'\>\>'
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -174,10 +177,14 @@ def p_expresion_asignacion(t):
 def p_expresion_bit(t):
     '''expresion_bit            :   expresion_numerica  AMPERSAN expresion_numerica
                                 |   expresion_numerica  ORBIT    expresion_numerica
-                                |   expresion_numerica  XORBIT   expresion_numerica'''
+                                |   expresion_numerica  XORBIT   expresion_numerica
+                                |   expresion_numerica  SHIFTIZQ   expresion_numerica
+                                |   expresion_numerica  SHIFTDER   expresion_numerica'''
     if t[2] == "&"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.AND)
     if t[2] == "|"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.OR)
     if t[2] == "^"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.XOR)
+    if t[2] == "<<"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTIZQ)
+    if t[2] == ">>"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTDER)
 
 def p_expresion_not_bit(t):
     '''expresion_bit            :   NOTBIT  expresion_numerica'''

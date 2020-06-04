@@ -26,6 +26,8 @@ class OPERACION_BIT(Enum):
     AND = 2
     OR  = 3
     XOR = 4
+    SHIFTIZQ = 5
+    SHIFTDER = 6
 
 class ExpresionNumerica:
     '''Clase abstracta para las producciones numericas de variables'''

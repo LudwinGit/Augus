@@ -64,13 +64,20 @@ def resolver_bit(expresion,tablasimbolos):
         print("No se puede realizar operaciones bit a un tipo diferente de numero entero")
         return None
     
+    if valor1 < 0 or valor2 < 0:
+        print("No se puede realizar operaciones bit a un numero negativo")
+        return None
+    
     if expresion.operador == OPERACION_BIT.AND:
         return  valor1 & valor2
     elif expresion.operador == OPERACION_BIT.OR:
         return  valor1 | valor2
     elif expresion.operador == OPERACION_BIT.XOR:
         return  valor1 ^ valor2
-
+    elif expresion.operador == OPERACION_BIT.SHIFTIZQ:
+        return valor1 << valor2
+    elif expresion.operador == OPERACION_BIT.SHIFTDER:
+        return valor1 >> valor2
     return None
 
 def resolver_relacional(expresion,tablasimbolos):
