@@ -56,6 +56,10 @@ class ExpresionVariable():
 
 class ExpresionLogica() :
     '''Clase abstracta para instrucciones logicas'''
+    def __init__(self,expresion1,operador,expresion2):
+        self.expresion1 = expresion1
+        self.operador = operador
+        self.expresion2 = expresion2
 
 class ExpresionNot(ExpresionLogica):
     def __init__(self,expresionnumeria):

@@ -40,7 +40,7 @@ def crear_variable(expresionVariable,val,tablasimbolos):
 
 def resolver_asignacion(expresion,tablasimbolos):
     if isinstance(expresion,ExpresionNumerica):
-        return resolver_aritmetica(expresion,tablasimbolos)
+        return resolver_numerico(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionCadena):
         return resolver_cadena(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionPuntero):
@@ -69,35 +69,39 @@ def resolver_cadena(expresion, tablasimbolos) :
     if isinstance(expresion, ExpresionComilla) :
         return expresion.valor
     elif isinstance(expresion, ExpresionNumerica) :
-        return resolver_aritmetica(expresion, tablasimbolos)
+        return resolver_numerico(expresion, tablasimbolos)
     else :
         print('Error: Expresión cadena no válida')
 
-def resolver_aritmetica(expresion,tablasimbolos):
+def resolver_numerico(expresion,tablasimbolos):
     if isinstance(expresion,ExpresionNumero):
         return expresion.valor
     elif isinstance(expresion,ExpresionNegativo):
-        return resolver_aritmetica(expresion.expresion,tablasimbolos) * -1
+        return resolver_numerico(expresion.expresion,tablasimbolos) * -1
     elif isinstance(expresion,ExpresionIdentificador):
         if(tablasimbolos.obtener(expresion.variable.valor)==None):
-            print("La variable: \'"+expresion.variable.valor+"\' no esta definida ")
+            print("La variable: \'"+expresion.variable.valor+"\' no esta definida. ")
             return None
         else:
             return tablasimbolos.obtener(expresion.variable.valor).valor
     elif isinstance(expresion,ExpresionBinaria):
-        exp1 = resolver_aritmetica(expresion.exp1, tablasimbolos)
-        exp2 = resolver_aritmetica(expresion.exp2, tablasimbolos)
+        exp1 = resolver_numerico(expresion.exp1, tablasimbolos)
+        exp2 = resolver_numerico(expresion.exp2, tablasimbolos)
+        if type(exp1)==str and type(exp2)==str and expresion.operador == OPERACION_ARITMETICA.MAS: return (str(exp1)+str(exp2))
+        if type(exp1)==str or type(exp2)==str: 
+            print("No se puede realizar la operación entre una cadena y un numero.")
+            return None
         if expresion.operador == OPERACION_ARITMETICA.MAS : return exp1 + exp2
         if expresion.operador == OPERACION_ARITMETICA.MENOS : return exp1 - exp2
         if expresion.operador == OPERACION_ARITMETICA.MUL : return exp1 * exp2
         if expresion.operador == OPERACION_ARITMETICA.DIV : return exp1 / exp2
         if expresion.operador == OPERACION_ARITMETICA.RESIDUO : return exp1 / exp2
     elif isinstance(expresion,ExpresionAbsoluto):
-        return abs(resolver_aritmetica(expresion.expresion,tablasimbolos))
+        return abs(resolver_numerico(expresion.expresion,tablasimbolos))
 
 def resolver_logica(expresion,tablasimbolos):
     if isinstance(expresion,ExpresionNot):
-        resultado = resolver_aritmetica(expresion.expresionnumeria,tablasimbolos)
+        resultado = resolver_numerico(expresion.expresionnumeria,tablasimbolos)
         if resultado == 0:
             return 1
         elif resultado == 1:
@@ -105,6 +109,30 @@ def resolver_logica(expresion,tablasimbolos):
         else:
             print("Los valores aceptados para el NOT son 1 y 0")
             return None
+    else:
+        expresion1 = resolver_numerico(expresion.expresion1,tablasimbolos)
+        expresion2 = resolver_numerico(expresion.expresion2,tablasimbolos)
+
+        if expresion1 == None or expresion2 == None:
+            return None
+
+        if expresion1 != 0 and expresion1 != 1:
+            print("Los valores permitidos para la operaciones logicas son 1 y 0")
+            return None
+        if expresion2 != 0 and expresion2 != 1:
+            print("Los valores permitidos para la operaciones logicas son 1 y 0")
+            return None
+
+        if expresion.operador == "&&":
+            return expresion1 and expresion2
+        elif expresion.operador == "||":
+            return expresion1 or expresion2
+        elif expresion.operador == "xor":
+            if(expresion1!=expresion2) :
+                return 1
+            else:
+                return 0
+
 
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)

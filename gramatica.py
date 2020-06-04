@@ -14,7 +14,7 @@ tokens = [
 
     #SIMBOLOS
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
-    'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT'
+    'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR'
 ]
 
 # Tokens
@@ -45,8 +45,11 @@ t_MAS = r'\+'
 t_MUL = r'\*'
 t_DIV = r'\/'
 t_RESIDUO = r'\%'
+t_AND = r'&&'
 t_AMPERSAN = r'&'
 t_NOT = r'\!'
+t_OR = r'\|\|'
+t_XOR = r'xor'
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -196,6 +199,12 @@ def p_expresion_puntero(t):
     t[0] = ExpresionPuntero(t.stack[2].value,t[2])
 
 def p_expresion_logica(t):
+    '''expresion_logica     :   expresion_numerica AND expresion_numerica
+                            |   expresion_numerica OR expresion_numerica
+                            |   expresion_numerica XOR expresion_numerica'''
+    t[0] = ExpresionLogica(t[1],t[2],t[3])
+
+def p_expresion_not(t):
     '''expresion_logica     :   NOT expresion_numerica'''
     t[0] = ExpresionNot(t[2])
 
@@ -210,7 +219,7 @@ def p_variable(t):
 
 def p_error(t):
     print("Error sintáctocp",t)
-    # print("Error sintáctico en '%s'" % t.value)
+    print("Error sintáctico en '%s'" % t.value)
 
 import ply.yacc as yacc
 parser = yacc.yacc()
