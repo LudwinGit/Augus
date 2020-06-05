@@ -5,7 +5,7 @@
 
 tokens = [
     #RESERVADAS
-    'MAIN','LABEL','GOTO','UNSET','PRINT','READ','EXIT','INT','FLOAT','CHAR','ABS',
+    'MAIN','LABEL','GOTO','UNSET','PRINT','READ','EXIT','INT','FLOAT','CHAR','ABS','ARRAY',
     #VARIABLES
     'TEMPORAL','PARAMETRO','RETURN','RA','PILA','PUNTEROPILA',
 
@@ -63,6 +63,7 @@ t_ORBIT=                r'\|'
 t_XORBIT=               r'\^'
 t_SHIFTIZQ=             r'\<\<'
 t_SHIFTDER=             r'\>\>'
+t_ARRAY =               r'array'
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -171,8 +172,10 @@ def p_expresion_asignacion(t):
                                 |   expresion_casteo
                                 |   expresion_relacional
                                 |   expresion_bit
+                                |   ARRAY ABREPARENTESIS CIERRAPARENTESIS
                                 '''
-    t[0] = t[1]
+    if t[1] == "array": t[0] = ExpresionArray()
+    else: t[0] = t[1]
 
 def p_expresion_bit(t):
     '''expresion_bit            :   expresion_numerica  AMPERSAN expresion_numerica
@@ -180,6 +183,8 @@ def p_expresion_bit(t):
                                 |   expresion_numerica  XORBIT   expresion_numerica
                                 |   expresion_numerica  SHIFTIZQ   expresion_numerica
                                 |   expresion_numerica  SHIFTDER   expresion_numerica'''
+    print("----------------->>>>>>>>>>>>>>>>>>",t.linespan(2))
+    print("-----------------<<<<<<<<<<<<<<<<<<",t.lexspan(2))
     if t[2] == "&"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.AND)
     if t[2] == "|"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.OR)
     if t[2] == "^"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.XOR)

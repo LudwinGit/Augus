@@ -101,3 +101,6 @@ class ExpresionBit():
 class ExpresionNotBit(ExpresionBit):
     def __init__(self,expNum):
         self.expresionNum = expNum
+
+class ExpresionArray():
+    'Clase abstracta para manejar arrays'

@@ -45,6 +45,8 @@ def resolver_expresion(expresion,tablasimbolos):
         return resolver_relacional(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionBit):
         return resolver_bit(expresion,tablasimbolos)
+    elif isinstance(expresion,ExpresionArray):
+        return expresion
     return None
 
 def resolver_bit(expresion,tablasimbolos):
@@ -225,10 +227,10 @@ def crear_variable(expresionVariable,val,tablasimbolos):
         if(type(val)==int): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
         elif(type(val)==float): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos)
         elif(type(val)==str):
-            if(len(val) == 1):
-                agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
-            else:
-                agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
+            if(len(val) == 1): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
+            else: agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
+        elif(type(val)==ExpresionArray):
+            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,[],tablasimbolos)
 
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)
@@ -251,7 +253,7 @@ def imprimirTabla(tablasimbolos):
     print("==================================TABLA SIMBOLOS====================================")
     for s in tablasimbolos.simbolos:
         simbolo = tablasimbolos.obtener(s)
-        print("id:"+str(simbolo.id) +" valor:"+str(simbolo.valor)+" puntero:"+str(simbolo.puntero))
+        print("id:"+str(simbolo.id) +" valor:"+str(simbolo.valor)+" tipo:"+str(type(simbolo.valor))+" puntero:"+str(simbolo.puntero))
     print("====================================================================================")
 
 def procesar_instrucciones(instrucciones, tablasimbolos) :

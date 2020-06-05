@@ -5,6 +5,8 @@ class TIPO_DATO(Enum) :
     FLOAT = 2
     CHAR = 3
     STRING = 4
+    ARRAY = 5
+    STRUCT = 6
 
 class Simbolo() :
     def __init__(self, id, tipo, valor,puntero) :
