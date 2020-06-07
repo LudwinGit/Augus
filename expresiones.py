@@ -108,7 +108,6 @@ class ExpresionArrayDeclare():
 
 class ExpresionArray():
     'Clase abstracta para manejar arrays'
-    def __init__(self,variable,valor,tipo_dato):
+    def __init__(self,variable,indices):
         self.variable = variable
-        self.valor = valor
-        self.tipo_dato = tipo_dato
+        self.indices = indices

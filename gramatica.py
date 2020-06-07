@@ -159,8 +159,7 @@ def p_instruccion_print(t):
     t[0] = Print(t[3])
 
 def p_expresion_print(t):
-    '''expresion_print      :   expresion_cadena
-                            |   expresion_numerica'''
+    '''expresion_print      :   expresion_general'''
     t[0] = t[1]
 
 def p_instruccion_asignacion(t):
@@ -197,14 +196,16 @@ def p_expresion_asignacion(t):
     if t[1] == "array": t[0] = ExpresionArrayDeclare()
     else: t[0] = t[1]
 
+def p_expresion_array(t):
+    'expresion_array            :   TEMPORAL indices'
+    t[0] = ExpresionArray(t[1],t[2])
+
 def p_expresion_bit(t):
     '''expresion_bit            :   expresion_numerica  AMPERSAN expresion_numerica
                                 |   expresion_numerica  ORBIT    expresion_numerica
                                 |   expresion_numerica  XORBIT   expresion_numerica
                                 |   expresion_numerica  SHIFTIZQ   expresion_numerica
                                 |   expresion_numerica  SHIFTDER   expresion_numerica'''
-    print("----------------->>>>>>>>>>>>>>>>>>",t.linespan(2))
-    print("-----------------<<<<<<<<<<<<<<<<<<",t.lexspan(2))
     if t[2] == "&"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.AND)
     if t[2] == "|"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.OR)
     if t[2] == "^"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.XOR)
@@ -233,7 +234,9 @@ def p_expresion_relacional(t):
 #Se puede agregar expresion_logica para una mayor funcionalidad en casteo,relacionales,etc 
 def p_expresion_general(t):
     '''expresion_general        :   expresion_numerica       
-                                |   expresion_cadena'''
+                                |   expresion_cadena
+                                |   expresion_array
+                                '''
     t[0] = t[1]
 
 def p_expresion_casteo(t):

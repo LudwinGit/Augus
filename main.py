@@ -12,13 +12,6 @@ def procesar_array(instruccion,tablasimbolos):
         crear_variable(instruccion.variable,array,tablasimbolos)
     elif variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
         array = crear_indice_array(instruccion.indices,valor,tablasimbolos,variable)
-            # crear_variable(variable,array,tablasimbolos)
-        # array = variable.valor[indice]        
-        # for i in instruccion.indices:
-        #     indice = resolver_expresion(i,tablasimbolos)
-        #     array = array['subindices'][indice]
-        # print("Resultado",array)
-
 
 def procesar_exit(instruccion,tablasimbolos):
     exit()
@@ -36,7 +29,7 @@ def procesar_unset(instruccion,tablasimbolos):
         print("Variable eliminada")
 
 def procesar_print(instruccion, tablasimbolos) :
-    resultado = resolver_cadena(instruccion.cadena, tablasimbolos)
+    resultado = resolver_expresion(instruccion.cadena, tablasimbolos)
     if resultado != None:
         print('> ', str(resultado))
 
@@ -63,7 +56,39 @@ def resolver_expresion(expresion,tablasimbolos):
         return resolver_bit(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionArrayDeclare):
         return expresion
+    elif isinstance(expresion,ExpresionArray):
+        return resolver_array(expresion,tablasimbolos)
     return None
+
+def resolver_array(expresion,tablasimbolos):
+    variable = tablasimbolos.obtener(expresion.variable)
+    indices = expresion.indices.copy()
+    if variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
+        raiz = resolver_expresion(indices.pop(0),tablasimbolos)
+        array = {}
+        
+        if raiz in variable.valor: array = variable.valor[raiz];
+        else: return None
+
+        for i in indices:
+            index = resolver_expresion(i,tablasimbolos)
+            if index in array['subindices']: array = array['subindices'][index]
+            else: 
+                print("El indice:"+str(index)+" no existe en la variable: "+str(variable.id))
+                return None
+        return array['valor']
+    elif variable.tipo == (TABLASIMBOLOS.TIPO_DATO.STRING or TABLASIMBOLOS.TIPO_DATO.CHAR):
+        if len(expresion.indices)>1 :
+            print("índice de la cadena fuera de rango")
+            return None
+        try:
+            indice = resolver_expresion(indices.pop(0),tablasimbolos)
+            return variable.valor[indice]
+        except IndexError:
+            print("índice de la cadena fuera de rango")
+
+    return None
+
 
 def resolver_bit(expresion,tablasimbolos):
     #Las operaciones unitarias bit solo se pueden aplicar a numeros
