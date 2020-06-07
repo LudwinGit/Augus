@@ -2,10 +2,21 @@
 # Ludwin Romario Burrión Imuchac
 # 01-06-2020
 #
+reservadas = {
+    'main'  :   'MAIN',
+    'goto'  :   'GOTO',
+    'unset' :   'UNSET',
+    'print' :   'PRINT',
+    'read'  :   'READ',
+    'exit'  :   'EXIT',
+    'int'   :   'INT',
+    'float' :   'FLOAT',
+    'char'  :   'CHAR',
+    'abs'   :   'ABS',
+    'array' :   'ARRAY'
+}
 
 tokens = [
-    #RESERVADAS
-    'MAIN','LABEL','GOTO','UNSET','PRINT','READ','EXIT','INT','FLOAT','CHAR','ABS','ARRAY',
     #VARIABLES
     'TEMPORAL','PARAMETRO','RETURN','RA','PILA','PUNTEROPILA',
 
@@ -17,20 +28,9 @@ tokens = [
     'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR','COMPARACION',
     'DIFERENTE','MAYORIGUAL','MENORIGUAL','MAYOR','MENOR','NOTBIT','ORBIT','XORBIT',
     'SHIFTIZQ','SHIFTDER','ABRECORCHETE','CIERRACORCHETE'
-]
+] + list(reservadas.values())
 
 # Tokens
-t_MAIN=                 r'main'
-t_LABEL=                r'label'
-t_GOTO=                 r'goto'
-t_UNSET=                r'unset'
-t_PRINT=                r'print'
-t_READ=                 r'read'
-t_EXIT=                 r'exit'
-t_INT=                  r'int'
-t_FLOAT=                r'float'
-t_CHAR=                 r'char'
-t_ABS=                  r'abs'
 t_TEMPORAL=             r'\$t[0-9]+'
 t_PARAMETRO=            r'\$a[0-9]+'
 t_RETURN=               r'\$v[0-9]+'
@@ -63,11 +63,15 @@ t_ORBIT=                r'\|'
 t_XORBIT=               r'\^'
 t_SHIFTIZQ=             r'\<\<'
 t_SHIFTDER=             r'\>\>'
-t_ARRAY =               r'array'
 t_ABRECORCHETE=         r'\['
 t_CIERRACORCHETE=       r'\]'
 # Caracteres ignorados
 t_ignore = " \t"
+
+def t_LABEL(t):
+     r'[a-zA-Z_][a-zA-Z]*'
+     t.type = reservadas.get(t.value.lower(),'LABEL')    # Check for reserved words
+     return t
 
 def t_DECIMAL(t):
     r'\d+\.\d+'
