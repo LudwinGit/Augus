@@ -16,7 +16,7 @@ tokens = [
     'DOSPUNTOS','PUNTOCOMA','IGUAL','ABREPARENTESIS','CIERRAPARENTESIS','MENOS',
     'MAS','MUL','DIV','AMPERSAN','RESIDUO','NOT','AND','OR','XOR','COMPARACION',
     'DIFERENTE','MAYORIGUAL','MENORIGUAL','MAYOR','MENOR','NOTBIT','ORBIT','XORBIT',
-    'SHIFTIZQ','SHIFTDER'
+    'SHIFTIZQ','SHIFTDER','ABRECORCHETE','CIERRACORCHETE'
 ]
 
 # Tokens
@@ -64,6 +64,8 @@ t_XORBIT=               r'\^'
 t_SHIFTIZQ=             r'\<\<'
 t_SHIFTDER=             r'\>\>'
 t_ARRAY =               r'array'
+t_ABRECORCHETE=         r'\['
+t_CIERRACORCHETE=       r'\]'
 # Caracteres ignorados
 t_ignore = " \t"
 
@@ -162,8 +164,26 @@ def p_expresion_print(t):
     t[0] = t[1]
 
 def p_instruccion_asignacion(t):
-    'asignacion_instruccion    :   variable IGUAL expresion_asignacion PUNTOCOMA'
+    '''asignacion_instruccion   :   variable IGUAL expresion_asignacion PUNTOCOMA
+                                '''
     t[0] = Asignacion(t[1],t[3])
+
+def p_asignacion_array(t):
+    'asignacion_instruccion     :  variable indices IGUAL expresion_asignacion PUNTOCOMA'
+    t[0] = Array(t[1],t[2],t[4])
+
+def p_indices_listado(t):
+    'indices                    :   indices indice'
+    t[1].append(t[2])
+    t[0] = t[1]
+
+def p_indices(t):
+    'indices                    :   indice'
+    t[0] = [t[1]]
+
+def p_indice(t):
+    'indice                     :   ABRECORCHETE expresion_general  CIERRACORCHETE'
+    t[0] = t[2]
 
 def p_expresion_asignacion(t):
     '''expresion_asignacion     :   expresion_puntero
@@ -174,7 +194,7 @@ def p_expresion_asignacion(t):
                                 |   expresion_bit
                                 |   ARRAY ABREPARENTESIS CIERRAPARENTESIS
                                 '''
-    if t[1] == "array": t[0] = ExpresionArray()
+    if t[1] == "array": t[0] = ExpresionArrayDeclare()
     else: t[0] = t[1]
 
 def p_expresion_bit(t):
@@ -287,6 +307,9 @@ def p_tipo_variable(t):
 def p_error(t):
     print("Error sintáctocp",t)
     print("Error sintáctico en '%s'" % t.value)
+
+def p_empty(p):
+     'empty :'
 
 import ply.yacc as yacc
 parser = yacc.yacc()

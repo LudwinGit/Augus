@@ -4,6 +4,22 @@ from expresiones import *
 from instrucciones import *
 
 #=================================================Instrucciones=================================
+def procesar_array(instruccion,tablasimbolos):
+    variable=tablasimbolos.obtener(instruccion.variable.valor)
+    valor = resolver_expresion(instruccion.valor,tablasimbolos)
+    if variable == None:
+        array = crear_indice_array(instruccion.indices,valor,tablasimbolos,None)
+        crear_variable(instruccion.variable,array,tablasimbolos)
+    elif variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
+        array = crear_indice_array(instruccion.indices,valor,tablasimbolos,variable)
+            # crear_variable(variable,array,tablasimbolos)
+        # array = variable.valor[indice]        
+        # for i in instruccion.indices:
+        #     indice = resolver_expresion(i,tablasimbolos)
+        #     array = array['subindices'][indice]
+        # print("Resultado",array)
+
+
 def procesar_exit(instruccion,tablasimbolos):
     exit()
 
@@ -45,7 +61,7 @@ def resolver_expresion(expresion,tablasimbolos):
         return resolver_relacional(expresion,tablasimbolos)
     elif isinstance(expresion,ExpresionBit):
         return resolver_bit(expresion,tablasimbolos)
-    elif isinstance(expresion,ExpresionArray):
+    elif isinstance(expresion,ExpresionArrayDeclare):
         return expresion
     return None
 
@@ -222,6 +238,73 @@ def resolver_logica(expresion,tablasimbolos):
 
 
 #=================================================Funciones extras=================================
+def crear_indice_array(indices,valor,tablasimbolos,variable,subindices=None):
+    array = {}
+    if variable == None:
+        subindice = {}
+        ultimo_indice = None
+        for i in reversed(indices):
+            if ultimo_indice != None: valor = None
+            indice = resolver_expresion(i,tablasimbolos)
+            ultimo_indice = indice
+            if type(indice) == int:
+                array[indice] = {'tipo':'Numerico','valor':valor,'subindices':subindice}
+                if subindices != None: subindice = subindices
+                else:subindice = {indice:array[indice]}
+            elif type(indice) == str:
+                array[indice] = {'tipo':'Asociativo','valor':valor,'subindices':subindice}
+                subindice = {indice:array[indice]}
+                if subindices != None: subindice = subindices
+                else:subindice = {indice:array[indice]}
+
+        array = {ultimo_indice:array[ultimo_indice]}
+    else:
+        indice_raiz = resolver_expresion(indices[0],tablasimbolos)
+        if indice_raiz in variable.valor:
+            if not validar_indice_array(indices,variable,valor,tablasimbolos):
+                print("No se puede usar un valor escalar como una matriz.")
+                return {}
+            print("Si se puede usar un valor escalar como una matriz.")
+            #se elimina todo el indice y se crea de nuevo todo lo que tiene, 
+            #agregando lo nuevo que viene
+            array = crear_sub_indice_array(indices,variable,valor,tablasimbolos)
+        else:
+            #cuando el indice principal para el nuevo no existe
+            array = crear_indice_array(indices,valor,tablasimbolos,None)
+            variable.valor.update(array)
+    return array
+
+def crear_sub_indice_array(indices,variable,valor,tablasimbolos):
+    cp_indices = indices.copy()
+    index = resolver_expresion(cp_indices.pop(0),tablasimbolos)
+    array = variable.valor[index]
+
+    for i in cp_indices:
+        indice = resolver_expresion(i,tablasimbolos)
+        if indice not in array['subindices']:
+            nuevo = {indice:{'tipo':'Asociativo','valor':valor,'subindices':{}}}
+            array['subindices'].update(nuevo)
+    
+    new_array = crear_indice_array(indices,valor,tablasimbolos,None,array)
+    return new_array
+
+def validar_indice_array(indices,array,valor,tablasimbolos):
+    cp_indices = indices.copy()
+    index = resolver_expresion(cp_indices.pop(0),tablasimbolos)
+    var = array.valor[index]
+    if var['valor'] != None:
+        return False
+    # print("aca",index,array.valor[index])
+    # simbolo = tablasimbolos.obtener()
+    for i in indices:
+        indice = resolver_expresion(i,tablasimbolos)
+        if indice in var['subindices']:
+            valor = var['subindices'][indice]['valor']
+            if valor != None:
+                return False
+    
+    return True
+
 def crear_variable(expresionVariable,val,tablasimbolos):
     if(val != None):
         if(type(val)==int): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
@@ -229,8 +312,10 @@ def crear_variable(expresionVariable,val,tablasimbolos):
         elif(type(val)==str):
             if(len(val) == 1): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
             else: agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
-        elif(type(val)==ExpresionArray):
-            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,[],tablasimbolos)
+        elif(type(val)==ExpresionArrayDeclare):
+            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,{},tablasimbolos)
+        elif(type(val)==dict):
+            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,val,tablasimbolos)
 
 def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
     simbolo=tablasimbolos.obtener(id)
@@ -253,7 +338,8 @@ def imprimirTabla(tablasimbolos):
     print("==================================TABLA SIMBOLOS====================================")
     for s in tablasimbolos.simbolos:
         simbolo = tablasimbolos.obtener(s)
-        print("id:"+str(simbolo.id) +" valor:"+str(simbolo.valor)+" tipo:"+str(type(simbolo.valor))+" puntero:"+str(simbolo.puntero))
+        # print("id:"+str(simbolo.id) +" valor:"+str(simbolo.valor)+" tipo:"+str(type(simbolo.valor))+" puntero:"+str(simbolo.puntero))
+        print("id:"+str(simbolo.id)+" "+str(simbolo.valor))
     print("====================================================================================")
 
 def procesar_instrucciones(instrucciones, tablasimbolos) :
@@ -263,6 +349,7 @@ def procesar_instrucciones(instrucciones, tablasimbolos) :
         elif isinstance(instruccion,Unset) : procesar_unset(instruccion,tablasimbolos)
         elif isinstance(instruccion,Read) : procesar_read(instruccion,tablasimbolos)
         elif isinstance(instruccion,Exit) : procesar_exit(instruccion,tablasimbolos)
+        elif isinstance(instruccion,Array) : procesar_array(instruccion,tablasimbolos)
         else : print('Error: instrucción no válida')
 
 f = open("./entrada.txt", "r")

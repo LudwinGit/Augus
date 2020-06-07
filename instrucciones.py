@@ -21,25 +21,11 @@ class Read(Instruccion):
 class Exit(Instruccion):
     '''Clase para la instruccion Exit'''
 
-class Mientras(Instruccion) :
-    '''
-        Esta clase representa la instrucción mientras.
-        La instrucción mientras recibe como parámetro una expresión lógica y la lista
-        de instrucciones a ejecutar si la expresión lógica es verdadera.
-    '''
-
-    def __init__(self, expLogica, instrucciones = []) :
-        self.expLogica = expLogica
-        self.instrucciones = instrucciones
-
-class Definicion(Instruccion) :
-    '''
-        Esta clase representa la instrucción de definición de variables.
-        Recibe como parámetro el nombre del identificador a definir
-    '''
-
-    def __init__(self, id) :
-        self.id = id
+class Array(Instruccion):
+    def __init__(self,variable,indices,valor):
+        self.variable = variable
+        self.indices = indices
+        self.valor = valor
 
 class If(Instruccion) : 
     '''
