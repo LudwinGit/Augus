@@ -27,26 +27,20 @@ class Array(Instruccion):
         self.indices = indices
         self.valor = valor
 
-class If(Instruccion) : 
-    '''
-        Esta clase representa la instrucción if.
-        La instrucción if recibe como parámetro una expresión lógica y la lista
-        de instrucciones a ejecutar si la expresión lógica es verdadera.
-    '''
-
-    def __init__(self, expLogica, instrucciones = []) :
-        self.expLogica = expLogica
+class Etiqueta(Instruccion):
+    def __init__(self,nombre):
+        self.nombre = nombre
+    
+class EtiquetaMain(Instruccion):
+    def __init__(self,nombre,instrucciones):
+        self.nombre = nombre
         self.instrucciones = instrucciones
 
-class IfElse(Instruccion) : 
-    '''
-        Esta clase representa la instrucción if-else.
-        La instrucción if-else recibe como parámetro una expresión lógica y la lista
-        de instrucciones a ejecutar si la expresión lógica es verdadera y otro lista de instrucciones
-        a ejecutar si la expresión lógica es falsa.
-    '''
+class Goto(Instruccion):
+    def __init__(self,etiqueta):
+        self.etiqueta = etiqueta
 
-    def __init__(self, expLogica, instrIfVerdadero = [], instrIfFalso = []) :
-        self.expLogica = expLogica
-        self.instrIfVerdadero = instrIfVerdadero
-        self.instrIfFalso = instrIfFalso
+class Ifgoto(Instruccion):
+    def __init__(self,expresionValidar,etiqueta):
+        self.expresionValidar = expresionValidar
+        self.etiqueta = etiqueta

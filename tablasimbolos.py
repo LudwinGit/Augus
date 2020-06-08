@@ -6,17 +6,16 @@ class TIPO_DATO(Enum) :
     CHAR = 3
     STRING = 4
     ARRAY = 5
-    STRUCT = 6
+    ETIQUETA = 6
 
 class Simbolo() :
-    def __init__(self, id, tipo, valor,puntero) :
+    def __init__(self, id, tipo, valor,puntero,etiqueta) :
         self.id = id
         self.tipo = tipo
         self.valor = valor
         self.puntero = puntero
-        # self.dimension = dimension
-        # self.declarada_en = declarada_en
-        # self.referencia = referencia
+        self.declarada_en = etiqueta
+        self.dimension = 0
 
 class TablaDeSimbolos() :
     def __init__(self, simbolos = {}) :

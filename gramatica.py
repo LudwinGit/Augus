@@ -2,6 +2,8 @@
 # Ludwin Romario Burrión Imuchac
 # 01-06-2020
 #
+lineas = 0
+
 reservadas = {
     'main'  :   'MAIN',
     'goto'  :   'GOTO',
@@ -13,10 +15,13 @@ reservadas = {
     'float' :   'FLOAT',
     'char'  :   'CHAR',
     'abs'   :   'ABS',
-    'array' :   'ARRAY'
+    'array' :   'ARRAY',
+    'if'    :   'IF'
 }
 
 tokens = [
+    'LABEL',
+
     #VARIABLES
     'TEMPORAL','PARAMETRO','RETURN','RA','PILA','PUNTEROPILA',
 
@@ -69,7 +74,7 @@ t_CIERRACORCHETE=       r'\]'
 t_ignore = " \t"
 
 def t_LABEL(t):
-     r'[a-zA-Z_][a-zA-Z]*'
+     r'[a-zA-Z_][a-zA-Z_0-9]*'
      t.type = reservadas.get(t.value.lower(),'LABEL')    # Check for reserved words
      return t
 
@@ -128,12 +133,14 @@ precedence = (
 from instrucciones import *
 from expresiones import *
 
-def p_init(t):
-    'init   :   instrucciones'
-    t[0] = t[1]
+def p_main(t):
+    'main   :  MAIN DOSPUNTOS instrucciones'
+    t[0] = EtiquetaMain('main',t[3])
+    # t[0] = t[3]
 
 def p_instrucciones_listado(t):
-    '''instrucciones    :   instrucciones instruccion'''
+    '''instrucciones    :   instrucciones   instruccion'''
+    lineas = 1
     t[1].append(t[2])
     t[0] = t[1]
 
@@ -147,8 +154,23 @@ def p_instruccion(t):
                     |   unset_instruccion
                     |   read_instruccion
                     |   exit_instruccion
-                                        '''
+                    |   etiqueta_instruccion
+                    |   goto_instruccion
+                    |   if_instruccion
+                    '''
     t[0] = t[1]
+
+def p_if_instruccion(t):
+    'if_instruccion         :   IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA'
+    t[0] = Ifgoto(t[3],t[6])
+
+def p_goto_instruccion(t):
+    '''goto_instruccion     :   GOTO LABEL PUNTOCOMA'''
+    t[0] = Goto(t[2])
+
+def p_etiqueta_instruccion(t):
+    '''etiqueta_instruccion :   LABEL DOSPUNTOS'''
+    t[0] = Etiqueta(t[1])
 
 def p_exit_instruccion(t):
     'exit_instruccion   :   EXIT PUNTOCOMA'
@@ -190,10 +212,8 @@ def p_indice(t):
 
 def p_expresion_asignacion(t):
     '''expresion_asignacion     :   expresion_puntero
-                                |   expresion_logica
                                 |   expresion_general
                                 |   expresion_casteo
-                                |   expresion_relacional
                                 |   expresion_bit
                                 |   ARRAY ABREPARENTESIS CIERRAPARENTESIS
                                 '''
@@ -240,6 +260,8 @@ def p_expresion_general(t):
     '''expresion_general        :   expresion_numerica       
                                 |   expresion_cadena
                                 |   expresion_array
+                                |   expresion_logica
+                                |   expresion_relacional
                                 '''
     t[0] = t[1]
 
@@ -302,7 +324,9 @@ def p_unset_instruccion(t):
 
 def p_variable(t):
     '''variable     :   TEMPORAL
-                    |   PARAMETRO'''
+                    |   PARAMETRO
+                    |   RETURN
+                    |   RA'''
     t[0] = ExpresionVariable(t[1])
 
 def p_tipo_variable(t):
@@ -323,3 +347,6 @@ parser = yacc.yacc()
 
 def parse(input) :
     return parser.parse(input)
+
+def getlineas():
+    return lineas

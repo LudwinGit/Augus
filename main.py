@@ -2,14 +2,14 @@ import gramatica as g
 import tablasimbolos as TABLASIMBOLOS
 from expresiones import *
 from instrucciones import *
-
+from cola import *
 #=================================================Instrucciones=================================
-def procesar_array(instruccion,tablasimbolos):
+def procesar_array(instruccion,tablasimbolos,ambito):
     variable=tablasimbolos.obtener(instruccion.variable.valor)
     valor = resolver_expresion(instruccion.valor,tablasimbolos)
     if variable == None:
         array = crear_indice_array(instruccion.indices,valor,tablasimbolos,None)
-        crear_variable(instruccion.variable,array,tablasimbolos)
+        crear_variable(instruccion.variable,array,tablasimbolos,ambito)
     elif variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
         array = crear_indice_array(instruccion.indices,valor,tablasimbolos,variable)
 
@@ -33,10 +33,31 @@ def procesar_print(instruccion, tablasimbolos) :
     if resultado != None:
         print('> ', str(resultado))
 
-def procesar_asignacion(instruccion,tablasimbolos):
+def procesar_asignacion(instruccion,tablasimbolos,ambito):
     val = resolver_expresion(instruccion.expresionAsignacion, tablasimbolos)
     if val != None:
-        crear_variable(instruccion.expresionVariable,val,tablasimbolos)
+        crear_variable(instruccion.expresionVariable,val,tablasimbolos,ambito)
+
+def procesar_etiqueta(instruccion,tablasimbolos,ambito,index_cola):
+    agregar_simbolo(instruccion.nombre,
+    TABLASIMBOLOS.TIPO_DATO.ETIQUETA,index_cola,tablasimbolos,ambito)
+
+def procesar_goto(instruccion,tablasimbolos):
+    etiqueta = tablasimbolos.obtener(instruccion.etiqueta)
+    if etiqueta != None : return etiqueta.valor
+
+def procesar_if(instruccion,tablasimbolos):
+    valor = resolver_expresion(instruccion.expresionValidar,tablasimbolos)
+    etiqueta = tablasimbolos.obtener(instruccion.etiqueta)
+
+    try:
+        valor = int(valor)
+    except ValueError:
+        valor = 0
+
+    if valor >= 1 :
+        return etiqueta.valor
+    return None
 
 #=================================================Expresiones====================================
 def resolver_expresion(expresion,tablasimbolos):
@@ -62,6 +83,7 @@ def resolver_expresion(expresion,tablasimbolos):
 
 def resolver_array(expresion,tablasimbolos):
     variable = tablasimbolos.obtener(expresion.variable)
+    if variable == None: return None
     indices = expresion.indices.copy()
     if variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
         raiz = resolver_expresion(indices.pop(0),tablasimbolos)
@@ -88,7 +110,6 @@ def resolver_array(expresion,tablasimbolos):
             print("índice de la cadena fuera de rango")
 
     return None
-
 
 def resolver_bit(expresion,tablasimbolos):
     #Las operaciones unitarias bit solo se pueden aplicar a numeros
@@ -261,7 +282,6 @@ def resolver_logica(expresion,tablasimbolos):
             if(int(expresion1)!=int(expresion2)) : return 1
             else:return 0
 
-
 #=================================================Funciones extras=================================
 def crear_indice_array(indices,valor,tablasimbolos,variable,subindices=None):
     array = {}
@@ -289,7 +309,6 @@ def crear_indice_array(indices,valor,tablasimbolos,variable,subindices=None):
             if not validar_indice_array(indices,variable,valor,tablasimbolos):
                 print("No se puede usar un valor escalar como una matriz.")
                 return {}
-            print("Si se puede usar un valor escalar como una matriz.")
             #se elimina todo el indice y se crea de nuevo todo lo que tiene, 
             #agregando lo nuevo que viene
             array = crear_sub_indice_array(indices,variable,valor,tablasimbolos)
@@ -304,14 +323,21 @@ def crear_sub_indice_array(indices,variable,valor,tablasimbolos):
     index = resolver_expresion(cp_indices.pop(0),tablasimbolos)
     array = variable.valor[index]
 
+    #Obtengo el valor final donde se va adjuntar
+    iteracion = 1;
     for i in cp_indices:
         indice = resolver_expresion(i,tablasimbolos)
-        if indice not in array['subindices']:
-            nuevo = {indice:{'tipo':'Asociativo','valor':valor,'subindices':{}}}
-            array['subindices'].update(nuevo)
-    
-    new_array = crear_indice_array(indices,valor,tablasimbolos,None,array)
-    return new_array
+        if 'subindices' in array:
+            if indice not in array['subindices']:
+                array = array['subindices']
+                if iteracion == len(cp_indices):
+                    nuevo = {indice:{'tipo':'Asociativo','valor':valor,'subindices':{}}}
+                    array.update(nuevo)
+                else:
+                    nuevo = {indice:{'tipo':'Asociativo','valor':None,'subindices':{}}}
+                    array.update(nuevo)
+                    array = array[indice]
+        iteracion += 1
 
 def validar_indice_array(indices,array,valor,tablasimbolos):
     cp_indices = indices.copy()
@@ -321,7 +347,7 @@ def validar_indice_array(indices,array,valor,tablasimbolos):
         return False
     # print("aca",index,array.valor[index])
     # simbolo = tablasimbolos.obtener()
-    for i in indices:
+    for i in cp_indices:
         indice = resolver_expresion(i,tablasimbolos)
         if indice in var['subindices']:
             valor = var['subindices'][indice]['valor']
@@ -330,21 +356,21 @@ def validar_indice_array(indices,array,valor,tablasimbolos):
     
     return True
 
-def crear_variable(expresionVariable,val,tablasimbolos):
+def crear_variable(expresionVariable,val,tablasimbolos,ambito):
     if(val != None):
-        if(type(val)==int): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos)
-        elif(type(val)==float): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos)
+        if(type(val)==int): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.NUMERO,val,tablasimbolos,ambito)
+        elif(type(val)==float): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.FLOAT,val,tablasimbolos,ambito)
         elif(type(val)==str):
-            if(len(val) == 1): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos)
-            else: agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos)
+            if(len(val) == 1): agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.CHAR,val,tablasimbolos,ambito)
+            else: agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,val,tablasimbolos,ambito)
         elif(type(val)==ExpresionArrayDeclare):
-            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,{},tablasimbolos)
+            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,{},tablasimbolos,ambito)
         elif(type(val)==dict):
-            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,val,tablasimbolos)
+            agregar_simbolo(expresionVariable.valor,TABLASIMBOLOS.TIPO_DATO.ARRAY,val,tablasimbolos,ambito)
 
-def agregar_simbolo(id,tipo_dato,val,tablasimbolos,puntero=0):
+def agregar_simbolo(id,tipo_dato,val,tablasimbolos,ambito,puntero=0):
     simbolo=tablasimbolos.obtener(id)
-    nuevoSimbolo=TABLASIMBOLOS.Simbolo(id, tipo_dato, val,puntero)
+    nuevoSimbolo=TABLASIMBOLOS.Simbolo(id, tipo_dato, val,puntero,ambito)
     if(simbolo == None):
         tablasimbolos.agregar(nuevoSimbolo)
     else:
@@ -363,24 +389,65 @@ def imprimirTabla(tablasimbolos):
     print("==================================TABLA SIMBOLOS====================================")
     for s in tablasimbolos.simbolos:
         simbolo = tablasimbolos.obtener(s)
-        # print("id:"+str(simbolo.id) +" valor:"+str(simbolo.valor)+" tipo:"+str(type(simbolo.valor))+" puntero:"+str(simbolo.puntero))
-        print("id:"+str(simbolo.id)+" "+str(simbolo.valor))
+        print("id:"+str(simbolo.id)+" valor:"+str(simbolo.valor),"Ambito: "+str(simbolo.declarada_en))
     print("====================================================================================")
 
-def procesar_instrucciones(instrucciones, tablasimbolos) :
-    for instruccion in instrucciones :
-        if isinstance(instruccion, Print) : procesar_print(instruccion, tablasimbolos)
-        elif isinstance(instruccion, Asignacion) : procesar_asignacion(instruccion, tablasimbolos)
-        elif isinstance(instruccion,Unset) : procesar_unset(instruccion,tablasimbolos)
-        elif isinstance(instruccion,Read) : procesar_read(instruccion,tablasimbolos)
-        elif isinstance(instruccion,Exit) : procesar_exit(instruccion,tablasimbolos)
-        elif isinstance(instruccion,Array) : procesar_array(instruccion,tablasimbolos)
-        else : print('Error: instrucción no válida')
+def procesar_main(cola,main, tablasimbolos) :
+    cola.agregar(main)
+    for instruccion in main.instrucciones :
+        cola.agregar(instruccion)
 
-f = open("./entrada.txt", "r")
+    #Primer recorrido para llenar la lista de simbolos
+    llenarTabla(cola,tablasimbolos)
+
+    #Ejecutar instrucciones
+    # print(len(cola.items))
+    Ejecutar(cola,tablasimbolos)
+
+def Ejecutar(cola,tablasimbolos):
+    id_actual = 0
+    #Etiqueta inicial
+    etiqueta_ambito = None
+    while id_actual < len(cola.items):
+        instruccion = cola.items[id_actual]
+        if isinstance(instruccion,Etiqueta) or isinstance(instruccion,EtiquetaMain): 
+            etiqueta_ambito = instruccion.nombre
+        salto =procesar_instruccion(instruccion,tablasimbolos,etiqueta_ambito,id_actual)
+        if salto == None: id_actual +=1
+        else: id_actual = salto
+
+def llenarTabla(cola,tablasimbolos):
+    id_actual = 0
+    #Etiqueta inicial
+    etiqueta_ambito = None
+    while id_actual < len(cola.items):
+        instruccion = cola.items[id_actual]
+        if isinstance(instruccion,Etiqueta) or isinstance(instruccion,EtiquetaMain): 
+            etiqueta_ambito = instruccion.nombre
+            procesar_instruccion(instruccion,tablasimbolos,etiqueta_ambito,id_actual)
+        # elif isinstance(instruccion,Asignacion):
+        #     procesar_instruccion(instruccion,tablasimbolos,etiqueta_ambito,id_actual)
+        id_actual += 1
+
+def procesar_instruccion(instruccion,tablasimbolos,ambito,index):        
+    if isinstance(instruccion, Print)       : procesar_print(instruccion, tablasimbolos)
+    elif isinstance(instruccion,Asignacion) : procesar_asignacion(instruccion, tablasimbolos,ambito)
+    elif isinstance(instruccion,Unset)      : procesar_unset(instruccion,tablasimbolos)
+    elif isinstance(instruccion,Read)       : procesar_read(instruccion,tablasimbolos)
+    elif isinstance(instruccion,Exit)       : procesar_exit(instruccion,tablasimbolos)
+    elif isinstance(instruccion,Array)      : procesar_array(instruccion,tablasimbolos,ambito)
+    elif isinstance(instruccion,Etiqueta)   : procesar_etiqueta(instruccion,tablasimbolos,'main',index)
+    elif isinstance(instruccion,EtiquetaMain)   : procesar_etiqueta(instruccion,tablasimbolos,None,0)
+    elif isinstance(instruccion,Goto)       : return procesar_goto(instruccion,tablasimbolos)
+    elif isinstance(instruccion,Ifgoto)     : return procesar_if(instruccion,tablasimbolos)
+    else : print('Error: instrucción no válida')
+    return None
+
+colaInstruccines = Cola()
+f = open("./entrada_arrays.txt", "r")
 input = f.read()
 #instrucciones contiene el arbol AST
-instrucciones = g.parse(input)
+main = g.parse(input)
 tablasimbolos_global = TABLASIMBOLOS.TablaDeSimbolos()
-procesar_instrucciones(instrucciones, tablasimbolos_global)
+procesar_main(colaInstruccines,main, tablasimbolos_global)
 imprimirTabla(tablasimbolos_global)
