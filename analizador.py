@@ -12,7 +12,7 @@ class Analizador():
         # input = f.read()
         #instrucciones contiene el arbol AST
         self.main = g.parse(entrada)
-        self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos()
+        self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos({})
         self.salida = ""
         # analizador = Analizador(colaInstruccines,main,tablasimbolos_global)
         # analizador.procesar_main()
