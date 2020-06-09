@@ -8,10 +8,10 @@ class Analizador():
 
     def __init__(self,entrada):
         self.cola = Cola()
-        f = open("./entrada_arrays.txt", "r")
-        input = f.read()
+        # f = open("./entrada_arrays.txt", "r")
+        # input = f.read()
         #instrucciones contiene el arbol AST
-        self.main = g.parse(input)
+        self.main = g.parse(entrada)
         self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos()
         self.salida = ""
         # analizador = Analizador(colaInstruccines,main,tablasimbolos_global)
@@ -461,5 +461,5 @@ class Analizador():
         else : self.salida += "Error semantico: instrucción no valida\n"
         return None
 
-analizador = Analizador("entrada.txt")
-print(analizador.salida)
+# analizador = Analizador("entrada.txt")
+# print(analizador.salida)
