@@ -14,7 +14,9 @@ def procesar_array(instruccion,tablasimbolos,ambito):
         array = crear_indice_array(instruccion.indices,valor,tablasimbolos,variable)
 
 def procesar_exit(instruccion,tablasimbolos):
-    exit()
+    print("####EXIT#####")
+    #exit()
+    return -1
 
 def procesar_read(instruccion,tablasimbolos):
     val = print("simula")
@@ -414,6 +416,7 @@ def Ejecutar(cola,tablasimbolos):
             etiqueta_ambito = instruccion.nombre
         salto =procesar_instruccion(instruccion,tablasimbolos,etiqueta_ambito,id_actual)
         if salto == None: id_actual +=1
+        elif salto == -1: id_actual = len(cola.items)
         else: id_actual = salto
 
 def llenarTabla(cola,tablasimbolos):
@@ -434,7 +437,7 @@ def procesar_instruccion(instruccion,tablasimbolos,ambito,index):
     elif isinstance(instruccion,Asignacion) : procesar_asignacion(instruccion, tablasimbolos,ambito)
     elif isinstance(instruccion,Unset)      : procesar_unset(instruccion,tablasimbolos)
     elif isinstance(instruccion,Read)       : procesar_read(instruccion,tablasimbolos)
-    elif isinstance(instruccion,Exit)       : procesar_exit(instruccion,tablasimbolos)
+    elif isinstance(instruccion,Exit)       : return procesar_exit(instruccion,tablasimbolos)
     elif isinstance(instruccion,Array)      : procesar_array(instruccion,tablasimbolos,ambito)
     elif isinstance(instruccion,Etiqueta)   : procesar_etiqueta(instruccion,tablasimbolos,'main',index)
     elif isinstance(instruccion,EtiquetaMain)   : procesar_etiqueta(instruccion,tablasimbolos,None,0)
@@ -444,7 +447,7 @@ def procesar_instruccion(instruccion,tablasimbolos,ambito,index):
     return None
 
 colaInstruccines = Cola()
-f = open("./entrada_arrays.txt", "r")
+f = open("./entrada.txt", "r")
 input = f.read()
 #instrucciones contiene el arbol AST
 main = g.parse(input)

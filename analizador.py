@@ -33,6 +33,7 @@ class Analizador():
     def procesar_exit(self,instruccion):
         # exit()
         self.salida +="==============================FIN DEL PROGRAMA==============================\n"
+        return -1
 
     def procesar_read(self,instruccion):
         val = print("simula")
@@ -432,6 +433,7 @@ class Analizador():
                 etiqueta_ambito = instruccion.nombre
             salto =self.procesar_instruccion(instruccion,etiqueta_ambito,id_actual)
             if salto == None: id_actual +=1
+            elif salto ==-1: id_actual = len(self.cola.items)
             else: id_actual = salto
 
     def llenarTabla(self):
@@ -452,7 +454,7 @@ class Analizador():
         elif isinstance(instruccion,Asignacion) : self.procesar_asignacion(instruccion,ambito)
         elif isinstance(instruccion,Unset)      : self.procesar_unset(instruccion)
         elif isinstance(instruccion,Read)       : self.procesar_read(instruccion)
-        elif isinstance(instruccion,Exit)       : self.procesar_exit(instruccion)
+        elif isinstance(instruccion,Exit)       : return self.procesar_exit(instruccion)
         elif isinstance(instruccion,Array)      : self.procesar_array(instruccion,ambito)
         elif isinstance(instruccion,Etiqueta)   : self.procesar_etiqueta(instruccion,'main',index)
         elif isinstance(instruccion,EtiquetaMain)   : self.procesar_etiqueta(instruccion,None,0)
