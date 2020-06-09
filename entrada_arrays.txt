@@ -23,4 +23,8 @@ main:
     goto while0;
 
 end0:
+    $t10 = "hola";
+    print($t10[5]);
+    $t10 = &$t11;
+    unset($t10);
     exit;
