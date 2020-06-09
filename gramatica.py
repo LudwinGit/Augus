@@ -1,8 +1,15 @@
+from graphviz import Graph
+
+i=0
+
+def inc():
+    global i
+    i += 1
+    return i
 #
 # Ludwin Romario Burrión Imuchac
 # 01-06-2020
 #
-lineas = 0
 
 reservadas = {
     'main'  :   'MAIN',
@@ -136,17 +143,21 @@ from expresiones import *
 def p_main(t):
     'main   :  MAIN DOSPUNTOS instrucciones'
     t[0] = EtiquetaMain('main',t[3])
+    dot.node(str(t[0]),str(t[1]))
+    dot.edge(str(t[0]),str(t[3]))
     # t[0] = t[3]
 
 def p_instrucciones_listado(t):
     '''instrucciones    :   instrucciones   instruccion'''
-    lineas = 1
     t[1].append(t[2])
     t[0] = t[1]
+    # dot.edge(str(t[0]),str(t[3]))
 
 def p_instrucciones_instruccion(t):
     '''instrucciones      :   instruccion'''
     t[0] = [t[1]]
+    dot.node(str(t[0]),"Instrucciones")
+    dot.edge(str(t[0]),str(t[1]))
 
 def p_instruccion(t):
     '''instruccion  :   print_instruccion
@@ -159,6 +170,20 @@ def p_instruccion(t):
                     |   if_instruccion
                     '''
     t[0] = t[1]
+    if isinstance(t[1],Asignacion):
+        dot.node(str(t[0]),"Asignacion")
+    elif isinstance(t[1],Print):
+        dot.node(str(t[0]),"Print")
+    elif isinstance(t[1],Unset):
+        dot.node(str(t[0]),"Unset")
+    elif isinstance(t[1],Read):
+        dot.node(str(t[0]),"Read")
+    elif isinstance(t[1],Exit):
+        dot.node(str(t[0]),"Exit")
+    elif isinstance(t[1],Goto):
+        dot.node(str(t[0]),"Goto")
+    elif isinstance(t[1],Ifgoto):
+        dot.node(str(t[0]),"IF")
 
 def p_if_instruccion(t):
     'if_instruccion         :   IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA'
@@ -345,8 +370,14 @@ def p_empty(p):
 import ply.yacc as yacc
 parser = yacc.yacc()
 
-def parse(input) :
-    return parser.parse(input)
+i= 0
+dot = Graph()
+dot.attr(splines="false")
+dot.node_attr.update(shape='circle')
+dot.edge_attr.update(color="blue4")
 
-def getlineas():
-    return lineas
+def parse(input) :
+    dot.clear()
+    resultado = parser.parse(input)
+    dot.view()
+    return resultado

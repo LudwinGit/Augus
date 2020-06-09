@@ -1,0 +1,7 @@
+graph {
+	<instrucciones.Asignacion object at 0x7f1a0cf8bdf0> [label=Asignacion]
+	"[<instrucciones.Asignacion object at 0x7f1a0cf8bdf0>]" [label=Instrucciones]
+	"[<instrucciones.Asignacion object at 0x7f1a0cf8bdf0>]" -- <instrucciones.Asignacion object at 0x7f1a0cf8bdf0>
+	<instrucciones.EtiquetaMain object at 0x7f1a0cf8bdc0> [label=main]
+	<instrucciones.EtiquetaMain object at 0x7f1a0cf8bdc0> -- "[<instrucciones.Asignacion object at 0x7f1a0cf8bdf0>]"
+}

@@ -2,7 +2,7 @@ from analizador import *
 from tkinter import *
 from tkinter import filedialog as FileDialog
 from io import open
-
+from graphviz import Graph
 
 ruta = "" # La utilizaremos para almacenar la ruta del fichero
 
