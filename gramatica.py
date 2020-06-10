@@ -173,6 +173,8 @@ def p_if_instruccion(t):
     'if_instruccion         :   IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA'
     id = inc()
     t[0] = Ifgoto(t[3],t[6],id)
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_goto_instruccion(t):
     '''goto_instruccion     :   GOTO LABEL PUNTOCOMA'''
@@ -257,14 +259,10 @@ def p_expresion_array(t):
     'expresion_array            :   TEMPORAL indices'
     id = inc()
     t[0] = ExpresionArray(t[1],t[2],id)
-    # dot.node(str(t[0]),str(t[1]))
-    # # for item in t[1]:
-    # #     dot.edge(str(t[0]),str(item))
-    # dot.edge(str(t[0]),str(t[2]))
-    # for item in t[2]:
-    #     dot.edge(str(t[0]),str(item))
-    # dot.edge(str(t[0]),str(t[4]))
-    # dot.node(str(t[0]),str(t[1]))
+    dot.node(str(id),str("ARRAY"))
+    dot.edge(str(id),str(t[1]))
+    for item in t[2]:
+        dot.edge(str(id),str(item.id_dot))
 
 def p_expresion_bit(t):
     '''expresion_bit            :   expresion_numerica  AMPERSAN expresion_numerica
