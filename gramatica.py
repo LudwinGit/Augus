@@ -167,43 +167,31 @@ def p_instruccion(t):
                     |   goto_instruccion
                     |   if_instruccion
                     '''
-    # id = inc()
     t[0] = t[1]
-    # if isinstance(t[1],Asignacion):
-    #     dot.node(str(id),"Asignacion")
-    # elif isinstance(t[1],Print):
-    #     dot.node(str(id),"Print")
-    # elif isinstance(t[1],Unset):
-    #     dot.node(str(id),"Unset")
-    # elif isinstance(t[1],Read):
-    #     dot.node(str(id),"Read")
-    # elif isinstance(t[1],Exit):
-    #     dot.node(str(id),"Exit")
-    # elif isinstance(t[1],Goto):
-    #     dot.node(str(id),"Goto")
-    # elif isinstance(t[1],Ifgoto):
-    #     dot.node(str(id),"IF")
 
 def p_if_instruccion(t):
     'if_instruccion         :   IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA'
-    t[0] = Ifgoto(t[3],t[6])
+    id = inc()
+    t[0] = Ifgoto(t[3],t[6],id)
 
 def p_goto_instruccion(t):
     '''goto_instruccion     :   GOTO LABEL PUNTOCOMA'''
     id=inc()
     t[0] = Goto(t[2],id)
-    dot.edge(str(id),str(t[2].id_dot))
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[2]))
 
 def p_etiqueta_instruccion(t):
     '''etiqueta_instruccion :   LABEL DOSPUNTOS'''
     id = inc()
     t[0] = Etiqueta(t[1],id)
-    dot.node(str(id),str(t[1]))
+    dot.node(str(id),"Etiqueta:"+str(t[1]))
 
 def p_exit_instruccion(t):
     'exit_instruccion   :   EXIT PUNTOCOMA'
     id = inc()
     t[0] = Exit(id)
+    dot.node(str(id),str(t[1]))
 
 def p_instruccion_read(t):
     'read_instruccion   :   variable IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'
@@ -232,27 +220,22 @@ def p_instruccion_asignacion(t):
 
 def p_asignacion_array(t):
     'asignacion_instruccion     :  variable indices IGUAL expresion_asignacion PUNTOCOMA'
-    t[0] = Array(t[1],t[2],t[4])
-    # dot.node(str(t[0]),"ARRAY")
-    # dot.edge(str(t[0]),str(t[1]))
-    # dot.edge(str(t[0]),str(t[2]))
-    # # for item in t[2]:
-    # #     dot.edge(str(t[0]),str(item))
-    # dot.edge(str(t[0]),str(t[4]))
-    # dot.node(str(t[0]),str(t[1]))
+    id = inc()
+    t[0] = Array(t[1],t[2],t[4],id)
+    dot.node(str(id),"ARRAY")
+    dot.edge(str(id),str(t[1].id_dot))
+    for item in t[2]:
+        dot.edge(str(id),str(item.id_dot))
+    dot.edge(str(id),str(t[4].id_dot))
 
 def p_indices_listado(t):
     'indices                    :   indices indice'
     t[1].append(t[2])
     t[0] = t[1]
-    # dot.node(str(t[0]),"indices")
-    # for item in t[1]:
-    #     dot.edge(str(t[0]),str(item))
 
 def p_indices(t):
     'indices                    :   indice'
     t[0] = [t[1]]
-    # dot.node(str(t[0]),str(t[1]))
 
 def p_indice(t):
     'indice                     :   ABRECORCHETE expresion_general  CIERRACORCHETE'
@@ -272,7 +255,8 @@ def p_expresion_asignacion(t):
 
 def p_expresion_array(t):
     'expresion_array            :   TEMPORAL indices'
-    t[0] = ExpresionArray(t[1],t[2])
+    id = inc()
+    t[0] = ExpresionArray(t[1],t[2],id)
     # dot.node(str(t[0]),str(t[1]))
     # # for item in t[1]:
     # #     dot.edge(str(t[0]),str(item))
@@ -337,7 +321,7 @@ def p_expresion_casteo(t):
     id = inc()
     t[0] = ExpresionCasteo(t[2],t[4],id)
     dot.node(str(id),str("casteo"))
-    dot.edge(str(id),str(t[2].id_dot))
+    dot.edge(str(id),str(t[2]))
     dot.edge(str(id),str(t[4].id_dot))
 
 def p_expresion_aritmetica(t):
@@ -436,8 +420,8 @@ def p_tipo_variable(t):
     '''tipo_variable        :   INT
                             |   FLOAT
                             |   CHAR'''
-    t[0] = t[1]
     id = inc()
+    t[0] = id 
     dot.node(str(id),str(t[1]))
 
 def p_error(t):

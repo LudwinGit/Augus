@@ -105,10 +105,11 @@ class ExpresionRelacional():
         self.id_dot = id_dot
 
 class ExpresionBit():
-    def __init__(self,expNum1,expNum2,operador):
+    def __init__(self,expNum1,expNum2,operador,id_dot):
         self.expresionNum1 = expNum1
         self.expresionNum2 = expNum2
         self.operador = operador
+        self.id_dot = id_dot
 
 class ExpresionNotBit(ExpresionBit):
     def __init__(self,expNum,id_dot):
@@ -121,6 +122,7 @@ class ExpresionArrayDeclare():
 
 class ExpresionArray():
     'Clase abstracta para manejar arrays'
-    def __init__(self,variable,indices):
+    def __init__(self,variable,indices,id_dot):
         self.variable = variable
         self.indices = indices
+        self.id_dot = id_dot

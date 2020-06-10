@@ -104,7 +104,6 @@ def ejecutar():
     analizador = Analizador(t)
     consola.delete(1.0,'end-1c')
     consola.insert("end",analizador.salida)
-    Unset(analizador)
 # Configuración de la raíz
 root = Tk()
 root.title("Mi editor")

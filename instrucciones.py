@@ -28,10 +28,11 @@ class Exit(Instruccion):
         self.id_dot = id_dot
 
 class Array(Instruccion):
-    def __init__(self,variable,indices,valor):
+    def __init__(self,variable,indices,valor,id_dot):
         self.variable = variable
         self.indices = indices
         self.valor = valor
+        self.id_dot = id_dot
 
 class Etiqueta(Instruccion):
     def __init__(self,nombre,id_dot):
@@ -50,6 +51,7 @@ class Goto(Instruccion):
         self.id_dot = id_dot
 
 class Ifgoto(Instruccion):
-    def __init__(self,expresionValidar,etiqueta):
+    def __init__(self,expresionValidar,etiqueta,id_dot):
         self.expresionValidar = expresionValidar
         self.etiqueta = etiqueta
+        self.id_dot = id_dot
