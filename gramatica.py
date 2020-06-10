@@ -142,25 +142,20 @@ from expresiones import *
 
 def p_main(t):
     'main   :  MAIN DOSPUNTOS instrucciones'
-    t[0] = EtiquetaMain('main',t[3])
-    dot.node(str(t[0]),str(t[1]))
+    id = inc()
+    t[0] = EtiquetaMain('main',t[3],id)
+    dot.node(str(id),str(t[1]))
     for item in t[3]:
-        dot.edge(str(t[0]),str(item))
-    # t[0] = t[3]
+        dot.edge(str(id),str(item.id_dot))
 
 def p_instrucciones_listado(t):
     '''instrucciones    :   instrucciones   instruccion'''
     t[1].append(t[2])
     t[0] = t[1]
-    # dot.node(str(t[0]),"Instrucciones")
-    # for item in t[0]:
-    #     dot.edge(str(t[0]),str(item))
 
 def p_instrucciones_instruccion(t):
     '''instrucciones      :   instruccion'''
     t[0] = [t[1]]
-    # dot.node(str(t[0]),"Instruccion")
-    # dot.edge(str(t[0]),str(t[1]))
 
 def p_instruccion(t):
     '''instruccion  :   print_instruccion
@@ -172,21 +167,22 @@ def p_instruccion(t):
                     |   goto_instruccion
                     |   if_instruccion
                     '''
+    # id = inc()
     t[0] = t[1]
-    if isinstance(t[1],Asignacion):
-        dot.node(str(t[0]),"Asignacion")
-    elif isinstance(t[1],Print):
-        dot.node(str(t[0]),"Print")
-    elif isinstance(t[1],Unset):
-        dot.node(str(t[0]),"Unset")
-    elif isinstance(t[1],Read):
-        dot.node(str(t[0]),"Read")
-    elif isinstance(t[1],Exit):
-        dot.node(str(t[0]),"Exit")
-    elif isinstance(t[1],Goto):
-        dot.node(str(t[0]),"Goto")
-    elif isinstance(t[1],Ifgoto):
-        dot.node(str(t[0]),"IF")
+    # if isinstance(t[1],Asignacion):
+    #     dot.node(str(id),"Asignacion")
+    # elif isinstance(t[1],Print):
+    #     dot.node(str(id),"Print")
+    # elif isinstance(t[1],Unset):
+    #     dot.node(str(id),"Unset")
+    # elif isinstance(t[1],Read):
+    #     dot.node(str(id),"Read")
+    # elif isinstance(t[1],Exit):
+    #     dot.node(str(id),"Exit")
+    # elif isinstance(t[1],Goto):
+    #     dot.node(str(id),"Goto")
+    # elif isinstance(t[1],Ifgoto):
+    #     dot.node(str(id),"IF")
 
 def p_if_instruccion(t):
     'if_instruccion         :   IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA'
@@ -194,26 +190,32 @@ def p_if_instruccion(t):
 
 def p_goto_instruccion(t):
     '''goto_instruccion     :   GOTO LABEL PUNTOCOMA'''
-    t[0] = Goto(t[2])
-    dot.edge(str(t[0]),str(t[2]))
+    id=inc()
+    t[0] = Goto(t[2],id)
+    dot.edge(str(id),str(t[2].id_dot))
 
 def p_etiqueta_instruccion(t):
     '''etiqueta_instruccion :   LABEL DOSPUNTOS'''
-    t[0] = Etiqueta(t[1])
+    id = inc()
+    t[0] = Etiqueta(t[1],id)
+    dot.node(str(id),str(t[1]))
 
 def p_exit_instruccion(t):
     'exit_instruccion   :   EXIT PUNTOCOMA'
-    t[0] = Exit()
+    id = inc()
+    t[0] = Exit(id)
 
 def p_instruccion_read(t):
     'read_instruccion   :   variable IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'
-    t[0] = Read(t[1])
+    id = inc()
+    t[0] = Read(t[1],id)
 
 def p_instruccion_print(t):
     'print_instruccion : PRINT ABREPARENTESIS expresion_print CIERRAPARENTESIS PUNTOCOMA'
-    t[0] = Print(t[3])
-    dot.node(str(t[0]),str(t[1]))
-    dot.edge(str(t[0]),str(t[3]))
+    id = inc()
+    t[0] = Print(t[3],id)
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_expresion_print(t):
     '''expresion_print      :   expresion_general'''
@@ -222,23 +224,35 @@ def p_expresion_print(t):
 def p_instruccion_asignacion(t):
     '''asignacion_instruccion   :   variable IGUAL expresion_asignacion PUNTOCOMA
                                 '''
-    t[0] = Asignacion(t[1],t[3])
-    dot.edge(str(t[0]),str(t[1]))
-    dot.node(str(t[0]),str(t[2]))
-    dot.edge(str(t[0]),str(t[3]))
+    id = inc()
+    t[0] = Asignacion(t[1],t[3],id)
+    dot.edge(str(id),str(t[1].id_dot))
+    dot.node(str(id),str(t[2]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_asignacion_array(t):
     'asignacion_instruccion     :  variable indices IGUAL expresion_asignacion PUNTOCOMA'
     t[0] = Array(t[1],t[2],t[4])
+    # dot.node(str(t[0]),"ARRAY")
+    # dot.edge(str(t[0]),str(t[1]))
+    # dot.edge(str(t[0]),str(t[2]))
+    # # for item in t[2]:
+    # #     dot.edge(str(t[0]),str(item))
+    # dot.edge(str(t[0]),str(t[4]))
+    # dot.node(str(t[0]),str(t[1]))
 
 def p_indices_listado(t):
     'indices                    :   indices indice'
     t[1].append(t[2])
     t[0] = t[1]
+    # dot.node(str(t[0]),"indices")
+    # for item in t[1]:
+    #     dot.edge(str(t[0]),str(item))
 
 def p_indices(t):
     'indices                    :   indice'
     t[0] = [t[1]]
+    # dot.node(str(t[0]),str(t[1]))
 
 def p_indice(t):
     'indice                     :   ABRECORCHETE expresion_general  CIERRACORCHETE'
@@ -251,12 +265,22 @@ def p_expresion_asignacion(t):
                                 |   expresion_bit
                                 |   ARRAY ABREPARENTESIS CIERRAPARENTESIS
                                 '''
-    if t[1] == "array": t[0] = ExpresionArrayDeclare()
+    if t[1] == "array": 
+        t[0] = ExpresionArrayDeclare()
+        # dot.node(str(t[0]),str("array()"))
     else: t[0] = t[1]
 
 def p_expresion_array(t):
     'expresion_array            :   TEMPORAL indices'
     t[0] = ExpresionArray(t[1],t[2])
+    # dot.node(str(t[0]),str(t[1]))
+    # # for item in t[1]:
+    # #     dot.edge(str(t[0]),str(item))
+    # dot.edge(str(t[0]),str(t[2]))
+    # for item in t[2]:
+    #     dot.edge(str(t[0]),str(item))
+    # dot.edge(str(t[0]),str(t[4]))
+    # dot.node(str(t[0]),str(t[1]))
 
 def p_expresion_bit(t):
     '''expresion_bit            :   expresion_numerica  AMPERSAN expresion_numerica
@@ -264,15 +288,20 @@ def p_expresion_bit(t):
                                 |   expresion_numerica  XORBIT   expresion_numerica
                                 |   expresion_numerica  SHIFTIZQ   expresion_numerica
                                 |   expresion_numerica  SHIFTDER   expresion_numerica'''
-    if t[2] == "&"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.AND)
-    if t[2] == "|"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.OR)
-    if t[2] == "^"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.XOR)
-    if t[2] == "<<"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTIZQ)
-    if t[2] == ">>"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTDER)
+    id = inc()
+    if t[2] == "&"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.AND,id)
+    if t[2] == "|"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.OR,id)
+    if t[2] == "^"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.XOR,id)
+    if t[2] == "<<"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTIZQ,id)
+    if t[2] == ">>"  :   t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTDER,id)
+    dot.edge(str(id),str(t[1].id_dot))
+    dot.node(str(id),str(t[2]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_expresion_not_bit(t):
     '''expresion_bit            :   NOTBIT  expresion_numerica'''
-    t[0] = ExpresionNotBit(t[2])
+    id = inc()
+    t[0] = ExpresionNotBit(t[2],id)
 
 def p_expresion_relacional(t):
     '''expresion_relacional     :   expresion_general COMPARACION expresion_general
@@ -282,12 +311,16 @@ def p_expresion_relacional(t):
                                 |   expresion_general MAYOR expresion_general
                                 |   expresion_general MENOR expresion_general
                                 '''
-    if t[2]   == '==' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.IGUAL)
-    elif t[2] == '!=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.DIFERENTE)
-    elif t[2] == '>=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR_IGUAL)
-    elif t[2] == '<=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR_IGUAL)
-    elif t[2] == '>'  : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR)
-    elif t[2] == '<'  : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR)
+    id = inc()
+    if t[2]   == '==' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.IGUAL,id)
+    elif t[2] == '!=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.DIFERENTE,id)
+    elif t[2] == '>=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR_IGUAL,id)
+    elif t[2] == '<=' : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR_IGUAL,id)
+    elif t[2] == '>'  : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR,id)
+    elif t[2] == '<'  : t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR,id)
+    dot.edge(str(id),str(t[1].id_dot))
+    dot.node(str(id),str(t[2]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 #Se puede agregar expresion_logica para una mayor funcionalidad en casteo,relacionales,etc 
 def p_expresion_general(t):
@@ -301,10 +334,11 @@ def p_expresion_general(t):
 
 def p_expresion_casteo(t):
     '''expresion_casteo         :   ABREPARENTESIS  tipo_variable CIERRAPARENTESIS expresion_general'''
-    t[0] = ExpresionCasteo(t[2],t[4])
-    dot.node(str(t[0]),str("casteo"))
-    dot.edge(str(t[0]),str(t[2]))
-    dot.edge(str(t[0]),str(t[4]))
+    id = inc()
+    t[0] = ExpresionCasteo(t[2],t[4],id)
+    dot.node(str(id),str("casteo"))
+    dot.edge(str(id),str(t[2].id_dot))
+    dot.edge(str(id),str(t[4].id_dot))
 
 def p_expresion_aritmetica(t):
     '''expresion_numerica   : expresion_numerica MAS expresion_numerica
@@ -313,84 +347,98 @@ def p_expresion_aritmetica(t):
                             | expresion_numerica DIV expresion_numerica
                             | expresion_numerica RESIDUO expresion_numerica
                             '''
-    if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS)
-    elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS)
-    elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MUL)
-    elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIV)
-    elif t[2] == '%': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.RESIDUO)
-    dot.edge(str(t[0]),str(t[1]))
-    dot.node(str(t[0]),str(t[2]))
-    dot.edge(str(t[0]),str(t[3]))
+    id = inc()
+    if t[2] == '+'  : t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS,id)
+    elif t[2] == '-': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS,id)
+    elif t[2] == '*': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MUL,id)
+    elif t[2] == '/': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIV,id)
+    elif t[2] == '%': t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.RESIDUO,id)
+    dot.edge(str(id),str(t[1].id_dot))
+    dot.node(str(id),str(t[2]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_expresion_negativo(t):
     'expresion_numerica : MENOS expresion_numerica %prec NEGATIVO'
-    t[0] = ExpresionNegativo(t[2])
-    dot.node(str(t[0]),str(t[1]))
-    dot.edge(str(t[0]),str(t[2]))
+    id = inc()
+    t[0] = ExpresionNegativo(t[2],id)
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[2].id_dot))
 
 def p_expresion_absoluto(t):
     'expresion_numerica :   ABS ABREPARENTESIS expresion_numerica CIERRAPARENTESIS %prec ABSOLUTO'
-    t[0] = ExpresionAbsoluto(t[3])
+    id = inc()
+    t[0] = ExpresionAbsoluto(t[3],id)
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_expresion_numero(t):
     '''expresion_numerica       :   ENTERO
                                 |   DECIMAL'''
-    t[0] = ExpresionNumero(t[1])
-    dot.node(str(t[0]),str(t[1]))
+    id = inc()
+    t[0] = ExpresionNumero(id,t[1])
+    dot.node(str(id),str(t[1]))
 
 def p_asignacion_variable(t):
     '''expresion_numerica       :   variable'''
-    t[0] = ExpresionIdentificador(t[1])
-    dot.node(str(t[0]),"Variable")
-    dot.edge(str(t[0]),str(t[1]))
+    id = inc()
+    t[0] = ExpresionIdentificador(id,t[1])
+    dot.node(str(id),"Variable")
+    dot.edge(str(id),str(t[1].id_dot))
 
 def p_expresion_cadena(t):
     '''expresion_cadena         :   CADENA
                                 |   CARACTER'''
-    t[0] = ExpresionComilla(t[1])
-    dot.node(str(t[0]),str(t[1]))
+    id = inc()
+    t[0] = ExpresionComilla(t[1],id)
+    dot.node(str(id),str(t[1]))
 
 def p_expresion_puntero(t):
     '''expresion_puntero  :   AMPERSAN variable'''
-    t[0] = ExpresionPuntero(t[-2],t[2])
-    dot.node(str(t[0]),str(t[1]))
-    dot.edge(str(t[0]),str(t[2]))
+    id = inc()
+    t[0] = ExpresionPuntero(t[-2],t[2],id)
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[2].id_dot))
 
 def p_expresion_logica(t):
     '''expresion_logica     :   expresion_numerica AND expresion_numerica
                             |   expresion_numerica OR expresion_numerica
                             |   expresion_numerica XOR expresion_numerica'''
-    t[0] = ExpresionLogica(t[1],t[2],t[3])
-    dot.edge(str(t[0]),str(t[1]))
-    dot.node(str(t[0]),str(t[2]))
-    dot.edge(str(t[0]),str(t[3]))
+    id = inc()
+    t[0] = ExpresionLogica(t[1],t[2],t[3],id)
+    dot.edge(str(id),str(t[1].id_dot))
+    dot.node(str(id),str(t[2]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_expresion_not(t):
     '''expresion_logica     :   NOT expresion_numerica'''
-    t[0] = ExpresionNot(t[2])
-    dot.node(str(t[0]),str(t[1]))
-    dot.edge(str(t[0]),str(t[2]))
+    id = inc()
+    t[0] = ExpresionNot(t[2],id)
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[2].id_dot))
 
 def p_unset_instruccion(t):
     'unset_instruccion    :   UNSET ABREPARENTESIS variable CIERRAPARENTESIS PUNTOCOMA'
-    t[0] = Unset(t[3])
-    dot.node(str(t[0]),str(t[1]))
-    dot.edge(str(t[0]),str(t[3]))
+    id = inc()
+    t[0] = Unset(t[3],id)
+    dot.node(str(id),str(t[1]))
+    dot.edge(str(id),str(t[3].id_dot))
 
 def p_variable(t):
     '''variable     :   TEMPORAL
                     |   PARAMETRO
                     |   RETURN
                     |   RA'''
-    t[0] = ExpresionVariable(t[1])
-    dot.node(str(t[0]),str(t[1]))
+    id = inc()
+    t[0] = ExpresionVariable(t[1],id)
+    dot.node(str(id),str(t[1]))
 
 def p_tipo_variable(t):
     '''tipo_variable        :   INT
                             |   FLOAT
                             |   CHAR'''
     t[0] = t[1]
-    dot.node(str(t[0]),str(t[1]))
+    id = inc()
+    dot.node(str(id),str(t[1]))
 
 def p_error(t):
     print("Error sintáctocp",t)
