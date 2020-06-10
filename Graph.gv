@@ -1,166 +1,170 @@
 graph {
-	<expresiones.ExpresionVariable object at 0x7f9763c82df0> [label="$a0"]
-	<expresiones.ExpresionNumero object at 0x7f9763c82d60> [label=5]
-	<instrucciones.Asignacion object at 0x7f9763c82fa0> -- <expresiones.ExpresionVariable object at 0x7f9763c82df0>
-	<instrucciones.Asignacion object at 0x7f9763c82fa0> [label="="]
-	<instrucciones.Asignacion object at 0x7f9763c82fa0> -- <expresiones.ExpresionNumero object at 0x7f9763c82d60>
-	<instrucciones.Asignacion object at 0x7f9763c82fa0> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9763c82ee0> [label="$a1"]
-	<expresiones.ExpresionVariable object at 0x7f9763c82e80> [label="$a0"]
-	<expresiones.ExpresionPuntero object at 0x7f9763c82f70> [label="&"]
-	<expresiones.ExpresionPuntero object at 0x7f9763c82f70> -- <expresiones.ExpresionVariable object at 0x7f9763c82e80>
-	<instrucciones.Asignacion object at 0x7f9762e9a190> -- <expresiones.ExpresionVariable object at 0x7f9763c82ee0>
-	<instrucciones.Asignacion object at 0x7f9762e9a190> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9a190> -- <expresiones.ExpresionPuntero object at 0x7f9763c82f70>
-	<instrucciones.Asignacion object at 0x7f9762e9a190> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9763c82c10> [label="$a10"]
-	<expresiones.ExpresionNumero object at 0x7f9763c82e50> [label=20]
-	<instrucciones.Asignacion object at 0x7f9762e9a2e0> -- <expresiones.ExpresionVariable object at 0x7f9763c82c10>
-	<instrucciones.Asignacion object at 0x7f9762e9a2e0> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9a2e0> -- <expresiones.ExpresionNumero object at 0x7f9763c82e50>
-	<instrucciones.Asignacion object at 0x7f9762e9a2e0> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9763c82f10> [label="$t2"]
-	<expresiones.ExpresionComilla object at 0x7f9762e9a370> [label="hola mundo"]
-	<instrucciones.Asignacion object at 0x7f9762e9a130> -- <expresiones.ExpresionVariable object at 0x7f9763c82f10>
-	<instrucciones.Asignacion object at 0x7f9762e9a130> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9a130> -- <expresiones.ExpresionComilla object at 0x7f9762e9a370>
-	<instrucciones.Asignacion object at 0x7f9762e9a130> [label=Asignacion]
-	<expresiones.ExpresionNumero object at 0x7f9763c82fd0> [label=10]
-	<instrucciones.Print object at 0x7f9762e9a4f0> [label=print]
-	<instrucciones.Print object at 0x7f9762e9a4f0> -- <expresiones.ExpresionNumero object at 0x7f9763c82fd0>
-	<instrucciones.Print object at 0x7f9762e9a4f0> [label=Print]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a4c0> [label="$a0"]
-	<instrucciones.Unset object at 0x7f9762e9a460> [label=unset]
-	<instrucciones.Unset object at 0x7f9762e9a460> -- <expresiones.ExpresionVariable object at 0x7f9762e9a4c0>
-	<instrucciones.Unset object at 0x7f9762e9a460> [label=Unset]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a5e0> [label="$a10"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a220> [label="$a0"]
+	<expresiones.ExpresionNumero object at 0x7fdeb9a6a190> [label=5]
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3d0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a220>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3d0> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3d0> -- <expresiones.ExpresionNumero object at 0x7fdeb9a6a190>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3d0> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a4f0> [label="$a1"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a430> [label="$a0"]
+	<expresiones.ExpresionPuntero object at 0x7fdeb9a6a4c0> [label="&"]
+	<expresiones.ExpresionPuntero object at 0x7fdeb9a6a4c0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a430>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a580> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a4f0>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a580> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a6a580> -- <expresiones.ExpresionPuntero object at 0x7fdeb9a6a4c0>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a580> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a460> [label="$a10"]
+	<expresiones.ExpresionNumero object at 0x7fdeb9a6a550> [label=20]
+	<instrucciones.Asignacion object at 0x7fdeb9a6a6d0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a460>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a6d0> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a6a6d0> -- <expresiones.ExpresionNumero object at 0x7fdeb9a6a550>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a6d0> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a640> [label="$t2"]
+	<expresiones.ExpresionComilla object at 0x7fdeb9a6a760> [label="hola mundo"]
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3a0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a640>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3a0> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3a0> -- <expresiones.ExpresionComilla object at 0x7fdeb9a6a760>
+	<instrucciones.Asignacion object at 0x7fdeb9a6a3a0> [label=Asignacion]
+	<expresiones.ExpresionNumero object at 0x7fdeb9a6a790> [label=10]
+	<instrucciones.Print object at 0x7fdeb9a6a8e0> [label=print]
+	<instrucciones.Print object at 0x7fdeb9a6a8e0> -- <expresiones.ExpresionNumero object at 0x7fdeb9a6a790>
+	<instrucciones.Print object at 0x7fdeb9a6a8e0> [label=Print]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a8b0> [label="$a0"]
+	<instrucciones.Unset object at 0x7fdeb9a6a850> [label=unset]
+	<instrucciones.Unset object at 0x7fdeb9a6a850> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a8b0>
+	<instrucciones.Unset object at 0x7fdeb9a6a850> [label=Unset]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a9d0> [label="$a10"]
 	float [label=float]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a220> [label="$a10"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9a3a0> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9a3a0> -- <expresiones.ExpresionVariable object at 0x7f9762e9a220>
-	<expresiones.ExpresionCasteo object at 0x7f9762e9a790> [label=casteo]
-	<expresiones.ExpresionCasteo object at 0x7f9762e9a790> -- float
-	<expresiones.ExpresionCasteo object at 0x7f9762e9a790> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9a3a0>
-	<instrucciones.Asignacion object at 0x7f9762e9a670> -- <expresiones.ExpresionVariable object at 0x7f9762e9a5e0>
-	<instrucciones.Asignacion object at 0x7f9762e9a670> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9a670> -- <expresiones.ExpresionCasteo object at 0x7f9762e9a790>
-	<instrucciones.Asignacion object at 0x7f9762e9a670> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a6a0> [label="$a2"]
-	<expresiones.ExpresionNumero object at 0x7f9762e9a6d0> [label=1]
-	<instrucciones.Asignacion object at 0x7f9762e9a730> -- <expresiones.ExpresionVariable object at 0x7f9762e9a6a0>
-	<instrucciones.Asignacion object at 0x7f9762e9a730> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9a730> -- <expresiones.ExpresionNumero object at 0x7f9762e9a6d0>
-	<instrucciones.Asignacion object at 0x7f9762e9a730> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9763c82eb0> [label="$a2"]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a8e0> [label="$a2"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9a340> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9a340> -- <expresiones.ExpresionVariable object at 0x7f9762e9a8e0>
-	<expresiones.ExpresionNot object at 0x7f9762e9a940> [label="!"]
-	<expresiones.ExpresionNot object at 0x7f9762e9a940> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9a340>
-	<instrucciones.Asignacion object at 0x7f9762e9aa90> -- <expresiones.ExpresionVariable object at 0x7f9763c82eb0>
-	<instrucciones.Asignacion object at 0x7f9762e9aa90> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9aa90> -- <expresiones.ExpresionNot object at 0x7f9762e9a940>
-	<instrucciones.Asignacion object at 0x7f9762e9aa90> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a910> [label="$a2"]
-	<expresiones.ExpresionNumero object at 0x7f9762e9aa00> [label=1]
-	<expresiones.ExpresionNumero object at 0x7f9762e9ab50> [label=1]
-	<expresiones.ExpresionLogica object at 0x7f9762e9ab80> -- <expresiones.ExpresionNumero object at 0x7f9762e9aa00>
-	<expresiones.ExpresionLogica object at 0x7f9762e9ab80> [label="&&"]
-	<expresiones.ExpresionLogica object at 0x7f9762e9ab80> -- <expresiones.ExpresionNumero object at 0x7f9762e9ab50>
-	<instrucciones.Asignacion object at 0x7f9762e9acd0> -- <expresiones.ExpresionVariable object at 0x7f9762e9a910>
-	<instrucciones.Asignacion object at 0x7f9762e9acd0> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9acd0> -- <expresiones.ExpresionLogica object at 0x7f9762e9ab80>
-	<instrucciones.Asignacion object at 0x7f9762e9acd0> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9762e9aaf0> [label="$a2"]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a550> [label="$a10"]
-	<expresiones.ExpresionPuntero object at 0x7f9762e9ab20> [label="&"]
-	<expresiones.ExpresionPuntero object at 0x7f9762e9ab20> -- <expresiones.ExpresionVariable object at 0x7f9762e9a550>
-	<instrucciones.Asignacion object at 0x7f9762e9ad90> -- <expresiones.ExpresionVariable object at 0x7f9762e9aaf0>
-	<instrucciones.Asignacion object at 0x7f9762e9ad90> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9ad90> -- <expresiones.ExpresionPuntero object at 0x7f9762e9ab20>
-	<instrucciones.Asignacion object at 0x7f9762e9ad90> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9762e9a8b0> [label="$t2"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9a970> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9a970> -- <expresiones.ExpresionVariable object at 0x7f9762e9a8b0>
-	<instrucciones.Print object at 0x7f9762e9ac10> [label=print]
-	<instrucciones.Print object at 0x7f9762e9ac10> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9a970>
-	<instrucciones.Print object at 0x7f9762e9ac10> [label=Print]
-	<instrucciones.Goto object at 0x7f9762e9ae50> [label=Goto]
-	<expresiones.ExpresionVariable object at 0x7f9762e9afa0> [label="$v0"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9af70> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9af70> -- <expresiones.ExpresionVariable object at 0x7f9762e9afa0>
-	<instrucciones.Print object at 0x7f9762e9f0d0> [label=print]
-	<instrucciones.Print object at 0x7f9762e9f0d0> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9af70>
-	<instrucciones.Print object at 0x7f9762e9f0d0> [label=Print]
-	<instrucciones.Exit object at 0x7f9762e9adf0> [label=Exit]
-	<expresiones.ExpresionVariable object at 0x7f9762e9ac40> [label="$a1"]
-	<expresiones.ExpresionVariable object at 0x7f9762e9f1f0> [label="$a0"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f220> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f220> -- <expresiones.ExpresionVariable object at 0x7f9762e9f1f0>
-	<instrucciones.Asignacion object at 0x7f9762e9f2e0> -- <expresiones.ExpresionVariable object at 0x7f9762e9ac40>
-	<instrucciones.Asignacion object at 0x7f9762e9f2e0> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9f2e0> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9f220>
-	<instrucciones.Asignacion object at 0x7f9762e9f2e0> [label=Asignacion]
-	<expresiones.ExpresionVariable object at 0x7f9762e9ae80> [label="$t1"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a610> [label="$a10"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a6a1f0> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a6a1f0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a610>
+	<expresiones.ExpresionCasteo object at 0x7fdeb9a6ab80> [label=casteo]
+	<expresiones.ExpresionCasteo object at 0x7fdeb9a6ab80> -- float
+	<expresiones.ExpresionCasteo object at 0x7fdeb9a6ab80> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a6a1f0>
+	<instrucciones.Asignacion object at 0x7fdeb9a6aa60> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a9d0>
+	<instrucciones.Asignacion object at 0x7fdeb9a6aa60> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a6aa60> -- <expresiones.ExpresionCasteo object at 0x7fdeb9a6ab80>
+	<instrucciones.Asignacion object at 0x7fdeb9a6aa60> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6aa90> [label="$a2"]
+	<expresiones.ExpresionNumero object at 0x7fdeb9a6aac0> [label=1]
+	<instrucciones.Asignacion object at 0x7fdeb9a6ab20> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6aa90>
+	<instrucciones.Asignacion object at 0x7fdeb9a6ab20> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a6ab20> -- <expresiones.ExpresionNumero object at 0x7fdeb9a6aac0>
+	<instrucciones.Asignacion object at 0x7fdeb9a6ab20> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a7f0> [label="$a2"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6acd0> [label="$a2"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a6a730> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a6a730> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6acd0>
+	<expresiones.ExpresionNot object at 0x7fdeb9a6ad30> [label="!"]
+	<expresiones.ExpresionNot object at 0x7fdeb9a6ad30> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a6a730>
+	<instrucciones.Asignacion object at 0x7fdeb9a6ae80> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a7f0>
+	<instrucciones.Asignacion object at 0x7fdeb9a6ae80> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a6ae80> -- <expresiones.ExpresionNot object at 0x7fdeb9a6ad30>
+	<instrucciones.Asignacion object at 0x7fdeb9a6ae80> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6ad00> [label="$a2"]
+	<expresiones.ExpresionNumero object at 0x7fdeb9a6adf0> [label=1]
+	<expresiones.ExpresionNumero object at 0x7fdeb9a6af40> [label=1]
+	<expresiones.ExpresionLogica object at 0x7fdeb9a6af70> -- <expresiones.ExpresionNumero object at 0x7fdeb9a6adf0>
+	<expresiones.ExpresionLogica object at 0x7fdeb9a6af70> [label="&&"]
+	<expresiones.ExpresionLogica object at 0x7fdeb9a6af70> -- <expresiones.ExpresionNumero object at 0x7fdeb9a6af40>
+	<instrucciones.Asignacion object at 0x7fdeb9a71100> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6ad00>
+	<instrucciones.Asignacion object at 0x7fdeb9a71100> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a71100> -- <expresiones.ExpresionLogica object at 0x7fdeb9a6af70>
+	<instrucciones.Asignacion object at 0x7fdeb9a71100> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6aee0> [label="$a2"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6a940> [label="$a10"]
+	<expresiones.ExpresionPuntero object at 0x7fdeb9a71070> [label="&"]
+	<expresiones.ExpresionPuntero object at 0x7fdeb9a71070> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6a940>
+	<instrucciones.Asignacion object at 0x7fdeb9a711c0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6aee0>
+	<instrucciones.Asignacion object at 0x7fdeb9a711c0> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a711c0> -- <expresiones.ExpresionPuntero object at 0x7fdeb9a71070>
+	<instrucciones.Asignacion object at 0x7fdeb9a711c0> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6ae20> [label="$t2"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a6adc0> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a6adc0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6ae20>
+	<instrucciones.Print object at 0x7fdeb9a71040> [label=print]
+	<instrucciones.Print object at 0x7fdeb9a71040> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a6adc0>
+	<instrucciones.Print object at 0x7fdeb9a71040> [label=Print]
+	<instrucciones.Goto object at 0x7fdeb9a6ad60> -- f1
+	<instrucciones.Goto object at 0x7fdeb9a6ad60> [label=Goto]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a6ac70> [label="$v0"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71370> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71370> -- <expresiones.ExpresionVariable object at 0x7fdeb9a6ac70>
+	<instrucciones.Print object at 0x7fdeb9a714c0> [label=print]
+	<instrucciones.Print object at 0x7fdeb9a714c0> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a71370>
+	<instrucciones.Print object at 0x7fdeb9a714c0> [label=Print]
+	<instrucciones.Exit object at 0x7fdeb9a71220> [label=Exit]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a715b0> [label="$a1"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a71490> [label="$a0"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71610> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71610> -- <expresiones.ExpresionVariable object at 0x7fdeb9a71490>
+	<instrucciones.Asignacion object at 0x7fdeb9a716d0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a715b0>
+	<instrucciones.Asignacion object at 0x7fdeb9a716d0> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a716d0> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a71610>
+	<instrucciones.Asignacion object at 0x7fdeb9a716d0> [label=Asignacion]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a710d0> [label="$t1"]
 	int [label=int]
-	<expresiones.ExpresionNumero object at 0x7f9762e9f190> [label=12.0]
-	<expresiones.ExpresionCasteo object at 0x7f9762e9f370> [label=casteo]
-	<expresiones.ExpresionCasteo object at 0x7f9762e9f370> -- int
-	<expresiones.ExpresionCasteo object at 0x7f9762e9f370> -- <expresiones.ExpresionNumero object at 0x7f9762e9f190>
-	<instrucciones.Asignacion object at 0x7f9762e9f430> -- <expresiones.ExpresionVariable object at 0x7f9762e9ae80>
-	<instrucciones.Asignacion object at 0x7f9762e9f430> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9f430> -- <expresiones.ExpresionCasteo object at 0x7f9762e9f370>
-	<instrucciones.Asignacion object at 0x7f9762e9f430> [label=Asignacion]
-	<instrucciones.Goto object at 0x7f9762e9ae20> [label=Goto]
-	<expresiones.ExpresionVariable object at 0x7f9762e9f3d0> [label="$v0"]
-	<expresiones.ExpresionVariable object at 0x7f9762e9f3a0> [label="$v1"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f070> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f070> -- <expresiones.ExpresionVariable object at 0x7f9762e9f3a0>
-	<instrucciones.Asignacion object at 0x7f9762e9f6a0> -- <expresiones.ExpresionVariable object at 0x7f9762e9f3d0>
-	<instrucciones.Asignacion object at 0x7f9762e9f6a0> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9f6a0> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9f070>
-	<instrucciones.Asignacion object at 0x7f9762e9f6a0> [label=Asignacion]
-	<instrucciones.Goto object at 0x7f9762e9f490> [label=Goto]
-	<expresiones.ExpresionVariable object at 0x7f9762e9f730> [label="$v1"]
-	<expresiones.ExpresionVariable object at 0x7f9762e9f5e0> [label="$a1"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f7c0> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f7c0> -- <expresiones.ExpresionVariable object at 0x7f9762e9f5e0>
-	<expresiones.ExpresionVariable object at 0x7f9762e9f790> [label="$a1"]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f910> [label=Variable]
-	<expresiones.ExpresionIdentificador object at 0x7f9762e9f910> -- <expresiones.ExpresionVariable object at 0x7f9762e9f790>
-	<expresiones.ExpresionBinaria object at 0x7f9762e9f8e0> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9f7c0>
-	<expresiones.ExpresionBinaria object at 0x7f9762e9f8e0> [label="*"]
-	<expresiones.ExpresionBinaria object at 0x7f9762e9f8e0> -- <expresiones.ExpresionIdentificador object at 0x7f9762e9f910>
-	<instrucciones.Asignacion object at 0x7f9762e9fac0> -- <expresiones.ExpresionVariable object at 0x7f9762e9f730>
-	<instrucciones.Asignacion object at 0x7f9762e9fac0> [label="="]
-	<instrucciones.Asignacion object at 0x7f9762e9fac0> -- <expresiones.ExpresionBinaria object at 0x7f9762e9f8e0>
-	<instrucciones.Asignacion object at 0x7f9762e9fac0> [label=Asignacion]
-	<instrucciones.Goto object at 0x7f9762e9f520> [label=Goto]
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> [label=main]
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9763c82fa0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9a190>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9a2e0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9a130>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Print object at 0x7f9762e9a4f0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Unset object at 0x7f9762e9a460>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9a670>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9a730>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9aa90>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9acd0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9ad90>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Print object at 0x7f9762e9ac10>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Goto object at 0x7f9762e9ae50>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Etiqueta object at 0x7f9762e9afd0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Print object at 0x7f9762e9f0d0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Exit object at 0x7f9762e9adf0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Etiqueta object at 0x7f9762e9a9d0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9f2e0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9f430>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Goto object at 0x7f9762e9ae20>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Etiqueta object at 0x7f9762e9f040>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9f6a0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Goto object at 0x7f9762e9f490>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Etiqueta object at 0x7f9762e9f760>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Asignacion object at 0x7f9762e9fac0>
-	<instrucciones.EtiquetaMain object at 0x7f9762e9fa00> -- <instrucciones.Goto object at 0x7f9762e9f520>
+	<expresiones.ExpresionNumero object at 0x7fdeb9a71190> [label=12.0]
+	<expresiones.ExpresionCasteo object at 0x7fdeb9a71760> [label=casteo]
+	<expresiones.ExpresionCasteo object at 0x7fdeb9a71760> -- int
+	<expresiones.ExpresionCasteo object at 0x7fdeb9a71760> -- <expresiones.ExpresionNumero object at 0x7fdeb9a71190>
+	<instrucciones.Asignacion object at 0x7fdeb9a71820> -- <expresiones.ExpresionVariable object at 0x7fdeb9a710d0>
+	<instrucciones.Asignacion object at 0x7fdeb9a71820> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a71820> -- <expresiones.ExpresionCasteo object at 0x7fdeb9a71760>
+	<instrucciones.Asignacion object at 0x7fdeb9a71820> [label=Asignacion]
+	<instrucciones.Goto object at 0x7fdeb9a71790> -- f2
+	<instrucciones.Goto object at 0x7fdeb9a71790> [label=Goto]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a717c0> [label="$v0"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a71580> [label="$v1"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71460> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71460> -- <expresiones.ExpresionVariable object at 0x7fdeb9a71580>
+	<instrucciones.Asignacion object at 0x7fdeb9a71a90> -- <expresiones.ExpresionVariable object at 0x7fdeb9a717c0>
+	<instrucciones.Asignacion object at 0x7fdeb9a71a90> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a71a90> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a71460>
+	<instrucciones.Asignacion object at 0x7fdeb9a71a90> [label=Asignacion]
+	<instrucciones.Goto object at 0x7fdeb9a71880> -- ret0
+	<instrucciones.Goto object at 0x7fdeb9a71880> [label=Goto]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a71b20> [label="$v1"]
+	<expresiones.ExpresionVariable object at 0x7fdeb9a719d0> [label="$a1"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71bb0> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71bb0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a719d0>
+	<expresiones.ExpresionVariable object at 0x7fdeb9a71b80> [label="$a1"]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71d00> [label=Variable]
+	<expresiones.ExpresionIdentificador object at 0x7fdeb9a71d00> -- <expresiones.ExpresionVariable object at 0x7fdeb9a71b80>
+	<expresiones.ExpresionBinaria object at 0x7fdeb9a71cd0> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a71bb0>
+	<expresiones.ExpresionBinaria object at 0x7fdeb9a71cd0> [label="*"]
+	<expresiones.ExpresionBinaria object at 0x7fdeb9a71cd0> -- <expresiones.ExpresionIdentificador object at 0x7fdeb9a71d00>
+	<instrucciones.Asignacion object at 0x7fdeb9a71eb0> -- <expresiones.ExpresionVariable object at 0x7fdeb9a71b20>
+	<instrucciones.Asignacion object at 0x7fdeb9a71eb0> [label="="]
+	<instrucciones.Asignacion object at 0x7fdeb9a71eb0> -- <expresiones.ExpresionBinaria object at 0x7fdeb9a71cd0>
+	<instrucciones.Asignacion object at 0x7fdeb9a71eb0> [label=Asignacion]
+	<instrucciones.Goto object at 0x7fdeb9a71910> -- ret1
+	<instrucciones.Goto object at 0x7fdeb9a71910> [label=Goto]
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> [label=main]
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a6a3d0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a6a580>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a6a6d0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a6a3a0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Print object at 0x7fdeb9a6a8e0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Unset object at 0x7fdeb9a6a850>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a6aa60>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a6ab20>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a6ae80>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a71100>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a711c0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Print object at 0x7fdeb9a71040>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Goto object at 0x7fdeb9a6ad60>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Etiqueta object at 0x7fdeb9a6afd0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Print object at 0x7fdeb9a714c0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Exit object at 0x7fdeb9a71220>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Etiqueta object at 0x7fdeb9a6aca0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a716d0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a71820>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Goto object at 0x7fdeb9a71790>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Etiqueta object at 0x7fdeb9a71340>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a71a90>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Goto object at 0x7fdeb9a71880>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Etiqueta object at 0x7fdeb9a71b50>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Asignacion object at 0x7fdeb9a71eb0>
+	<instrucciones.EtiquetaMain object at 0x7fdeb9a71df0> -- <instrucciones.Goto object at 0x7fdeb9a71910>
 }

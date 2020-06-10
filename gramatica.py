@@ -195,6 +195,7 @@ def p_if_instruccion(t):
 def p_goto_instruccion(t):
     '''goto_instruccion     :   GOTO LABEL PUNTOCOMA'''
     t[0] = Goto(t[2])
+    dot.edge(str(t[0]),str(t[2]))
 
 def p_etiqueta_instruccion(t):
     '''etiqueta_instruccion :   LABEL DOSPUNTOS'''
