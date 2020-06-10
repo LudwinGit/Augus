@@ -232,7 +232,7 @@ class Analizador():
             self.salida += "Error semantico: la variable \'"+expresion.puntero.valor+"\' no esta definida\n"
             return None
         else: 
-            self.agregar_simbolo(expresion.variable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,tablasimbolos,simboloPuntero.id)
+            self.agregar_simbolo(expresion.variable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,simboloPuntero.id)
             return simboloPuntero.valor
 
     def resolver_cadena(self,expresion) :
