@@ -350,11 +350,36 @@ class Analizador():
         index = self.resolver_expresion(cp_indices.pop(0))
         array = variable.valor[index]
         #Obtengo el valor final donde se va adjuntar
+        if type(array['valor']) == str:
+            if len(cp_indices) == 1:
+                index = self.resolver_expresion(cp_indices.pop(0))
+                if type(index) == int:
+                    if len(array['valor']) >= index:
+                        array['valor'] = array['valor'][:index]+str(valor)+array['valor'][index+1:]
+                    else:
+                        i = index - (len(array['valor'])-1)
+                        while i >1:
+                            array['valor']+=" "
+                            i -= 1
+                        array['valor'] += str(valor)
+                    return
+
         iteracion = 1;
         for i in cp_indices:
             indice = self.resolver_expresion(i)
             if 'subindices' in array:
                 if indice not in array['subindices']:
+                    if type(array['valor']) == str:
+                        if type(indice) == int:
+                            if len(array['valor']) >= indice:
+                                array['valor'] = array['valor'][:indice]+str(valor)+array['valor'][indice+1:]
+                            else:
+                                i = indice - (len(array['valor'])-1)
+                                while i >1:
+                                    array['valor']+=" "
+                                    i -= 1
+                                array['valor'] += str(valor)
+                            return
                     array = array['subindices']
                     if iteracion == len(cp_indices):
                         nuevo = {indice:{'tipo':'Asociativo','valor':valor,'subindices':{}}}
@@ -376,7 +401,8 @@ class Analizador():
         index = self.resolver_expresion(cp_indices.pop(0))
         var = array.valor[index]
         if var['valor'] != None:
-            return False
+            if type(var['valor']) != str:
+                return False
         # print("aca",index,array.valor[index])
         # simbolo =.obtener()
         count = len(cp_indices)
@@ -385,9 +411,11 @@ class Analizador():
             if indice in var['subindices']:
                 valor = var['subindices'][indice]['valor']
                 if valor != None:
-                    if count == 1:
-                        return True
-                    return False
+                    if type(valor) != str:
+                        if count == 1:
+                            return True
+                    else: return True
+                return False
             count -= 1
         return True
 
