@@ -46,7 +46,8 @@ main:
   # print($t3[2][0]);
   # print("\n");
   # print($t3[1][3]); #error esta vacio el indice
-  $t3["nombre"]['telefono']="Carla";
+  $t3["nombre"]['telefono']=10;
+  $t3["nombre"]['telefono']=array();
   $t3["nombre"]['telefono'][3]= "o"; #modifica un char de la cadena "Carla"
   print($t3["nombre"]);
   # print($t3["nombre"]);

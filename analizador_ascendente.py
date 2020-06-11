@@ -27,11 +27,18 @@ class Analizador():
     def procesar_array(self,instruccion,ambito):
         variable=self.tablasimbolos.obtener(instruccion.variable.valor)
         valor = self.resolver_expresion(instruccion.valor)
+        if isinstance(valor,ExpresionArrayDeclare): valor = None
         if variable == None:
             array = self.crear_indice_array(instruccion.indices,valor,None)
             self.crear_variable(instruccion.variable,array,ambito)
         elif variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
+            # if isinstance(valor,ExpresionArrayDeclare): 
+            #     self.resetear_indice(instruccion.indices,variable)
+            #     return
             array = self.crear_indice_array(instruccion.indices,valor,variable)
+
+    # def resetear_indice(indices,variable):
+
 
     def procesar_exit(self,instruccion):
         # exit()
@@ -363,18 +370,21 @@ class Analizador():
                             i -= 1
                         array['valor'] += str(valor)
                     return
+        elif array['valor'] == None and len(cp_indices) == 0:
+            array['valor'] = valor
+            return
 
         iteracion = 1;
         for i in cp_indices:
-            indice = self.resolver_expresion(i)
+            index = self.resolver_expresion(i)
             if 'subindices' in array:
-                if indice not in array['subindices']:
+                if index not in array['subindices']:
                     if type(array['valor']) == str:
-                        if type(indice) == int:
-                            if len(array['valor']) >= indice:
-                                array['valor'] = array['valor'][:indice]+str(valor)+array['valor'][indice+1:]
+                        if type(index) == int:
+                            if len(array['valor']) >= index:
+                                array['valor'] = array['valor'][:index]+str(valor)+array['valor'][index+1:]
                             else:
-                                i = indice - (len(array['valor'])-1)
+                                i = index - (len(array['valor'])-1)
                                 while i >1:
                                     array['valor']+=" "
                                     i -= 1
@@ -382,17 +392,17 @@ class Analizador():
                             return
                     array = array['subindices']
                     if iteracion == len(cp_indices):
-                        nuevo = {indice:{'tipo':'Asociativo','valor':valor,'subindices':{}}}
+                        nuevo = {index:{'tipo':'Asociativo','valor':valor,'subindices':{}}}
                         array.update(nuevo)
                     else:
-                        nuevo = {indice:{'tipo':'Asociativo','valor':None,'subindices':{}}}
+                        nuevo = {index:{'tipo':'Asociativo','valor':None,'subindices':{}}}
                         array.update(nuevo)
-                        array = array[indice]
+                        array = array[index]
                 else:
                     if iteracion == len(cp_indices):
-                        array['subindices'][indice]['valor'] =valor
+                        array['subindices'][index]['valor'] =valor
                     else:
-                        array = array['subindices'][indice]
+                        array = array['subindices'][index]
 
             iteracion += 1
 
@@ -414,8 +424,7 @@ class Analizador():
                     if type(valor) != str:
                         if count == 1:
                             return True
-                    else: return True
-                return False
+                    return False
             count -= 1
         return True
 

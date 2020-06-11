@@ -1,87 +1,48 @@
 graph {
-	70 [label="$t3"]
-	71 [label=1]
-	72 [label=0]
-	73 [label=10]
-	74 [label=ARRAY]
-	74 -- 70
-	74 -- 71
-	74 -- 72
-	74 -- 73
-	75 [label="$t3"]
-	76 [label=2]
-	77 [label=0]
-	78 [label=20]
-	79 [label=ARRAY]
-	79 -- 75
-	79 -- 76
-	79 -- 77
-	79 -- 78
-	80 [label="$t3"]
-	81 [label=2]
-	82 [label=0]
-	83 [label=25]
-	84 [label=ARRAY]
-	84 -- 80
-	84 -- 81
-	84 -- 82
-	84 -- 83
-	85 [label=2]
-	86 [label=0]
-	87 [label=ARRAY]
-	87 -- "$t3"
-	87 -- 85
-	87 -- 86
-	88 [label=print]
-	88 -- 87
-	89 [label="$t3"]
-	90 [label=nombre]
-	91 [label=telefono]
-	92 [label=Carla]
-	93 [label=ARRAY]
-	93 -- 89
-	93 -- 90
-	93 -- 91
-	93 -- 92
-	94 [label="$t3"]
-	95 [label=nombre]
-	96 [label=telefono]
-	97 [label=4]
-	98 [label=o]
-	99 [label=ARRAY]
-	99 -- 94
-	99 -- 95
-	99 -- 96
-	99 -- 97
-	99 -- 98
-	100 [label="$t3"]
-	101 [label=nombre]
-	102 [label=telefono]
-	103 [label=10]
-	104 [label=s]
-	105 [label=ARRAY]
-	105 -- 100
-	105 -- 101
-	105 -- 102
-	105 -- 103
-	105 -- 104
-	106 [label=nombre]
-	107 [label=telefono]
-	108 [label=ARRAY]
-	108 -- "$t3"
-	108 -- 106
-	108 -- 107
-	109 [label=print]
-	109 -- 108
-	110 [label=exit]
-	111 [label=main]
-	111 -- 74
-	111 -- 79
-	111 -- 84
-	111 -- 88
-	111 -- 93
-	111 -- 99
-	111 -- 105
-	111 -- 109
-	111 -- 110
+	22 [label="$t3"]
+	23 [label=nombre]
+	24 [label=telefono]
+	25 [label=10]
+	26 [label=ARRAY]
+	26 -- 22
+	26 -- 23
+	26 -- 24
+	26 -- 25
+	27 [label="$t3"]
+	28 [label=nombre]
+	29 [label=telefono]
+	30 [label="array()"]
+	31 [label=ARRAY]
+	31 -- 27
+	31 -- 28
+	31 -- 29
+	31 -- 30
+	32 [label="$t3"]
+	33 [label=nombre]
+	34 [label=telefono]
+	35 [label=3]
+	36 [label=o]
+	37 [label=ARRAY]
+	37 -- 32
+	37 -- 33
+	37 -- 34
+	37 -- 35
+	37 -- 36
+	38 [label=nombre]
+	39 [label=telefono]
+	40 [label=3]
+	41 [label=ARRAY]
+	41 -- "$t3"
+	41 -- 38
+	41 -- 39
+	41 -- 40
+	42 [label=print]
+	42 -- 41
+	43 [label=exit]
+	44 [label=main]
+	44 -- 26
+	44 -- 31
+	44 -- 37
+	44 -- 42
+	44 -- 43
 }
