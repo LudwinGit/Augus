@@ -1,0 +1,50 @@
+#ARCHIVO BASICO
+main:
+$t0 = "ARCHIVO BASICO");
+print($t0);
+print($t0[0]);
+print($t0[8]);
+print($t0[12]);
+unset($t0);
+print('\n');
+print("\n");
+#-------------ingreso de datos------------
+print("Ingresa un numero: ");
+print("\n");
+$t1 = read();
+print("\n");
+print("Ingreso un segundo numero: ");
+print("\n");
+$t2 = read();
+$t3 = $t1+$t2;
+print("La suma de los numeros es: ");
+print($t3);
+print("\n");
+$t3 = $t1-$t2;
+print("La resta de los numeros es: ");
+print($t3);
+print("\n");
+$t3 = $t1*$t2;
+print("La multiplicación de los numeros es: ");
+print($t3);
+print("\n");
+$t3 = $t1/$t2;
+if ( $t2 == 0 ) goto error;
+print("La division de los numeros es: ");
+print($t3);
+#--------------conversion--------------------
+ $t4 = (int)$t0;
+ print($t4);
+ $t4 = float($t3);
+ $t5 = $t4+$t5;
+
+
+error: 
+print( 'ERROR: no se puede realizar una divisi�n entre 0.' );
+print('\n');
+
+
+
+
+exit;
+

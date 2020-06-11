@@ -1,4 +1,4 @@
-from analizador import *
+from analizador_ascendente import *
 from tkinter import *
 from tkinter import filedialog as FileDialog
 from io import open
@@ -99,9 +99,21 @@ def guardar_como():
         mensaje.set("Guardado cancelado")
         ruta = ""
 
+def debugAsc():
+    t = texto.get(1.0,'end-1c')
+    debugAscendente.run(t)
+    debugAscendente.Debug()
+
+def debugControl():
+    debugAscendente.Debug()
+    consola.delete(1.0,'end-1c')
+    consola.insert("end",debugAscendente.salida)
+
 def ejecutar():
     t = texto.get(1.0,'end-1c')
-    analizador = Analizador(t)
+    analizador = Analizador()
+    analizador.run(t)
+    analizador.Ejecutar()
     consola.delete(1.0,'end-1c')
     consola.insert("end",analizador.salida)
 # Configuración de la raíz
@@ -122,12 +134,18 @@ menubar.add_cascade(menu=filemenu, label="Archivo")
 toolbar = Frame(root, bg="#fff")
 toolbar.pack(side="top", fill="x")
 
-bold_btn = Button(toolbar, text="Ejecutar",command=ejecutar)
+bold_btn = Button(toolbar, text="Ascendente",command=ejecutar)
+bold_btn.pack(side="left")
+
+bold_btn = Button(toolbar, text="Debug asc",command=debugAsc)
+bold_btn.pack(side="left")
+
+bold_btn = Button(toolbar, text="Siguiente",command=debugControl)
 bold_btn.pack(side="left")
 
 # Caja de texto central
 texto = Text(root,bg="#fff")
-texto.pack(fill="both", expand=1)
+texto.pack(side="left", fill="both", expand=1)
 texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
 
 
@@ -136,8 +154,9 @@ mensaje = StringVar()
 mensaje.set("Bienvenido a tu Editor")
 # Monitor inferior
 consola = Text(root,bg="#003B74",fg="#fff")
-consola.pack(fil="both")
-
+consola.pack(side="right",fill="both")
+#Debug ascendente
+debugAscendente = Analizador()
 root.config(menu=menubar)
 # Finalmente bucle de la apliación
 root.mainloop()

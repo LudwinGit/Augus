@@ -6,19 +6,22 @@ from cola import *
 
 class Analizador():
 
-    def __init__(self,entrada):
+    def __init__(self):
+        self.cola = None
+        self.main = None
+        self.salida = ""
+        self.id_debug = 0
+        self.ast = None
+        self.etiqueta_debug=""
+
+    def run(self,entrada):
         self.cola = Cola()
-        # f = open("./entrada_arrays.txt", "r")
-        # input = f.read()
-        #instrucciones contiene el arbol AST
         self.main = g.parse(entrada)
         self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos({})
         self.salida = ""
-        # analizador = Analizador(colaInstruccines,main,tablasimbolos_global)
-        # analizador.procesar_main()
-        # # analizador.imprimirTabla()
-        # print(analizador.salida)
+        self.id_debug = 0
         self.procesar_main()
+
 
 #=================================================Instrucciones=================================
     def procesar_array(self,instruccion,ambito):
@@ -50,7 +53,12 @@ class Analizador():
     def procesar_print(self,instruccion) :
         resultado = self.resolver_expresion(instruccion.cadena)
         if resultado != None:
-            self.salida += ">"+str(resultado)+"\n"
+            if type(resultado) == dict:
+                self.salida +="Error sematico: No se puede imprimir un vector.\n"
+            elif ord(str(resultado)[0]) == 92:
+                self.salida += ">\n"
+            else:
+                self.salida += ">"+str(resultado)+"\n"
 
     def procesar_asignacion(self,instruccion,ambito):
         val = self.resolver_expresion(instruccion.expresionAsignacion)
@@ -341,7 +349,6 @@ class Analizador():
         cp_indices = indices.copy()
         index = self.resolver_expresion(cp_indices.pop(0))
         array = variable.valor[index]
-
         #Obtengo el valor final donde se va adjuntar
         iteracion = 1;
         for i in cp_indices:
@@ -356,6 +363,12 @@ class Analizador():
                         nuevo = {indice:{'tipo':'Asociativo','valor':None,'subindices':{}}}
                         array.update(nuevo)
                         array = array[indice]
+                else:
+                    if iteracion == len(cp_indices):
+                        array['subindices'][indice]['valor'] =valor
+                    else:
+                        array = array['subindices'][indice]
+
             iteracion += 1
 
     def validar_indice_array(self,indices,array,valor):
@@ -366,13 +379,16 @@ class Analizador():
             return False
         # print("aca",index,array.valor[index])
         # simbolo =.obtener()
+        count = len(cp_indices)
         for i in cp_indices:
             indice = self.resolver_expresion(i)
             if indice in var['subindices']:
                 valor = var['subindices'][indice]['valor']
                 if valor != None:
+                    if count == 1:
+                        return True
                     return False
-        
+            count -= 1
         return True
 
     def crear_variable(self,expresionVariable,val,ambito):
@@ -411,6 +427,15 @@ class Analizador():
             print("id:"+str(simbolo.id)+" valor:"+str(simbolo.valor),"Ambito: "+str(simbolo.declarada_en))
         print("====================================================================================")
 
+    def debugTablaPrint(self):
+        self.salida = "=======================TABLA SIMBOLOS====================\n"
+        for s in self.tablasimbolos.simbolos:
+            simbolo = self.tablasimbolos.obtener(s)
+            self.salida += "____________________________________________________"+"\n"
+            self.salida += "||id:"+str(simbolo.id)+"||valor:"+str(simbolo.valor)+"||Ambito: "+str(simbolo.declarada_en)+"||\n"
+            self.salida += "____________________________________________________"+"\n"
+        self.salida += "=========================================================\n"
+
     def procesar_main(self) :
         self.cola.agregar(self.main)
         for instruccion in self.main.instrucciones :
@@ -421,7 +446,7 @@ class Analizador():
 
         #Ejecutar instrucciones
         # print(len(cola.items))
-        self.Ejecutar()
+        # self.Ejecutar()
 
     def Ejecutar(self):
         id_actual = 0
@@ -435,6 +460,20 @@ class Analizador():
             if salto == None: id_actual +=1
             elif salto ==-1: id_actual = len(self.cola.items)
             else: id_actual = salto
+        self.imprimirTabla()
+        g.dot.view()
+    
+    def Debug(self):
+        if self.id_debug == len(self.cola.items): return False
+        instruccion = self.cola.items[self.id_debug]
+        if isinstance(instruccion,Etiqueta) or isinstance(instruccion,EtiquetaMain): 
+            self.etiqueta_debug = instruccion.nombre
+        salto =self.procesar_instruccion(instruccion,self.etiqueta_debug,self.id_debug)
+        if salto == None: self.id_debug +=1
+        elif salto ==-1: self.id_debug = len(self.cola.items)
+        else: self.id_debug = salto
+        self.debugTablaPrint()
+        return True
 
     def llenarTabla(self):
         id_actual = 0

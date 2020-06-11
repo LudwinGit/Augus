@@ -1,196 +1,145 @@
 graph {
-	1 [label="$t1"]
-	2 [label=0]
-	3 [label=nombre]
-	4 [label=Daniel]
-	5 [label=ARRAY]
-	5 -- 1
-	5 -- 2
-	5 -- 3
-	5 -- 4
-	6 [label="$t1"]
-	7 [label=0]
-	8 [label=direccion]
-	9 [label="zona 4"]
-	10 [label=ARRAY]
-	10 -- 6
-	10 -- 7
-	10 -- 8
-	10 -- 9
-	11 [label="$t1"]
-	12 [label=0]
-	13 [label=telefono]
-	14 [label=0]
-	15 [label=56457854]
-	16 [label=ARRAY]
-	16 -- 11
-	16 -- 12
-	16 -- 13
-	16 -- 14
-	16 -- 15
-	17 [label="$t1"]
-	18 [label=0]
-	19 [label=telefono]
-	20 [label=1]
-	21 [label=48457585]
-	22 [label=ARRAY]
-	22 -- 17
-	22 -- 18
-	22 -- 19
-	22 -- 20
-	22 -- 21
-	23 [label="$t1"]
-	24 [label=1]
-	25 [label=nombre]
-	26 [label=Hugo]
-	27 [label=ARRAY]
-	27 -- 23
-	27 -- 24
-	27 -- 25
-	27 -- 26
-	28 [label="$t1"]
-	29 [label=1]
-	30 [label=direccion]
-	31 [label="zona 8"]
-	32 [label=ARRAY]
-	32 -- 28
-	32 -- 29
-	32 -- 30
-	32 -- 31
-	33 [label="$t1"]
-	34 [label=1]
-	35 [label=telefono]
-	36 [label=0]
-	37 [label=24659865]
-	38 [label=ARRAY]
-	38 -- 33
-	38 -- 34
-	38 -- 35
-	38 -- 36
-	38 -- 37
-	39 [label="$t1"]
-	40 [label=2]
-	41 [label=nombre]
-	42 [label=Manuel]
-	43 [label=ARRAY]
-	43 -- 39
-	43 -- 40
-	43 -- 41
-	43 -- 42
-	44 [label="$t1"]
-	45 [label=2]
-	46 [label=direccion]
-	47 [label="zona 11"]
-	48 [label=ARRAY]
-	48 -- 44
-	48 -- 45
-	48 -- 46
-	48 -- 47
-	49 [label="$t1"]
-	50 [label=2]
-	51 [label=telefono]
-	52 [label=0]
-	53 [label=47859685]
-	54 [label=ARRAY]
-	54 -- 49
-	54 -- 50
-	54 -- 51
-	54 -- 52
-	54 -- 53
-	55 [label="$t1"]
-	56 [label=2]
-	57 [label=telefono]
-	58 [label=1]
-	59 [label=54659865]
-	60 [label=ARRAY]
-	60 -- 55
-	60 -- 56
-	60 -- 57
-	60 -- 58
-	60 -- 59
-	61 [label="$t2"]
-	62 [label=0]
-	63 -- 61
-	63 [label="="]
-	63 -- 62
-	64 [label="Etiqueta:while0"]
-	65 [label="$t2"]
-	66 [label=Variable]
-	66 -- 65
-	67 [label=2]
-	68 -- 66
-	68 [label=">"]
-	68 -- 67
-	69 [label=if]
-	69 -- 68
-	70 [label="$t2"]
-	71 [label=Variable]
-	71 -- 70
-	72 [label=nombre]
-	73 [label=ARRAY]
-	73 -- "$t1"
-	73 -- 71
-	73 -- 72
-	74 [label=print]
-	74 -- 73
-	75 [label="$t2"]
-	76 [label="$t2"]
-	77 [label=Variable]
-	77 -- 76
-	78 [label=1]
-	79 -- 77
-	79 [label="+"]
-	79 -- 78
-	80 -- 75
-	80 [label="="]
-	80 -- 79
-	81 [label=goto]
-	81 -- while0
-	82 [label="Etiqueta:end0"]
-	83 [label="$t10"]
-	84 [label=hola]
-	85 -- 83
-	85 [label="="]
-	85 -- 84
-	86 [label=5]
-	87 [label=ARRAY]
-	87 -- "$t10"
-	87 -- 86
-	88 [label=print]
-	88 -- 87
-	89 [label="$t10"]
-	90 [label="$t11"]
-	91 [label="&"]
-	91 -- 90
-	92 -- 89
-	92 [label="="]
-	92 -- 91
-	93 [label="$t10"]
-	94 [label=unset]
-	94 -- 93
-	95 [label=exit]
-	96 [label=main]
-	96 -- 5
-	96 -- 10
-	96 -- 16
-	96 -- 22
-	96 -- 27
-	96 -- 32
-	96 -- 38
-	96 -- 43
-	96 -- 48
-	96 -- 54
-	96 -- 60
-	96 -- 63
-	96 -- 64
-	96 -- 69
-	96 -- 74
-	96 -- 80
-	96 -- 81
-	96 -- 82
-	96 -- 85
-	96 -- 88
-	96 -- 92
-	96 -- 94
-	96 -- 95
+	263 [label="$t3"]
+	264 [label="array()"]
+	265 -- 263
+	265 [label="="]
+	265 -- 264
+	266 [label="$t3"]
+	267 [label=0]
+	268 [label=0]
+	269 [label=ARRAY]
+	269 -- 266
+	269 -- 267
+	269 -- 268
+	270 [label="$t3"]
+	271 [label=1]
+	272 [label=1]
+	273 [label=ARRAY]
+	273 -- 270
+	273 -- 271
+	273 -- 272
+	274 [label="$t3"]
+	275 [label=Variable]
+	275 -- 274
+	276 [label=print]
+	276 -- 275
+	277 [label=0]
+	278 [label=ARRAY]
+	278 -- "$t3"
+	278 -- 277
+	279 [label=print]
+	279 -- 278
+	280 [label="\n"]
+	281 [label=print]
+	281 -- 280
+	282 [label=1]
+	283 [label=ARRAY]
+	283 -- "$t3"
+	283 -- 282
+	284 [label=print]
+	284 -- 283
+	285 [label="\n"]
+	286 [label=print]
+	286 -- 285
+	287 [label="$t3"]
+	288 [label=1]
+	289 [label=0]
+	290 [label=10]
+	291 [label=ARRAY]
+	291 -- 287
+	291 -- 288
+	291 -- 289
+	291 -- 290
+	292 [label="$t3"]
+	293 [label=2]
+	294 [label=0]
+	295 [label=20]
+	296 [label=ARRAY]
+	296 -- 292
+	296 -- 293
+	296 -- 294
+	296 -- 295
+	297 [label=2]
+	298 [label=0]
+	299 [label=ARRAY]
+	299 -- "$t3"
+	299 -- 297
+	299 -- 298
+	300 [label=print]
+	300 -- 299
+	301 [label="\n"]
+	302 [label=print]
+	302 -- 301
+	303 [label=1]
+	304 [label=3]
+	305 [label=ARRAY]
+	305 -- "$t3"
+	305 -- 303
+	305 -- 304
+	306 [label=print]
+	306 -- 305
+	307 [label="$t3"]
+	308 [label=nombre]
+	309 [label=Carla]
+	310 [label=ARRAY]
+	310 -- 307
+	310 -- 308
+	310 -- 309
+	311 [label=nombre]
+	312 [label=ARRAY]
+	312 -- "$t3"
+	312 -- 311
+	313 [label=print]
+	313 -- 312
+	314 [label="\n"]
+	315 [label=print]
+	315 -- 314
+	316 [label="$t3"]
+	317 [label=nombre]
+	318 [label=4]
+	319 [label=o]
+	320 [label=ARRAY]
+	320 -- 316
+	320 -- 317
+	320 -- 318
+	320 -- 319
+	321 [label=nombre]
+	322 [label=ARRAY]
+	322 -- "$t3"
+	322 -- 321
+	323 [label=print]
+	323 -- 322
+	324 [label="\n"]
+	325 [label=print]
+	325 -- 324
+	326 [label="$t3"]
+	327 [label=nombre]
+	328 [label=5]
+	329 [label=s]
+	330 [label=ARRAY]
+	330 -- 326
+	330 -- 327
+	330 -- 328
+	330 -- 329
+	331 [label=main]
+	331 -- 265
+	331 -- 269
+	331 -- 273
+	331 -- 276
+	331 -- 279
+	331 -- 281
+	331 -- 284
+	331 -- 286
+	331 -- 291
+	331 -- 296
+	331 -- 300
+	331 -- 302
+	331 -- 306
+	331 -- 310
+	331 -- 313
+	331 -- 315
+	331 -- 320
+	331 -- 323
+	331 -- 325
+	331 -- 330
 }

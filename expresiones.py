@@ -119,6 +119,8 @@ class ExpresionNotBit(ExpresionBit):
 
 class ExpresionArrayDeclare():
     'Clase abstracta para declarar un nuevo array'
+    def __init__(self,id_dot):
+        self.id_dot = id_dot
 
 class ExpresionArray():
     'Clase abstracta para manejar arrays'

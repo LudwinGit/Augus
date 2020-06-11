@@ -251,8 +251,9 @@ def p_expresion_asignacion(t):
                                 |   ARRAY ABREPARENTESIS CIERRAPARENTESIS
                                 '''
     if t[1] == "array": 
-        t[0] = ExpresionArrayDeclare()
-        # dot.node(str(t[0]),str("array()"))
+        id = inc()
+        t[0] = ExpresionArrayDeclare(id)
+        dot.node(str(id),str("array()"))
     else: t[0] = t[1]
 
 def p_expresion_array(t):
@@ -422,9 +423,18 @@ def p_tipo_variable(t):
     t[0] = id 
     dot.node(str(id),str(t[1]))
 
-def p_error(t):
-    print("Error sintáctocp",t)
-    print("Error sintáctico en '%s'" % t.value)
+
+def p_error(p):
+     if p:
+          print("Syntax error at token", p.type)
+          # Just discard the token and tell the parser it's okay.
+          parser.errok()
+     else:
+          print("Syntax error at EOF")
+ 
+# def p_error(t):
+#     print("Error sintáctico",t)
+#     # print("Error sintáctico en '%s'" % t.value)
 
 def p_empty(p):
      'empty :'
@@ -441,5 +451,4 @@ dot.edge_attr.update(color="blue4")
 def parse(input) :
     dot.clear()
     resultado = parser.parse(input)
-    dot.view()
     return resultado
