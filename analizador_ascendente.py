@@ -410,22 +410,27 @@ class Analizador():
         cp_indices = indices.copy()
         index = self.resolver_expresion(cp_indices.pop(0))
         var = array.valor[index]
-        if var['valor'] != None:
-            if type(var['valor']) != str:
+        valor =var['valor']
+
+        if valor != None:
+            if type(valor) != str:
                 return False
         # print("aca",index,array.valor[index])
         # simbolo =.obtener()
         count = len(cp_indices)
         for i in cp_indices:
-            indice = self.resolver_expresion(i)
-            if indice in var['subindices']:
-                valor = var['subindices'][indice]['valor']
+            index = self.resolver_expresion(i)
+            if index in var['subindices']:
+                valor = var['subindices'][index]['valor']
                 if valor != None:
                     if type(valor) != str:
                         if count == 1:
                             return True
                     return False
             count -= 1
+
+        if len(indices) > 1 and type(index) != int and type(valor) == str:
+            return False
         return True
 
     def crear_variable(self,expresionVariable,val,ambito):
