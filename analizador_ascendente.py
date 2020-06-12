@@ -508,7 +508,7 @@ class Analizador():
             elif salto ==-1: id_actual = len(self.cola.items)
             else: id_actual = salto
         self.imprimirTabla()
-        g.dot.view()
+        # g.dot.view()
     
     def Debug(self):
         if self.id_debug == len(self.cola.items): return False

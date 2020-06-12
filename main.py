@@ -84,6 +84,9 @@ def debugControl():
     consola.delete(1.0,'end-1c')
     consola.insert("end",debugAscendente.salida)
 
+def genearAst():
+    analizadorAscendente.g.dot.view()
+
 def ejecutar():
     t = contenedorEditor.Editor().get(1.0,'end-1c')
     # t = editor.getText()
@@ -107,6 +110,7 @@ filemenu.add_command(label="Salir", command=root.quit)
 menubar.add_cascade(menu=filemenu, label="Archivo")
 
 menuReportes = Menu(menubar, tearoff=0)
+menuReportes.add_command(label="Arból AST", command=genearAst)
 menuReportes.add_command(label="Errores", command=createNewWindow)
 menuReportes.add_separator()
 menubar.add_cascade(menu=menuReportes, label="Reportes")
