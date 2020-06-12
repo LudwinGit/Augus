@@ -48,10 +48,9 @@ class Analizador():
         self.salida +="==============================FIN DEL PROGRAMA==============================\n"
         return -1
 
-    def procesar_read(self,instruccion):
-        val = inputmessage("ingrese valor") 
-        # val = print("simula")
-        # crear_variable(instruccion.id,val,tablasimbolos)
+    def procesar_read(self,instruccion,ambito):
+        valor = instruccion.ingresar()
+        self.crear_variable(instruccion.id,valor,ambito)
 
     def procesar_unset(self,instruccion):
         simbolo = self.tablasimbolos.obtener(instruccion.variable.valor)
@@ -540,7 +539,7 @@ class Analizador():
         if isinstance(instruccion, Print)       : self.procesar_print(instruccion)
         elif isinstance(instruccion,Asignacion) : self.procesar_asignacion(instruccion,ambito)
         elif isinstance(instruccion,Unset)      : self.procesar_unset(instruccion)
-        elif isinstance(instruccion,Read)       : self.procesar_read(instruccion)
+        elif isinstance(instruccion,Read)       : self.procesar_read(instruccion,ambito)
         elif isinstance(instruccion,Exit)       : return self.procesar_exit(instruccion)
         elif isinstance(instruccion,Array)      : self.procesar_array(instruccion,ambito)
         elif isinstance(instruccion,Etiqueta)   : self.procesar_etiqueta(instruccion,'main',index)

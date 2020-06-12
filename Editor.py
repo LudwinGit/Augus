@@ -55,6 +55,7 @@ class ContenedorEditor(tk.Frame):
         self.vsb = tk.Scrollbar(orient="vertical", command=self.text.yview)
         self.text.configure(yscrollcommand=self.vsb.set)
         self.text.tag_configure("bigfont", font=("Helvetica", "24", "bold"))
+        # self.text.config(font=("Consolas",12))
         self.linenumbers = TextLineNumbers(self, width=30)
         self.linenumbers.attach(self.text)
 
@@ -66,7 +67,7 @@ class ContenedorEditor(tk.Frame):
         self.text.bind("<Configure>", self._on_change)
 
         # self.text.insert("end", "one\ntwo\nthree\n")
-        # self.text.insert("end", "four\n",("bigfont",))
+        # self.text.insert("end", "main\n",("bigfont",))
         # self.text.insert("end", "five\n")
 
     def _on_change(self, event):

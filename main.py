@@ -123,16 +123,8 @@ bold_btn.pack(side="left")
 bold_btn = Button(toolbar, text="Siguiente",command=debugControl)
 bold_btn.pack(side="left")
 
-# Caja de texto central
-# texto = Text(root,bg="#fff")
-# texto.pack(side="left", fill="both", expand=1)
-# texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
-# editor = Editor(root,height=300,bg="gray")
-# editor.pack(fill="both",side="top",expand=True)
 contenedorEditor = ContenedorEditor(root,bg="#fff")
 contenedorEditor.pack(side="left", fill="both", expand=1)
-# editor.config(bd=0, padx=6, pady=4, font=("Consolas",12))
-
 
 #Mensaje
 mensaje = StringVar()

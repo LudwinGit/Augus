@@ -202,6 +202,8 @@ def p_instruccion_read(t):
     'read_instruccion   :   variable IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'
     id = inc()
     t[0] = Read(t[1],id)
+    dot.node(str(id),str(t[3]))
+    dot.edge(str(id),str(t[1].id_dot))
 
 def p_instruccion_print(t):
     'print_instruccion : PRINT ABREPARENTESIS expresion_print CIERRAPARENTESIS PUNTOCOMA'

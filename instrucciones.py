@@ -20,7 +20,12 @@ class Unset(Instruccion):
 class Read(Instruccion):
     def __init__(self,id,id_dot):
         self.id = id
-        self.id = id_dot
+        self.id_dot = id_dot
+        self.valor=0
+
+    def ingresar(self):
+        self.valor = input('>')
+        return self.valor
 
 class Exit(Instruccion):
     '''Clase para la instruccion Exit'''
