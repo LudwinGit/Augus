@@ -3,15 +3,30 @@ from tkinter import *
 from tkinter import filedialog as FileDialog
 from io import open
 from graphviz import Graph
+from Editor import * 
 
 ruta = "" # La utilizaremos para almacenar la ruta del fichero
+
+#=======================================================VENTANAS
+def createNewWindow():
+    newWindow = Toplevel(root)
+    newWindow.title("REPORTE DE ERRORES")
+    texto = Text(newWindow,bg="#fff")
+    texto.pack(side="left", fill="both", expand=1)
+    texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
+    texto.delete(1.0,'end')
+    # print()
+    for index in analizadorAscendente.g.errores.errores:
+        error = analizadorAscendente.g.errores.errores[index]
+        text = "||"+error.tipo+"||"+error.descripcion+"||"+str(error.linea)+"\n"
+        texto.insert('end', text)
 
 def nuevo():
     global ruta
     mensaje.set("Nuevo fichero")
     ruta = ""
-    texto.delete(1.0, "end")
-    root.title("Mi editor")
+    contenedorEditor.Editor().delete(1.0, "end")
+    root.title("EDITOR")
 
 def abrir():
     global ruta
@@ -24,56 +39,16 @@ def abrir():
     if ruta != "":
         fichero = open(ruta, 'r')
         contenido = fichero.read()
-        texto.delete(1.0,'end')
-        texto.insert('insert', contenido)
+        contenedorEditor.Editor().delete(1.0,'end')
+        contenedorEditor.Editor().insert('insert',contenido)
         fichero.close()
         root.title(ruta + " - Mi editor")
-    colorearTexto()
-
-def colorearTexto():
-    texto.tag_add("BOLD", "1.0", "end-1c")        
-    t = texto.get(1.0,'end-1c')
-    consola.delete(1.0,'end-1c')
-    lineas = t.split('\n')
-
-    reservadas = ['main','goto' ,'unset','print','read' ,'exit' ,'int'  ,'float','char' ,'abs',
-                    'array','if'   ]
-
-    palabra = ""
-    l =0
-    for linea in lineas:
-        l += 1
-        columna = 0
-        linea = linea+" " #Agregamos un espacio para que reconozca la ultima palabra si no hay salto
-        while columna < len(linea):
-            if 96 < ord(linea[columna]) < 123 :
-                palabra+=linea[columna]
-            elif ord(linea[columna]) == 35:
-                index1 = str(l)+"."+str(columna)
-                index2 = str(l)+"."+str(len(linea))
-                texto.tag_add("comentario", index1, index2)
-                texto.tag_config("comentario", foreground="#849699")
-                palabra =""
-                columna = len(linea)
-            elif ord(linea[columna]) == 36:
-                index1 = str(l)+"."+str(columna)
-                index2 = str(l)+"."+str(columna+1)
-                texto.tag_add("variable", index1, index2)
-                texto.tag_config("variable", foreground="#F00019")
-            else:
-                if palabra in reservadas:
-                    index1 = str(l)+"."+str(columna-len(palabra))
-                    index2 = str(l)+"."+str(columna)
-                    texto.tag_add("reservada", index1, index2)
-                    # texto.tag_config("reservada", background="#696962", foreground="#01087C")
-                    texto.tag_config("reservada", foreground="#003B74")
-                palabra = ""
-            columna += 1
+    contenedorEditor.colorearTexto()
 
 def guardar():
     mensaje.set("Guardar fichero")
     if ruta != "":
-        contenido = texto.get(1.0,'end-1c')
+        contenido = contenedorEditor.Editor().get(1.0,'end-1c')
         fichero = open(ruta, 'w+')
         fichero.write(contenido)
         fichero.close()
@@ -90,7 +65,7 @@ def guardar_como():
 
     if fichero is not None:
         ruta = fichero.name
-        contenido = texto.get(1.0,'end-1c')
+        contenido = contenedorEditor.Editor().get(1.0,'end-1c')
         fichero = open(ruta, 'w+')
         fichero.write(contenido)
         fichero.close()
@@ -100,7 +75,7 @@ def guardar_como():
         ruta = ""
 
 def debugAsc():
-    t = texto.get(1.0,'end-1c')
+    t = contenedorEditor.Editor().get(1.0,'end-1c')
     debugAscendente.run(t)
     debugAscendente.Debug()
 
@@ -110,12 +85,12 @@ def debugControl():
     consola.insert("end",debugAscendente.salida)
 
 def ejecutar():
-    t = texto.get(1.0,'end-1c')
-    analizador = Analizador()
-    analizador.run(t)
-    analizador.Ejecutar()
+    t = contenedorEditor.Editor().get(1.0,'end-1c')
+    # t = editor.getText()
+    analizadorAscendente.run(t)
+    analizadorAscendente.Ejecutar()
     consola.delete(1.0,'end-1c')
-    consola.insert("end",analizador.salida)
+    consola.insert("end",analizadorAscendente.salida)
 # Configuración de la raíz
 root = Tk()
 root.title("Mi editor")
@@ -131,6 +106,11 @@ filemenu.add_separator()
 filemenu.add_command(label="Salir", command=root.quit)
 menubar.add_cascade(menu=filemenu, label="Archivo")
 
+menuReportes = Menu(menubar, tearoff=0)
+menuReportes.add_command(label="Errores", command=createNewWindow)
+menuReportes.add_separator()
+menubar.add_cascade(menu=menuReportes, label="Reportes")
+
 toolbar = Frame(root, bg="#fff")
 toolbar.pack(side="top", fill="x")
 
@@ -144,9 +124,14 @@ bold_btn = Button(toolbar, text="Siguiente",command=debugControl)
 bold_btn.pack(side="left")
 
 # Caja de texto central
-texto = Text(root,bg="#fff")
-texto.pack(side="left", fill="both", expand=1)
-texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
+# texto = Text(root,bg="#fff")
+# texto.pack(side="left", fill="both", expand=1)
+# texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
+# editor = Editor(root,height=300,bg="gray")
+# editor.pack(fill="both",side="top",expand=True)
+contenedorEditor = ContenedorEditor(root,bg="#fff")
+contenedorEditor.pack(side="left", fill="both", expand=1)
+# editor.config(bd=0, padx=6, pady=4, font=("Consolas",12))
 
 
 #Mensaje
@@ -157,6 +142,7 @@ consola = Text(root,bg="#003B74",fg="#fff")
 consola.pack(side="right",fill="both")
 #Debug ascendente
 debugAscendente = Analizador()
+analizadorAscendente = Analizador()
 root.config(menu=menubar)
 # Finalmente bucle de la apliación
 root.mainloop()

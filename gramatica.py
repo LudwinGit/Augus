@@ -1,4 +1,5 @@
 from graphviz import Graph
+from errores import *
 
 i=0
 
@@ -122,7 +123,9 @@ def t_newline(t):
     t.lexer.lineno += t.value.count("\n")
     
 def t_error(t):
-    print("Caracter no reconocido '%s'" % t.value[0])
+    # print("Caracter no reconocido '%s'" % t.value[0])
+    error = Error("LEXICO","Caracter no reconocido '%s'" % t.value[0],t.lexer.lineno)
+    errores.agregar(error)
     t.lexer.skip(1)
 
 # Construyendo el analizador léxico
@@ -257,11 +260,11 @@ def p_expresion_asignacion(t):
     else: t[0] = t[1]
 
 def p_expresion_array(t):
-    'expresion_array            :   TEMPORAL indices'
+    'expresion_array            :   variable indices'
     id = inc()
     t[0] = ExpresionArray(t[1],t[2],id)
     dot.node(str(id),str("ARRAY"))
-    dot.edge(str(id),str(t[1]))
+    dot.edge(str(id),str(t[1].id_dot))
     for item in t[2]:
         dot.edge(str(id),str(item.id_dot))
 
@@ -378,7 +381,7 @@ def p_expresion_cadena(t):
 def p_expresion_puntero(t):
     '''expresion_puntero  :   AMPERSAN variable'''
     id = inc()
-    t[0] = ExpresionPuntero(t[-2],t[2],id)
+    t[0] = ExpresionPuntero(t[-2],t[2],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[2].id_dot))
 
@@ -410,7 +413,10 @@ def p_variable(t):
     '''variable     :   TEMPORAL
                     |   PARAMETRO
                     |   RETURN
-                    |   RA'''
+                    |   RA
+                    |   PILA
+                    |   PUNTEROPILA
+                    '''
     id = inc()
     t[0] = ExpresionVariable(t[1],id)
     dot.node(str(id),str(t[1]))
@@ -423,14 +429,15 @@ def p_tipo_variable(t):
     t[0] = id 
     dot.node(str(id),str(t[1]))
 
-
-def p_error(p):
-     if p:
-          print("Syntax error at token", p.type)
-          # Just discard the token and tell the parser it's okay.
-          parser.errok()
+def p_error(t):
+     if t:
+        error = Error("SINTACTICO","Error sintactico en: '%s'" % t.value ,t.lexer.lineno)
+        errores.agregar(error)
+        parser.errok()
      else:
-          print("Syntax error at EOF")
+          error = Error("SINTACTICO","Se esperaba el simbolo ';'",-1)
+          errores.agregar(error)
+          parser.restart()
  
 # def p_error(t):
 #     print("Error sintáctico",t)
@@ -438,6 +445,10 @@ def p_error(p):
 
 def p_empty(p):
      'empty :'
+
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    print((token.lexpos - line_start) + 1)
 
 import ply.yacc as yacc
 parser = yacc.yacc()
@@ -447,8 +458,14 @@ dot = Graph()
 dot.attr(splines="false")
 dot.node_attr.update(shape='circle')
 dot.edge_attr.update(color="blue4")
+input = ""
 
-def parse(input) :
+errores = Errores()
+
+def parse(i) :
     dot.clear()
-    resultado = parser.parse(input)
+    input = i
+    errores.errores.clear()
+    errores.id = 1
+    resultado = parser.parse(i)
     return resultado

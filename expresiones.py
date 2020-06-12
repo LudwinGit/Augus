@@ -68,10 +68,11 @@ class ExpresionComilla(ExpresionCadena) :
         self.id_dot = id_dot
 
 class ExpresionPuntero():
-    def __init__(self,variable,puntero,id_dot):
+    def __init__(self,variable,puntero,id_dot,linea):
         self.variable = variable
         self.puntero = puntero
         self.id_dot = id_dot
+        self.linea = linea
 
 class ExpresionVariable():
     def __init__(self,valor,id_dot):

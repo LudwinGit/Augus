@@ -1,3 +1,4 @@
+from errores import *
 import gramatica as g
 import tablasimbolos as TABLASIMBOLOS
 from expresiones import *
@@ -13,9 +14,11 @@ class Analizador():
         self.id_debug = 0
         self.ast = None
         self.etiqueta_debug=""
+        self.g = g
 
     def run(self,entrada):
         self.cola = Cola()
+        self.g.errores.errores.clear()
         self.main = g.parse(entrada)
         self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos({})
         self.salida = ""
@@ -46,7 +49,8 @@ class Analizador():
         return -1
 
     def procesar_read(self,instruccion):
-        val = print("simula")
+        val = inputmessage("ingrese valor") 
+        # val = print("simula")
         # crear_variable(instruccion.id,val,tablasimbolos)
 
     def procesar_unset(self,instruccion):
@@ -63,9 +67,9 @@ class Analizador():
             if type(resultado) == dict:
                 self.salida +="Error sematico: No se puede imprimir un vector.\n"
             elif ord(str(resultado)[0]) == 92:
-                self.salida += ">\n"
+                self.salida += "\n"
             else:
-                self.salida += ">"+str(resultado)+"\n"
+                self.salida += str(resultado)
 
     def procesar_asignacion(self,instruccion,ambito):
         val = self.resolver_expresion(instruccion.expresionAsignacion)
@@ -116,7 +120,7 @@ class Analizador():
         return None
 
     def resolver_array(self,expresion):
-        variable = self.tablasimbolos.obtener(expresion.variable)
+        variable = self.tablasimbolos.obtener(expresion.variable.valor)
         if variable == None: return None
         indices = expresion.indices.copy()
         if variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
@@ -244,7 +248,9 @@ class Analizador():
     def resolver_puntero(self,expresion):
         simboloPuntero = self.tablasimbolos.obtener(expresion.puntero.valor)
         if(simboloPuntero == None):
-            self.salida += "Error semantico: la variable \'"+expresion.puntero.valor+"\' no esta definida\n"
+            # self.salida += "Error semantico: la variable \'"+expresion.puntero.valor+"\' no esta definida\n"
+            error = Error("SEMANTICO","la variable \'"+expresion.puntero.valor+"\' no esta definida",expresion.linea)
+            self.g.errores.agregar(error)
             return None
         else: 
             self.agregar_simbolo(expresion.variable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,simboloPuntero.id)
@@ -370,7 +376,7 @@ class Analizador():
                             i -= 1
                         array['valor'] += str(valor)
                     return
-        elif array['valor'] == None and len(cp_indices) == 0:
+        elif array['valor'] != str and len(cp_indices) == 0:
             array['valor'] = valor
             return
 
@@ -413,7 +419,7 @@ class Analizador():
         valor =var['valor']
 
         if valor != None:
-            if type(valor) != str:
+            if type(valor) != str and len(cp_indices)>0:
                 return False
         # print("aca",index,array.valor[index])
         # simbolo =.obtener()
