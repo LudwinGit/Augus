@@ -112,6 +112,7 @@ menubar.add_cascade(menu=filemenu, label="Archivo")
 menuReportes = Menu(menubar, tearoff=0)
 menuReportes.add_command(label="Arból AST", command=genearAst)
 menuReportes.add_command(label="Errores", command=createNewWindow)
+menuReportes.add_command(label="Tabla simbolos", command=createNewWindow)
 menuReportes.add_separator()
 menubar.add_cascade(menu=menuReportes, label="Reportes")
 

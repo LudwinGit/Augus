@@ -71,7 +71,7 @@ class Analizador():
                 self.salida += str(resultado)
 
     def procesar_asignacion(self,instruccion,ambito):
-        val = self.resolver_expresion(instruccion.expresionAsignacion)
+        val = self.resolver_expresion(instruccion.expresionAsignacion,ambito)
         if val != None:
             self.crear_variable(instruccion.expresionVariable,val,ambito)
 
@@ -97,13 +97,13 @@ class Analizador():
         return None
 
 #=================================================Expresiones====================================
-    def resolver_expresion(self,expresion):
+    def resolver_expresion(self,expresion,ambito=""):
         if isinstance(expresion,ExpresionNumerica):
             return self.resolver_numerica(expresion)
         elif isinstance(expresion,ExpresionCadena):
             return self.resolver_cadena(expresion)
         elif isinstance(expresion,ExpresionPuntero):
-            return self.resolver_puntero(expresion)
+            return self.resolver_puntero(expresion,ambito)
         elif isinstance(expresion,ExpresionLogica):
             return self.resolver_logica(expresion)
         elif isinstance(expresion,ExpresionCasteo):
@@ -244,7 +244,7 @@ class Analizador():
                 valor = valor[0]
         return valor
 
-    def resolver_puntero(self,expresion):
+    def resolver_puntero(self,expresion,ambito=""):
         simboloPuntero = self.tablasimbolos.obtener(expresion.puntero.valor)
         if(simboloPuntero == None):
             # self.salida += "Error semantico: la variable \'"+expresion.puntero.valor+"\' no esta definida\n"
@@ -252,7 +252,7 @@ class Analizador():
             self.g.errores.agregar(error)
             return None
         else: 
-            self.agregar_simbolo(expresion.variable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,simboloPuntero.id)
+            self.agregar_simbolo(expresion.variable.valor,TABLASIMBOLOS.TIPO_DATO.STRING,simboloPuntero.valor,ambito,simboloPuntero.id)
             return simboloPuntero.valor
 
     def resolver_cadena(self,expresion) :
@@ -508,6 +508,7 @@ class Analizador():
             elif salto ==-1: id_actual = len(self.cola.items)
             else: id_actual = salto
         self.imprimirTabla()
+        print(g.repgramatical)
         # g.dot.view()
     
     def Debug(self):

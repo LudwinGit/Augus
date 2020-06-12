@@ -7,6 +7,10 @@ def inc():
     global i
     i += 1
     return i
+
+def addGramatical(sentencia):
+    global repgramatical
+    repgramatical += str(sentencia)
 #
 # Ludwin Romario Burrión Imuchac
 # 01-06-2020
@@ -145,6 +149,7 @@ from expresiones import *
 
 def p_main(t):
     'main   :  MAIN DOSPUNTOS instrucciones'
+    addGramatical("S -> MAIN Instrucciones\n")
     id = inc()
     t[0] = EtiquetaMain('main',t[3],id)
     dot.node(str(id),str(t[1]))
@@ -153,11 +158,13 @@ def p_main(t):
 
 def p_instrucciones_listado(t):
     '''instrucciones    :   instrucciones   instruccion'''
+    addGramatical("Instrucciones -> Instrucciones Instruccion\n")
     t[1].append(t[2])
     t[0] = t[1]
 
 def p_instrucciones_instruccion(t):
     '''instrucciones      :   instruccion'''
+    addGramatical("Instrucciones -> Instruccion\n")
     t[0] = [t[1]]
 
 def p_instruccion(t):
@@ -171,6 +178,8 @@ def p_instruccion(t):
                     |   if_instruccion
                     '''
     t[0] = t[1]
+    if isinstance(t[1],Asignacion):addGramatical("Instruccion -> asignacion_instruccion\n")
+    elif isinstance(t[1],Print):addGramatical("Instruccion -> print_instruccion\n")
 
 def p_if_instruccion(t):
     'if_instruccion         :   IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA'
@@ -463,6 +472,7 @@ dot.edge_attr.update(color="blue4")
 input = ""
 
 errores = Errores()
+repgramatical = ""
 
 def parse(i) :
     dot.clear()
