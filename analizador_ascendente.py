@@ -58,7 +58,7 @@ class Analizador():
             self.salida +="Error sematico:La variable: \'"+str(instruccion.variable.valor)+"\' no esta definida \n"
         else:
             self.tablasimbolos.eliminar(simbolo)
-            self.salida +=">Variable eliminada \n"
+            self.salida +="\n>Variable eliminada \n"
 
     def procesar_print(self,instruccion) :
         resultado = self.resolver_expresion(instruccion.cadena)
@@ -66,9 +66,9 @@ class Analizador():
             if type(resultado) == dict:
                 self.salida +="Error sematico: No se puede imprimir un vector.\n"
             elif ord(str(resultado)[0]) == 92:
-                self.salida += "\n"
+                self.salida += ">\n"
             else:
-                self.salida += str(resultado)
+                self.salida += ">"+str(resultado)
 
     def procesar_asignacion(self,instruccion,ambito):
         val = self.resolver_expresion(instruccion.expresionAsignacion,ambito)
