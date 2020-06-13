@@ -267,7 +267,11 @@ class Analizador():
         if isinstance(expresion,ExpresionNumero):
             return expresion.valor
         elif isinstance(expresion,ExpresionNegativo):
-            return self.resolver_numerica(expresion.expresion) * -1
+            valor= self.resolver_numerica(expresion.expresion)
+            if type(valor) == int or type(valor)==float:
+                return valor * -1
+            self.salida += "Error semantico: Negativo a un tipo diferente de número.\n"
+            return None
         elif isinstance(expresion,ExpresionIdentificador):
             if(self.tablasimbolos.obtener(expresion.variable.valor)==None):
                 self.salida += "Error semantico: la variable \'"+expresion.variable.valor+"\' no esta definida.\n"
@@ -288,6 +292,8 @@ class Analizador():
             if expresion.operador == OPERACION_ARITMETICA.RESIDUO : return exp1 / exp2
         elif isinstance(expresion,ExpresionAbsoluto):
             return abs(self.resolver_numerica(expresion.expresion))
+        else:
+            return None
 
     def resolver_logica(self,expresion):
         if isinstance(expresion,ExpresionNot):
