@@ -127,14 +127,27 @@ class Analizador():
             array = {}
             
             if raiz in variable.valor: array = variable.valor[raiz];
-            else: return None
-
+            else: 
+                self.salida += "Error sematico: El indice \'"+str(raiz)+"\' no existe en la variable: "+str(variable.id) + "\n"
+                return None
+            count = len(indices)
             for i in indices:
+                count -=1
                 index = self.resolver_expresion(i)
                 if index in array['subindices']: array = array['subindices'][index]
                 else: 
-                    self.salida += "Error sematico: El indice \'"+str(index)+"\' no existe en la variable: "+str(variable.id) + "\n"
-                    return None
+                    if type(array['valor']) ==str:
+                        if count>0:
+                            self.salida += "Error sematico: índice de la cadena fuera de rango \'"+str(array['valor'])+"\'"+ "\n"
+                            return None
+                        try:
+                            return array['valor'][index]
+                        except IndexError:
+                            self.salida += "Error sematico: índice de la cadena fuera de rango \'"+str(array['valor'])+"\'"+ "\n"
+                        return None
+                    else:
+                        self.salida += "Error sematico: El indice \'"+str(index)+"\' no existe en la variable: "+str(variable.id) + "\n"
+                        return None
             return array['valor']
         elif variable.tipo == (TABLASIMBOLOS.TIPO_DATO.STRING or TABLASIMBOLOS.TIPO_DATO.CHAR):
             if len(expresion.indices)>1 :
