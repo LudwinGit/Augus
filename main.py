@@ -21,6 +21,19 @@ def createNewWindow():
         text = "||"+error.tipo+"||"+error.descripcion+"||"+str(error.linea)+"\n"
         texto.insert('end', text)
 
+def windowGramatica():
+    newWindow = Toplevel(root)
+    newWindow.title("REPORTE GRAMATICAL")
+    texto = Text(newWindow,bg="#fff")
+    texto.pack(side="left", fill="both", expand=1)
+    texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
+    texto.delete(1.0,'end')
+    # print()
+    for index in reversed(analizadorAscendente.g.repgramatical):
+        produccion = analizadorAscendente.g.repgramatical[index]
+        text = produccion+"\n"
+        texto.insert('end', text)
+
 def nuevo():
     global ruta
     mensaje.set("Nuevo fichero")
@@ -113,6 +126,7 @@ menuReportes = Menu(menubar, tearoff=0)
 menuReportes.add_command(label="Arból AST", command=genearAst)
 menuReportes.add_command(label="Errores", command=createNewWindow)
 menuReportes.add_command(label="Tabla simbolos", command=createNewWindow)
+menuReportes.add_command(label="Gramatica",command=windowGramatica)
 menuReportes.add_separator()
 menubar.add_cascade(menu=menuReportes, label="Reportes")
 
