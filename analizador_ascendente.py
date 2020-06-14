@@ -55,7 +55,8 @@ class Analizador():
     def procesar_unset(self,instruccion):
         simbolo = self.tablasimbolos.obtener(instruccion.variable.valor)
         if(simbolo==None):
-            self.salida +="Error sematico:La variable: \'"+str(instruccion.variable.valor)+"\' no esta definida \n"
+            error = Error("SEMANTICO","La variable: \'"+str(instruccion.variable.valor)+"\' no esta definida",instruccion.linea)
+            self.g.errores.agregar(error)
         else:
             self.tablasimbolos.eliminar(simbolo)
             self.salida +="\n>Variable eliminada \n"
@@ -64,11 +65,12 @@ class Analizador():
         resultado = self.resolver_expresion(instruccion.cadena)
         if resultado != None:
             if type(resultado) == dict:
-                self.salida +="Error sematico: No se puede imprimir un vector.\n"
+                error = Error("SEMANTICO","No se puede imprimir un vector",instruccion.linea)
+                self.g.errores.agregar(error)
             elif ord(str(resultado)[0]) == 92:
-                self.salida += ">\n"
+                self.salida += "\n"
             else:
-                self.salida += ">"+str(resultado)
+                self.salida += str(resultado)
 
     def procesar_asignacion(self,instruccion,ambito):
         val = self.resolver_expresion(instruccion.expresionAsignacion,ambito)
@@ -128,7 +130,8 @@ class Analizador():
             
             if raiz in variable.valor: array = variable.valor[raiz];
             else: 
-                self.salida += "Error sematico: El indice \'"+str(raiz)+"\' no existe en la variable: "+str(variable.id) + "\n"
+                error = Error("SEMANTICO","El indice \'"+str(raiz)+"\' no existe en la variable: "+str(variable.id),expresion.linea)
+                self.g.errores.agregar(error)
                 return None
             count = len(indices)
             for i in indices:
@@ -138,26 +141,31 @@ class Analizador():
                 else: 
                     if type(array['valor']) ==str:
                         if count>0:
-                            self.salida += "Error sematico: índice de la cadena fuera de rango \'"+str(array['valor'])+"\'"+ "\n"
+                            error = Error("SEMANTICO","índice de la cadena fuera de rango \'"+str(array['valor'])+"\'",expresion.linea)
+                            self.g.errores.agregar(error)
                             return None
                         try:
                             return array['valor'][index]
                         except IndexError:
-                            self.salida += "Error sematico: índice de la cadena fuera de rango \'"+str(array['valor'])+"\'"+ "\n"
+                            error = Error("SEMANTICO","índice de la cadena fuera de rango \'"+str(array['valor'])+"\'",expresion.linea)
+                            self.g.errores.agregar(error)
                         return None
                     else:
-                        self.salida += "Error sematico: El indice \'"+str(index)+"\' no existe en la variable: "+str(variable.id) + "\n"
+                        error = Error("SEMANTICO","El indice \'"+str(index)+"\' no existe en la variable: "+str(variable.id),expresion.linea)
+                        self.g.errores.agregar(error)
                         return None
             return array['valor']
         elif variable.tipo == (TABLASIMBOLOS.TIPO_DATO.STRING or TABLASIMBOLOS.TIPO_DATO.CHAR):
             if len(expresion.indices)>1 :
-                self.salida += "Error sematico: índice de la cadena fuera de rango \'"+str(variable.id)+"\'"+ "\n"
+                error = Error("SEMANTICO","índice de la cadena fuera de rango \'"+str(variable.id)+"\'",expresion.linea)
+                self.g.errores.agregar(error)
                 return None
             try:
                 indice = self.resolver_expresion(indices.pop(0))
                 return variable.valor[indice]
             except IndexError:
-                self.salida += "Error sematico: índice de la cadena fuera de rango \'"+str(variable.id)+"\'"+ "\n"
+                error = Error("SEMANTICO","índice de la cadena fuera de rango \'"+str(variable.id)+"\'",expresion.linea)
+                self.g.errores.agregar(error)
 
         return None
 
@@ -168,18 +176,21 @@ class Analizador():
                 valor = self.resolver_numerica(expresion.expresionNum)
                 if type(valor) == int:
                     return ~valor
-            self.salida += "Error sematico: No se puede realizar la operación ~ a un tipo diferente de numero entero\n"
+            error = Error("SEMANTICO","No se puede realizar la operación ~ a un tipo diferente de numero entero",expresion.linea)
+            self.g.errores.agregar(error)
             return None
         
         valor1 = self.resolver_numerica(expresion.expresionNum1)
         valor2 = self.resolver_numerica(expresion.expresionNum2)
 
         if type(valor1) != int or type(valor2) != int:
-            self.salida += "Error sematico: No se puede realizar operaciones bit a un tipo diferente de numero entero\n"
+            error = Error("SEMANTICO","No se puede realizar operaciones bit a un tipo diferente de numero entero",expresion.linea)
+            self.g.errores.agregar(error)
             return None
         
         if valor1 < 0 or valor2 < 0:
-            self.salida += "Error sematico: No se puede realizar operaciones bit a un numero negativo\n"
+            error = Error("SEMANTICO","No se puede realizar operaciones bit a un numero negativo",expresion.linea)
+            self.g.errores.agregar(error)
             return None
         
         if expresion.operador == OPERACION_BIT.AND:
@@ -260,7 +271,6 @@ class Analizador():
     def resolver_puntero(self,expresion,ambito=""):
         simboloPuntero = self.tablasimbolos.obtener(expresion.puntero.valor)
         if(simboloPuntero == None):
-            # self.salida += "Error semantico: la variable \'"+expresion.puntero.valor+"\' no esta definida\n"
             error = Error("SEMANTICO","la variable \'"+expresion.puntero.valor+"\' no esta definida",expresion.linea)
             self.g.errores.agregar(error)
             return None
@@ -274,7 +284,8 @@ class Analizador():
         elif isinstance(expresion, ExpresionNumerica) :
             return self.resolver_numerica(expresion)
         else :
-            self.salida += "Error semantico: Expresión cadena no válida\n"
+            error = Error("SEMANTICO","Expresión cadena no válida",expresion.linea)
+            self.g.errores.agregar(error)
 
     def resolver_numerica(self,expresion):
         if isinstance(expresion,ExpresionNumero):
@@ -283,11 +294,13 @@ class Analizador():
             valor= self.resolver_numerica(expresion.expresion)
             if type(valor) == int or type(valor)==float:
                 return valor * -1
-            self.salida += "Error semantico: Negativo a un tipo diferente de número.\n"
+            error = Error("SEMANTICO","Negativo a un tipo diferente de número",expresion.linea)
+            self.g.errores.agregar(error)
             return None
         elif isinstance(expresion,ExpresionIdentificador):
             if(self.tablasimbolos.obtener(expresion.variable.valor)==None):
-                self.salida += "Error semantico: la variable \'"+expresion.variable.valor+"\' no esta definida.\n"
+                error = Error("SEMANTICO","la variable \'"+expresion.variable.valor+"\' no esta definida",expresion.linea)
+                self.g.errores.agregar(error)
                 return None
             else:
                 return self.tablasimbolos.obtener(expresion.variable.valor).valor
@@ -296,7 +309,8 @@ class Analizador():
             exp2 = self.resolver_numerica(expresion.exp2)
             if type(exp1)==str and type(exp2)==str and expresion.operador == OPERACION_ARITMETICA.MAS: return (str(exp1)+str(exp2))
             if type(exp1)==str or type(exp2)==str: 
-                self.salida += "Error semantico: No se puede realizar la operación aritmetica entre una cadena y un numero.\n"
+                error = Error("SEMANTICO","No se puede realizar la operación aritmetica entre una cadena y un numero",expresion.linea)
+                self.g.errores.agregar(error)
                 return None
             if expresion.operador == OPERACION_ARITMETICA.MAS : return exp1 + exp2
             if expresion.operador == OPERACION_ARITMETICA.MENOS : return exp1 - exp2
@@ -316,7 +330,8 @@ class Analizador():
             elif resultado == 1:
                 return 0
             else:
-                self.salida += "Error semantico: los valores aceptados para el NOT son 1 y 0\n"
+                error = Error("SEMANTICO","Los valores aceptados para el NOT son 1 y 0",expresion.linea)
+                self.g.errores.agregar(error)
                 return None
         else:
             expresion1 = self.resolver_numerica(expresion.expresion1)
@@ -326,10 +341,12 @@ class Analizador():
                 return None
 
             if str(expresion1) != "0" and str(expresion1) != "1":
-                self.salida += "Error semantico: los valores permitidos para la operaciones logicas son 1 y 0\n"
+                error = Error("SEMANTICO","Los valores permitidos para la operaciones logicas son 1 y 0",expresion.linea)
+                self.g.errores.agregar(error)
                 return None
             if str(expresion2) != "0" and str(expresion2) != "1":
-                self.salida += "Error semantico: los valores permitidos para la operaciones logicas son 1 y 0\n"
+                error = Error("SEMANTICO","Los valores permitidos para la operaciones logicas son 1 y 0",expresion.linea)
+                self.g.errores.agregar(error)
                 return None
 
             if expresion.operador == "&&":
@@ -365,7 +382,8 @@ class Analizador():
             indice_raiz = self.resolver_expresion(indices[0])
             if indice_raiz in variable.valor:
                 if not self.validar_indice_array(indices,variable,valor):
-                    self.salida += "Error semantico: no se puede usar un valor escalar como una matriz.\n"
+                    error = Error("SEMANTICO","No se puede usar un valor escalar como una matriz",None)
+                    self.g.errores.agregar(error)
                     return {}
                 #se elimina todo el indice y se crea de nuevo todo lo que tiene, 
                 #agregando lo nuevo que viene

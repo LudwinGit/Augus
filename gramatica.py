@@ -152,7 +152,7 @@ from expresiones import *
 def p_main(t):
     'main   :  MAIN DOSPUNTOS instrucciones'
     id = inc()
-    t[0] = EtiquetaMain('main',t[3],id)
+    t[0] = EtiquetaMain('main',t[3],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     for item in t[3]:
         dot.edge(str(id),str(item.id_dot))
@@ -192,7 +192,7 @@ def p_instruccion(t):
 def p_if_instruccion(t):
     'if_instruccion         :   IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA'
     id = inc()
-    t[0] = Ifgoto(t[3],t[6],id)
+    t[0] = Ifgoto(t[3],t[6],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[3].id_dot))
     addGramatical("if_instruccion ->IF ABREPARENTESIS expresion_general CIERRAPARENTESIS GOTO LABEL PUNTOCOMA")
@@ -200,7 +200,7 @@ def p_if_instruccion(t):
 def p_goto_instruccion(t):
     '''goto_instruccion     :   GOTO LABEL PUNTOCOMA'''
     id=inc()
-    t[0] = Goto(t[2],id)
+    t[0] = Goto(t[2],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[2]))
     addGramatical("goto_instruccion ->GOTO LABEL PUNTOCOMA")
@@ -208,21 +208,21 @@ def p_goto_instruccion(t):
 def p_etiqueta_instruccion(t):
     '''etiqueta_instruccion :   LABEL DOSPUNTOS'''
     id = inc()
-    t[0] = Etiqueta(t[1],id)
+    t[0] = Etiqueta(t[1],id,t.lexer.lineno)
     dot.node(str(id),"Etiqueta:"+str(t[1]))
     addGramatical("etiqueta_instruccion -> LABEL DOSPUNTOS")
 
 def p_exit_instruccion(t):
     'exit_instruccion   :   EXIT PUNTOCOMA'
     id = inc()
-    t[0] = Exit(id)
+    t[0] = Exit(id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     addGramatical("exit_instruccion -> EXIT PUNTOCOMA")
 
 def p_instruccion_read(t):
     'read_instruccion   :   variable IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA'
     id = inc()
-    t[0] = Read(t[1],id)
+    t[0] = Read(t[1],id,t.lexer.lineno)
     dot.node(str(id),str(t[3]))
     dot.edge(str(id),str(t[1].id_dot))
     addGramatical('read_instruccion -> variable IGUAL READ ABREPARENTESIS CIERRAPARENTESIS PUNTOCOMA')
@@ -230,7 +230,7 @@ def p_instruccion_read(t):
 def p_instruccion_print(t):
     'print_instruccion : PRINT ABREPARENTESIS expresion_print CIERRAPARENTESIS PUNTOCOMA'
     id = inc()
-    t[0] = Print(t[3],id)
+    t[0] = Print(t[3],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[3].id_dot))
     addGramatical('print_instruccion -> PRINT ABREPARENTESIS expresion_print CIERRAPARENTESIS PUNTOCOMA')
@@ -244,7 +244,7 @@ def p_instruccion_asignacion(t):
     '''asignacion_instruccion   :   variable IGUAL expresion_asignacion PUNTOCOMA
                                 '''
     id = inc()
-    t[0] = Asignacion(t[1],t[3],id)
+    t[0] = Asignacion(t[1],t[3],id,t.lexer.lineno)
     dot.edge(str(id),str(t[1].id_dot))
     dot.node(str(id),str(t[2]))
     dot.edge(str(id),str(t[3].id_dot))
@@ -253,7 +253,7 @@ def p_instruccion_asignacion(t):
 def p_asignacion_array(t):
     'asignacion_instruccion     :  variable indices IGUAL expresion_asignacion PUNTOCOMA'
     id = inc()
-    t[0] = Array(t[1],t[2],t[4],id)
+    t[0] = Array(t[1],t[2],t[4],id,t.lexer.lineno)
     dot.node(str(id),"ARRAY")
     dot.edge(str(id),str(t[1].id_dot))
     for item in t[2]:
@@ -286,7 +286,7 @@ def p_expresion_asignacion(t):
                                 '''
     if t[1] == "array": 
         id = inc()
-        t[0] = ExpresionArrayDeclare(id)
+        t[0] = ExpresionArrayDeclare(id,t.lexer.lineno)
         dot.node(str(id),str("array()"))
     else: t[0] = t[1]
     
@@ -306,7 +306,7 @@ def p_expresion_asignacion(t):
 def p_expresion_array(t):
     'expresion_array            :   variable indices'
     id = inc()
-    t[0] = ExpresionArray(t[1],t[2],id)
+    t[0] = ExpresionArray(t[1],t[2],id,t.lexer.lineno)
     dot.node(str(id),str("ARRAY"))
     dot.edge(str(id),str(t[1].id_dot))
     for item in t[2]:
@@ -321,19 +321,19 @@ def p_expresion_bit(t):
                                 |   expresion_numerica  SHIFTDER   expresion_numerica'''
     id = inc()
     if t[2] == "&"  :   
-        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.AND,id)
+        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.AND,id,t.lexer.lineno)
         addGramatical('expresion_bit -> expresion_numerica  AMPERSAN expresion_numerica')
     elif t[2] == "|"  :
-        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.OR,id)
+        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.OR,id,t.lexer.lineno)
         addGramatical('expresion_bit -> expresion_numerica  ORBIT expresion_numerica')
     elif t[2] == "^"  :
-        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.XOR,id)
+        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.XOR,id,t.lexer.lineno)
         addGramatical('expresion_bit -> expresion_numerica  XORBIT expresion_numerica')
     elif t[2] == "<<"  :
-        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTIZQ,id)
+        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTIZQ,id,t.lexer.lineno)
         addGramatical('expresion_bit -> expresion_numerica  SHIFTIZQ expresion_numerica')
     elif t[2] == ">>"  :
-        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTDER,id)
+        t[0] = t[0] = ExpresionBit(t[1],t[3],OPERACION_BIT.SHIFTDER,id,t.lexer.lineno)
         addGramatical('expresion_bit -> expresion_numerica  SHIFTDER expresion_numerica')
     dot.edge(str(id),str(t[1].id_dot))
     dot.node(str(id),str(t[2]))
@@ -342,7 +342,7 @@ def p_expresion_bit(t):
 def p_expresion_not_bit(t):
     '''expresion_bit            :   NOTBIT  expresion_numerica'''
     id = inc()
-    t[0] = ExpresionNotBit(t[2],id)
+    t[0] = ExpresionNotBit(t[2],id,t.lexer.lineno)
     addGramatical('''expresion_bit -> NOTBIT  expresion_numerica''')
 
 def p_expresion_relacional(t):
@@ -355,22 +355,22 @@ def p_expresion_relacional(t):
                                 '''
     id = inc()
     if t[2]   == '==' : 
-        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.IGUAL,id)
+        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.IGUAL,id,t.lexer.lineno)
         addGramatical('expresion_relacional -> expresion_general COMPARACION expresion_general')
     elif t[2] == '!=' :
-        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.DIFERENTE,id)
+        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.DIFERENTE,id,t.lexer.lineno)
         addGramatical('expresion_relacional -> expresion_general DIFERENTE expresion_general')
     elif t[2] == '>=':
-        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR_IGUAL,id)
+        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR_IGUAL,id,t.lexer.lineno)
         addGramatical('expresion_relacional -> expresion_general MAYORIGUAL expresion_general')
     elif t[2] == '<=':
-        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR_IGUAL,id)
+        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR_IGUAL,id,t.lexer.lineno)
         addGramatical('expresion_relacional -> expresion_general MENORIGUAL expresion_general')
     elif t[2] == '>':
-        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR,id)
+        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MAYOR,id,t.lexer.lineno)
         addGramatical('expresion_relacional -> expresion_general MAYOR expresion_general')
     elif t[2] == '<':
-        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR,id)
+        t[0] = ExpresionRelacional(t[1],t[3],OPERACION_RELACIONAL.MENOR,id,t.lexer.lineno)
         addGramatical('expresion_relacional -> expresion_general MENOR expresion_general')
     dot.edge(str(id),str(t[1].id_dot))
     dot.node(str(id),str(t[2]))
@@ -394,7 +394,7 @@ def p_expresion_general(t):
 def p_expresion_casteo(t):
     '''expresion_casteo         :   ABREPARENTESIS  tipo_variable CIERRAPARENTESIS expresion_general'''
     id = inc()
-    t[0] = ExpresionCasteo(t[2],t[4],id)
+    t[0] = ExpresionCasteo(t[2],t[4],id,t.lexer.lineno)
     dot.node(str(id),str("casteo"))
     dot.edge(str(id),str(t[2]))
     dot.edge(str(id),str(t[4].id_dot))
@@ -409,19 +409,19 @@ def p_expresion_aritmetica(t):
                             '''
     id = inc()
     if t[2] == '+'  :
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS,id)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MAS,id,t.lexer.lineno)
         addGramatical("expresion_numerica -> expresion_numerica MAS expresion_numerica")
     elif t[2] == '-': 
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS,id)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MENOS,id,t.lexer.lineno)
         addGramatical("expresion_numerica -> expresion_numerica MENOS expresion_numerica")
     elif t[2] == '*': 
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MUL,id)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.MUL,id,t.lexer.lineno)
         addGramatical("expresion_numerica -> expresion_numerica MUL expresion_numerica")
     elif t[2] == '/': 
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIV,id)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.DIV,id,t.lexer.lineno)
         addGramatical("expresion_numerica -> expresion_numerica DIV expresion_numerica")
     elif t[2] == '%': 
-        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.RESIDUO,id)
+        t[0] = ExpresionBinaria(t[1], t[3], OPERACION_ARITMETICA.RESIDUO,id,t.lexer.lineno)
         addGramatical("expresion_numerica -> expresion_numerica RESIDUO expresion_numerica")
     dot.edge(str(id),str(t[1].id_dot))
     dot.node(str(id),str(t[2]))
@@ -430,7 +430,7 @@ def p_expresion_aritmetica(t):
 def p_expresion_negativo(t):
     'expresion_numerica : MENOS expresion_numerica %prec NEGATIVO'
     id = inc()
-    t[0] = ExpresionNegativo(t[2],id)
+    t[0] = ExpresionNegativo(t[2],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[2].id_dot))
     addGramatical('expresion_numerica -> MENOS expresion_numerica %prec NEGATIVO')
@@ -438,7 +438,7 @@ def p_expresion_negativo(t):
 def p_expresion_absoluto(t):
     'expresion_numerica :   ABS ABREPARENTESIS expresion_numerica CIERRAPARENTESIS %prec ABSOLUTO'
     id = inc()
-    t[0] = ExpresionAbsoluto(t[3],id)
+    t[0] = ExpresionAbsoluto(t[3],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[3].id_dot))
     addGramatical('expresion_numerica -> ABS ABREPARENTESIS expresion_numerica CIERRAPARENTESIS %prec ABSOLUTO')
@@ -447,14 +447,14 @@ def p_expresion_numero(t):
     '''expresion_numerica       :   ENTERO
                                 |   DECIMAL'''
     id = inc()
-    t[0] = ExpresionNumero(id,t[1])
+    t[0] = ExpresionNumero(id,t[1],t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     addGramatical('expresion_numerica -> ENTERO')
 
 def p_asignacion_variable(t):
     '''expresion_numerica       :   variable'''
     id = inc()
-    t[0] = ExpresionIdentificador(id,t[1])
+    t[0] = ExpresionIdentificador(id,t[1],t.lexer.lineno)
     dot.node(str(id),"Variable")
     dot.edge(str(id),str(t[1].id_dot))
     addGramatical('expresion_numerica -> variable')
@@ -463,7 +463,7 @@ def p_expresion_cadena(t):
     '''expresion_cadena         :   CADENA
                                 |   CARACTER'''
     id = inc()
-    t[0] = ExpresionComilla(t[1],id)
+    t[0] = ExpresionComilla(t[1],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     addGramatical('expresion_numerica -> CADENA')
 
@@ -480,7 +480,7 @@ def p_expresion_logica(t):
                             |   expresion_numerica OR expresion_numerica
                             |   expresion_numerica XOR expresion_numerica'''
     id = inc()
-    t[0] = ExpresionLogica(t[1],t[2],t[3],id)
+    t[0] = ExpresionLogica(t[1],t[2],t[3],id,t.lexer.lineno)
     dot.edge(str(id),str(t[1].id_dot))
     dot.node(str(id),str(t[2]))
     dot.edge(str(id),str(t[3].id_dot))
@@ -492,7 +492,7 @@ def p_expresion_logica(t):
 def p_expresion_not(t):
     '''expresion_logica     :   NOT expresion_numerica'''
     id = inc()
-    t[0] = ExpresionNot(t[2],id)
+    t[0] = ExpresionNot(t[2],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[2].id_dot))
     addGramatical('expresion_logica -> NOT expresion_numerica')
@@ -500,7 +500,7 @@ def p_expresion_not(t):
 def p_unset_instruccion(t):
     'unset_instruccion    :   UNSET ABREPARENTESIS variable CIERRAPARENTESIS PUNTOCOMA'
     id = inc()
-    t[0] = Unset(t[3],id)
+    t[0] = Unset(t[3],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     dot.edge(str(id),str(t[3].id_dot))
     addGramatical('unset_instruccion -> UNSET ABREPARENTESIS variable CIERRAPARENTESIS PUNTOCOMA')
@@ -514,7 +514,7 @@ def p_variable(t):
                     |   PUNTEROPILA
                     '''
     id = inc()
-    t[0] = ExpresionVariable(t[1],id)
+    t[0] = ExpresionVariable(t[1],id,t.lexer.lineno)
     dot.node(str(id),str(t[1]))
     addGramatical("variable -> VARIABLE")
 
