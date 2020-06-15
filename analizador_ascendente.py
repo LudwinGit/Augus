@@ -21,9 +21,11 @@ class Analizador():
     def run(self,entrada):
         self.cola = Cola()
         self.g.errores.errores.clear()
+        self.g.repgramatical = {}
         self.main = g.parse(entrada)
         self.salida = ""
         self.id_debug = 0
+        self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos({})
         self.procesar_main()
 
 
@@ -33,13 +35,13 @@ class Analizador():
         valor = self.resolver_expresion(instruccion.valor)
         if isinstance(valor,ExpresionArrayDeclare): valor = None
         if variable == None:
-            array = self.crear_indice_array(instruccion.indices,valor,None)
+            array = self.crear_indice_array(instruccion.indices,valor,variable,None,instruccion.linea)
             self.crear_variable(instruccion.variable,array,ambito)
         elif variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
             # if isinstance(valor,ExpresionArrayDeclare): 
             #     self.resetear_indice(instruccion.indices,variable)
             #     return
-            array = self.crear_indice_array(instruccion.indices,valor,variable)
+            array = self.crear_indice_array(instruccion.indices,valor,variable,None,instruccion.linea)
 
     # def resetear_indice(indices,variable):
 
@@ -367,7 +369,7 @@ class Analizador():
                 else:return 0
 
 #=================================================Funciones extras=================================
-    def crear_indice_array(self,indices,valor,variable,subindices=None):
+    def crear_indice_array(self,indices,valor,variable,subindices,linea):
         array = {}
         if variable == None:
             subindice = {}
@@ -391,7 +393,7 @@ class Analizador():
             indice_raiz = self.resolver_expresion(indices[0])
             if indice_raiz in variable.valor:
                 if not self.validar_indice_array(indices,variable,valor):
-                    error = Error("SEMANTICO","No se puede usar un valor escalar como una matriz",None)
+                    error = Error("SEMANTICO","No se puede usar un valor escalar como una matriz",linea)
                     self.g.errores.agregar(error)
                     return {}
                 #se elimina todo el indice y se crea de nuevo todo lo que tiene, 
@@ -399,7 +401,7 @@ class Analizador():
                 array = self.crear_sub_indice_array(indices,variable,valor)
             else:
                 #cuando el indice principal para el nuevo no existe
-                array = self.crear_indice_array(indices,valor,None)
+                array = self.crear_indice_array(indices,valor,None,None,linea)
                 variable.valor.update(array)
         return array
 

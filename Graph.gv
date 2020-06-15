@@ -1,749 +1,253 @@
 graph {
-	1 [label="$t1"]
-	2 [label=0]
-	3 [label=nombre]
-	4 [label=Hugo]
-	5 [label=ARRAY]
-	5 -- 1
-	5 -- 2
-	5 -- 3
-	5 -- 4
-	6 [label="$t1"]
-	7 [label=0]
-	8 [label=direccion]
-	9 [label="zona 4"]
-	10 [label=ARRAY]
-	10 -- 6
-	10 -- 7
-	10 -- 8
-	10 -- 9
-	11 [label="$t1"]
-	12 [label=0]
-	13 [label=telefono]
-	14 [label=0]
-	15 [label=56457854]
-	16 [label=ARRAY]
-	16 -- 11
-	16 -- 12
-	16 -- 13
-	16 -- 14
-	16 -- 15
-	17 [label="$t1"]
-	18 [label=0]
-	19 [label=telefono]
-	20 [label=0]
-	21 [label=45784565]
-	22 [label=ARRAY]
-	22 -- 17
-	22 -- 18
-	22 -- 19
-	22 -- 20
-	22 -- 21
-	23 [label="$t1"]
-	24 [label=1]
-	25 [label=nombre]
-	26 [label=Paco]
-	27 [label=ARRAY]
-	27 -- 23
-	27 -- 24
-	27 -- 25
-	27 -- 26
-	28 [label="$t1"]
-	29 [label=1]
-	30 [label=direccion]
-	31 [label="zona 8, villa nueva"]
-	32 [label=ARRAY]
-	32 -- 28
-	32 -- 29
-	32 -- 30
-	32 -- 31
-	33 [label="$t1"]
-	34 [label=1]
-	35 [label=telefono]
-	36 [label=0]
-	37 [label=56412854]
-	38 [label=ARRAY]
-	38 -- 33
-	38 -- 34
-	38 -- 35
-	38 -- 36
-	38 -- 37
-	39 [label="$t1"]
-	40 [label=1]
-	41 [label=telefono]
-	42 [label=0]
-	43 [label=45784125]
-	44 [label=ARRAY]
-	44 -- 39
-	44 -- 40
-	44 -- 41
-	44 -- 42
-	44 -- 43
-	45 [label="$t1"]
-	46 [label=2]
-	47 [label=nombre]
-	48 [label=Luis]
-	49 [label=ARRAY]
-	49 -- 45
-	49 -- 46
-	49 -- 47
-	49 -- 48
-	50 [label="$t1"]
-	51 [label=2]
-	52 [label=direccion]
-	53 [label="zona 1, San Jose Pinula "]
-	54 [label=ARRAY]
-	54 -- 50
-	54 -- 51
-	54 -- 52
-	54 -- 53
-	55 [label="$t1"]
-	56 [label=2]
-	57 [label=telefono]
-	58 [label=0]
-	59 [label=12412854]
-	60 [label=ARRAY]
-	60 -- 55
-	60 -- 56
-	60 -- 57
-	60 -- 58
-	60 -- 59
-	61 [label="$t1"]
-	62 [label=2]
-	63 [label=telefono]
-	64 [label=0]
-	65 [label=45784125]
-	66 [label=ARRAY]
-	66 -- 61
-	66 -- 62
-	66 -- 63
-	66 -- 64
-	66 -- 65
-	67 [label="$t1"]
-	68 [label=3]
-	69 [label=nombre]
-	70 [label="Peter Parker"]
-	71 [label=ARRAY]
-	71 -- 67
-	71 -- 68
-	71 -- 69
-	71 -- 70
-	72 [label="$t1"]
-	73 [label=3]
-	74 [label=direccion]
-	75 [label=Petapolis]
-	76 [label=ARRAY]
-	76 -- 72
-	76 -- 73
-	76 -- 74
-	76 -- 75
-	77 [label="$t1"]
-	78 [label=3]
-	79 [label=telefono]
-	80 [label=0]
-	81 [label=12412124]
-	82 [label=ARRAY]
-	82 -- 77
-	82 -- 78
-	82 -- 79
-	82 -- 80
-	82 -- 81
-	83 [label="$t1"]
-	84 [label=3]
-	85 [label=telefono]
-	86 [label=0]
-	87 [label=45124125]
-	88 [label=ARRAY]
-	88 -- 83
-	88 -- 84
-	88 -- 85
-	88 -- 86
-	88 -- 87
-	89 [label="$t2"]
-	90 [label=0]
-	91 -- 89
-	91 [label="="]
-	91 -- 90
-	92 [label="Etiqueta:while0"]
-	93 [label="$t2"]
-	94 [label=Variable]
-	94 -- 93
-	95 [label=4]
-	96 -- 94
-	96 [label=">="]
-	96 -- 95
-	97 [label=if]
-	97 -- 96
-	98 [label="$t1"]
-	99 [label="$t2"]
-	100 [label=Variable]
-	100 -- 99
-	101 [label=nombre]
-	102 [label=ARRAY]
-	102 -- 98
-	102 -- 100
-	102 -- 101
-	103 [label=print]
-	103 -- 102
-	104 [label=","]
-	105 [label=print]
-	105 -- 104
-	106 [label="$t1"]
-	107 [label="$t2"]
-	108 [label=Variable]
-	108 -- 107
-	109 [label=direccion]
-	110 [label=ARRAY]
-	110 -- 106
-	110 -- 108
-	110 -- 109
-	111 [label=print]
-	111 -- 110
-	112 [label=","]
-	113 [label=print]
-	113 -- 112
-	114 [label="$t1"]
-	115 [label="$t2"]
-	116 [label=Variable]
-	116 -- 115
-	117 [label=telefono]
-	118 [label=0]
-	119 [label=ARRAY]
-	119 -- 114
-	119 -- 116
-	119 -- 117
-	119 -- 118
-	120 [label=print]
-	120 -- 119
-	121 [label="\n"]
-	122 [label=print]
-	122 -- 121
-	123 [label="$t2"]
-	124 [label="$t2"]
-	125 [label=Variable]
-	125 -- 124
-	126 [label=1]
-	127 -- 125
-	127 [label="+"]
-	127 -- 126
-	128 -- 123
-	128 [label="="]
-	128 -- 127
-	129 [label=goto]
-	129 -- while0
-	130 [label="Etiqueta:end0"]
-	131 [label="$t3"]
-	132 [label="array()"]
-	133 -- 131
-	133 [label="="]
-	133 -- 132
-	134 [label="$t3"]
-	135 [label=0]
-	136 [label=0]
-	137 [label=ARRAY]
-	137 -- 134
-	137 -- 135
-	137 -- 136
-	138 [label="$t3"]
-	139 [label=1]
-	140 [label=1]
-	141 [label=ARRAY]
-	141 -- 138
-	141 -- 139
-	141 -- 140
-	142 [label="$t3"]
-	143 [label=Variable]
-	143 -- 142
-	144 [label=print]
-	144 -- 143
-	145 [label="$t3"]
-	146 [label=0]
-	147 [label=ARRAY]
-	147 -- 145
-	147 -- 146
-	148 [label=print]
-	148 -- 147
-	149 [label="\n"]
-	150 [label=print]
-	150 -- 149
-	151 [label="$t3"]
-	152 [label=1]
-	153 [label=ARRAY]
-	153 -- 151
-	153 -- 152
-	154 [label=print]
-	154 -- 153
-	155 [label="\n"]
-	156 [label=print]
-	156 -- 155
-	157 [label="$t3"]
-	158 [label=1]
-	159 [label=0]
-	160 [label=10]
-	161 [label=ARRAY]
-	161 -- 157
-	161 -- 158
-	161 -- 159
-	161 -- 160
-	162 [label="$t3"]
-	163 [label=2]
-	164 [label=0]
-	165 [label=20]
-	166 [label=ARRAY]
-	166 -- 162
-	166 -- 163
-	166 -- 164
-	166 -- 165
-	167 [label="$t3"]
-	168 [label=2]
-	169 [label=0]
-	170 [label=ARRAY]
-	170 -- 167
-	170 -- 168
-	170 -- 169
-	171 [label=print]
-	171 -- 170
-	172 [label="\n"]
-	173 [label=print]
-	173 -- 172
-	174 [label="$t3"]
-	175 [label=1]
-	176 [label=3]
-	177 [label=ARRAY]
-	177 -- 174
-	177 -- 175
-	177 -- 176
-	178 [label=print]
-	178 -- 177
-	179 [label="$t3"]
-	180 [label=nombre]
-	181 [label=Carla]
-	182 [label=ARRAY]
-	182 -- 179
-	182 -- 180
-	182 -- 181
-	183 [label="$t3"]
-	184 [label=nombre]
-	185 [label=ARRAY]
-	185 -- 183
-	185 -- 184
-	186 [label=print]
-	186 -- 185
-	187 [label="\n"]
-	188 [label=print]
-	188 -- 187
-	189 [label="$t3"]
-	190 [label=nombre]
-	191 [label=4]
-	192 [label=o]
-	193 [label=ARRAY]
-	193 -- 189
-	193 -- 190
-	193 -- 191
-	193 -- 192
-	194 [label="$t3"]
-	195 [label=nombre]
-	196 [label=ARRAY]
-	196 -- 194
-	196 -- 195
-	197 [label=print]
-	197 -- 196
-	198 [label="\n"]
-	199 [label=print]
-	199 -- 198
-	200 [label="$t3"]
-	201 [label=nombre]
-	202 [label=5]
-	203 [label=s]
-	204 [label=ARRAY]
-	204 -- 200
-	204 -- 201
-	204 -- 202
-	204 -- 203
-	205 [label="$t3"]
-	206 [label=nombre]
-	207 [label=ARRAY]
-	207 -- 205
-	207 -- 206
-	208 [label=print]
-	208 -- 207
-	209 [label="\n"]
-	210 [label=print]
-	210 -- 209
-	211 [label="$t3"]
-	212 [label=nombre]
-	213 [label=7]
-	214 [label=s]
-	215 [label=ARRAY]
-	215 -- 211
-	215 -- 212
-	215 -- 213
-	215 -- 214
-	216 [label="$t3"]
-	217 [label=nombre]
-	218 [label=ARRAY]
-	218 -- 216
-	218 -- 217
-	219 [label=print]
-	219 -- 218
-	220 [label="\n"]
-	221 [label=print]
-	221 -- 220
-	222 [label="$s0"]
-	223 [label="array()"]
-	224 -- 222
-	224 [label="="]
-	224 -- 223
-	225 [label="$sp"]
-	226 [label=1]
-	227 [label="-"]
-	227 -- 226
-	228 -- 225
-	228 [label="="]
-	228 -- 227
-	229 [label="$a0"]
-	230 [label=2]
-	231 -- 229
-	231 [label="="]
-	231 -- 230
-	232 [label="$a1"]
-	233 [label=3]
-	234 -- 232
-	234 [label="="]
-	234 -- 233
-	235 [label="$sp"]
-	236 [label="$sp"]
-	237 [label=Variable]
-	237 -- 236
-	238 [label=1]
-	239 -- 237
-	239 [label="+"]
-	239 -- 238
-	240 -- 235
-	240 [label="="]
-	240 -- 239
-	241 [label="$s0"]
-	242 [label="$sp"]
-	243 [label=Variable]
-	243 -- 242
-	244 [label="$a0"]
-	245 [label=Variable]
-	245 -- 244
-	246 [label=ARRAY]
-	246 -- 241
-	246 -- 243
-	246 -- 245
-	247 [label=goto]
-	247 -- ack
-	248 [label="Etiqueta:ret0"]
-	249 [label="$v0"]
-	250 [label=Variable]
-	250 -- 249
-	251 [label=print]
-	251 -- 250
-	252 [label=exit]
-	253 [label="Etiqueta:ack"]
-	254 [label="$sp"]
-	255 [label=Variable]
-	255 -- 254
-	256 [label=0]
-	257 -- 255
-	257 [label="<"]
-	257 -- 256
-	258 [label=if]
-	258 -- 257
-	259 [label="$a0"]
-	260 [label="$s0"]
-	261 [label="$sp"]
-	262 [label=Variable]
-	262 -- 261
-	263 [label=ARRAY]
-	263 -- 260
-	263 -- 262
-	264 -- 259
-	264 [label="="]
-	264 -- 263
-	265 [label="$sp"]
-	266 [label="$sp"]
-	267 [label=Variable]
-	267 -- 266
-	268 [label=1]
-	269 -- 267
-	269 [label="-"]
-	269 -- 268
-	270 -- 265
-	270 [label="="]
-	270 -- 269
-	271 [label="$a0"]
-	272 [label=Variable]
-	272 -- 271
-	273 [label=0]
-	274 -- 272
-	274 [label="!="]
-	274 -- 273
-	275 [label=if]
-	275 -- 274
-	276 [label="$t4"]
-	277 [label="$a0"]
-	278 [label=Variable]
-	278 -- 277
-	279 [label=1]
-	280 -- 278
-	280 [label="+"]
-	280 -- 279
-	281 -- 276
-	281 [label="="]
-	281 -- 280
-	282 [label="$a1"]
-	283 [label="$a1"]
-	284 [label=Variable]
-	284 -- 283
-	285 [label="$t4"]
-	286 [label=Variable]
-	286 -- 285
-	287 -- 284
-	287 [label="+"]
-	287 -- 286
-	288 -- 282
-	288 [label="="]
-	288 -- 287
-	289 [label=goto]
-	289 -- ack
-	290 [label="Etiqueta:ret1"]
-	291 [label="$a1"]
-	292 [label=Variable]
-	292 -- 291
-	293 [label=0]
-	294 -- 292
-	294 [label="!="]
-	294 -- 293
-	295 [label=if]
-	295 -- 294
-	296 [label="$a1"]
-	297 [label="$a1"]
-	298 [label=Variable]
-	298 -- 297
-	299 [label=1]
-	300 -- 298
-	300 [label="+"]
-	300 -- 299
-	301 -- 296
-	301 [label="="]
-	301 -- 300
-	302 [label="$a0"]
-	303 [label="$a0"]
-	304 [label=Variable]
-	304 -- 303
-	305 [label=1]
-	306 -- 304
-	306 [label="-"]
-	306 -- 305
-	307 -- 302
-	307 [label="="]
-	307 -- 306
-	308 [label="$sp"]
-	309 [label="$sp"]
-	310 [label=Variable]
-	310 -- 309
-	311 [label=1]
-	312 -- 310
-	312 [label="+"]
-	312 -- 311
-	313 -- 308
-	313 [label="="]
-	313 -- 312
-	314 [label="$s0"]
-	315 [label="$sp"]
-	316 [label=Variable]
-	316 -- 315
-	317 [label="$a0"]
-	318 [label=Variable]
-	318 -- 317
-	319 [label=ARRAY]
-	319 -- 314
-	319 -- 316
-	319 -- 318
-	320 [label=goto]
-	320 -- ack
-	321 [label="Etiqueta:ret2"]
-	322 [label="$a0"]
-	323 [label="$a0"]
-	324 [label=Variable]
-	324 -- 323
-	325 [label=1]
-	326 -- 324
-	326 [label="-"]
-	326 -- 325
-	327 -- 322
-	327 [label="="]
-	327 -- 326
-	328 [label="$sp"]
-	329 [label="$sp"]
-	330 [label=Variable]
-	330 -- 329
-	331 [label=1]
-	332 -- 330
-	332 [label="+"]
-	332 -- 331
-	333 -- 328
-	333 [label="="]
-	333 -- 332
-	334 [label="$s0"]
-	335 [label="$sp"]
-	336 [label=Variable]
-	336 -- 335
-	337 [label="$a0"]
-	338 [label=Variable]
-	338 -- 337
-	339 [label=ARRAY]
-	339 -- 334
-	339 -- 336
-	339 -- 338
-	340 [label="$a0"]
-	341 [label="$a0"]
-	342 [label=Variable]
-	342 -- 341
-	343 [label=1]
-	344 -- 342
-	344 [label="+"]
-	344 -- 343
-	345 -- 340
-	345 [label="="]
-	345 -- 344
-	346 [label="$sp"]
-	347 [label="$sp"]
-	348 [label=Variable]
-	348 -- 347
-	349 [label=1]
-	350 -- 348
-	350 [label="+"]
-	350 -- 349
-	351 -- 346
-	351 [label="="]
-	351 -- 350
-	352 [label="$s0"]
-	353 [label="$sp"]
-	354 [label=Variable]
-	354 -- 353
-	355 [label="$a0"]
-	356 [label=Variable]
-	356 -- 355
-	357 [label=ARRAY]
-	357 -- 352
-	357 -- 354
-	357 -- 356
-	358 [label="$a1"]
-	359 [label="$a1"]
-	360 [label=Variable]
-	360 -- 359
-	361 [label=1]
-	362 -- 360
-	362 [label="-"]
-	362 -- 361
-	363 -- 358
-	363 [label="="]
-	363 -- 362
-	364 [label=goto]
-	364 -- ack
-	365 [label="Etiqueta:ret3"]
-	366 [label="$v0"]
-	367 [label="$a1"]
-	368 [label=Variable]
-	368 -- 367
-	369 -- 366
-	369 [label="="]
-	369 -- 368
-	370 [label=goto]
-	370 -- ret0
-	371 [label=main]
-	371 -- 5
-	371 -- 10
-	371 -- 16
-	371 -- 22
-	371 -- 27
-	371 -- 32
-	371 -- 38
-	371 -- 44
-	371 -- 49
-	371 -- 54
-	371 -- 60
-	371 -- 66
-	371 -- 71
-	371 -- 76
-	371 -- 82
-	371 -- 88
-	371 -- 91
-	371 -- 92
-	371 -- 97
-	371 -- 103
-	371 -- 105
-	371 -- 111
-	371 -- 113
-	371 -- 120
-	371 -- 122
-	371 -- 128
-	371 -- 129
-	371 -- 130
-	371 -- 133
-	371 -- 137
-	371 -- 141
-	371 -- 144
-	371 -- 148
-	371 -- 150
-	371 -- 154
-	371 -- 156
-	371 -- 161
-	371 -- 166
-	371 -- 171
-	371 -- 173
-	371 -- 178
-	371 -- 182
-	371 -- 186
-	371 -- 188
-	371 -- 193
-	371 -- 197
-	371 -- 199
-	371 -- 204
-	371 -- 208
-	371 -- 210
-	371 -- 215
-	371 -- 219
-	371 -- 221
-	371 -- 224
-	371 -- 228
-	371 -- 231
-	371 -- 234
-	371 -- 240
-	371 -- 246
-	371 -- 247
-	371 -- 248
-	371 -- 251
-	371 -- 252
-	371 -- 253
-	371 -- 258
-	371 -- 264
-	371 -- 270
-	371 -- 275
-	371 -- 281
-	371 -- 288
-	371 -- 289
-	371 -- 290
-	371 -- 295
-	371 -- 301
-	371 -- 307
-	371 -- 313
-	371 -- 319
-	371 -- 320
-	371 -- 321
-	371 -- 327
-	371 -- 333
-	371 -- 339
-	371 -- 345
-	371 -- 351
-	371 -- 357
-	371 -- 363
-	371 -- 364
-	371 -- 365
-	371 -- 369
-	371 -- 370
+	743 [label="$t0"]
+	744 [label="ARCHIVO BASICO"]
+	745 -- 743
+	745 [label="="]
+	745 -- 744
+	746 [label="$t0"]
+	747 [label=Variable]
+	747 -- 746
+	748 [label=print]
+	748 -- 747
+	749 [label="$t0"]
+	750 [label=0]
+	751 [label=ARRAY]
+	751 -- 749
+	751 -- 750
+	752 [label=print]
+	752 -- 751
+	753 [label="$t0"]
+	754 [label=8]
+	755 [label=ARRAY]
+	755 -- 753
+	755 -- 754
+	756 [label=print]
+	756 -- 755
+	757 [label="$t0"]
+	758 [label=12]
+	759 [label=ARRAY]
+	759 -- 757
+	759 -- 758
+	760 [label=print]
+	760 -- 759
+	761 [label="$t0"]
+	762 [label=unset]
+	762 -- 761
+	763 [label="\n"]
+	764 [label=print]
+	764 -- 763
+	765 [label="\n"]
+	766 [label=print]
+	766 -- 765
+	767 [label="Ingresa un numero: "]
+	768 [label=print]
+	768 -- 767
+	769 [label="\n"]
+	770 [label=print]
+	770 -- 769
+	771 [label="$t1"]
+	772 [label=read]
+	772 -- 771
+	773 [label="\n"]
+	774 [label=print]
+	774 -- 773
+	775 [label="Ingreso un segundo numero: "]
+	776 [label=print]
+	776 -- 775
+	777 [label="\n"]
+	778 [label=print]
+	778 -- 777
+	779 [label="$t2"]
+	780 [label=read]
+	780 -- 779
+	781 [label="$t3"]
+	782 [label="$t1"]
+	783 [label=Variable]
+	783 -- 782
+	784 [label="$t2"]
+	785 [label=Variable]
+	785 -- 784
+	786 -- 783
+	786 [label="+"]
+	786 -- 785
+	787 -- 781
+	787 [label="="]
+	787 -- 786
+	788 [label="La suma de los numeros es: "]
+	789 [label=print]
+	789 -- 788
+	790 [label="$t3"]
+	791 [label=Variable]
+	791 -- 790
+	792 [label=print]
+	792 -- 791
+	793 [label="\n"]
+	794 [label=print]
+	794 -- 793
+	795 [label="$t3"]
+	796 [label="$t1"]
+	797 [label=Variable]
+	797 -- 796
+	798 [label="$t2"]
+	799 [label=Variable]
+	799 -- 798
+	800 -- 797
+	800 [label="-"]
+	800 -- 799
+	801 -- 795
+	801 [label="="]
+	801 -- 800
+	802 [label="La resta de los numeros es: "]
+	803 [label=print]
+	803 -- 802
+	804 [label="$t3"]
+	805 [label=Variable]
+	805 -- 804
+	806 [label=print]
+	806 -- 805
+	807 [label="\n"]
+	808 [label=print]
+	808 -- 807
+	809 [label="$t3"]
+	810 [label="$t1"]
+	811 [label=Variable]
+	811 -- 810
+	812 [label="$t2"]
+	813 [label=Variable]
+	813 -- 812
+	814 -- 811
+	814 [label="*"]
+	814 -- 813
+	815 -- 809
+	815 [label="="]
+	815 -- 814
+	816 [label="La multiplicación de los numeros es: "]
+	817 [label=print]
+	817 -- 816
+	818 [label="$t3"]
+	819 [label=Variable]
+	819 -- 818
+	820 [label=print]
+	820 -- 819
+	821 [label="\n"]
+	822 [label=print]
+	822 -- 821
+	823 [label="$t3"]
+	824 [label="$t1"]
+	825 [label=Variable]
+	825 -- 824
+	826 [label="$t2"]
+	827 [label=Variable]
+	827 -- 826
+	828 -- 825
+	828 [label="/"]
+	828 -- 827
+	829 -- 823
+	829 [label="="]
+	829 -- 828
+	830 [label="$t2"]
+	831 [label=Variable]
+	831 -- 830
+	832 [label=0]
+	833 -- 831
+	833 [label="=="]
+	833 -- 832
+	834 [label=if]
+	834 -- 833
+	835 [label="La division de los numeros es: "]
+	836 [label=print]
+	836 -- 835
+	837 [label="$t3"]
+	838 [label=Variable]
+	838 -- 837
+	839 [label=print]
+	839 -- 838
+	840 [label="$t4"]
+	841 [label=int]
+	842 [label="$t0"]
+	843 [label=Variable]
+	843 -- 842
+	844 [label=casteo]
+	844 -- int
+	844 -- 843
+	845 -- 840
+	845 [label="="]
+	845 -- 844
+	846 [label="$t4"]
+	847 [label=Variable]
+	847 -- 846
+	848 [label=print]
+	848 -- 847
+	849 [label="$t4"]
+	850 [label=float]
+	851 [label="$t3"]
+	852 [label=Variable]
+	852 -- 851
+	853 [label=casteo]
+	853 -- float
+	853 -- 852
+	854 -- 849
+	854 [label="="]
+	854 -- 853
+	855 [label="$t5"]
+	856 [label="$t4"]
+	857 [label=Variable]
+	857 -- 856
+	858 [label="$t5"]
+	859 [label=Variable]
+	859 -- 858
+	860 -- 857
+	860 [label="+"]
+	860 -- 859
+	861 -- 855
+	861 [label="="]
+	861 -- 860
+	862 [label="Etiqueta:error"]
+	863 [label="ERROR: no se puede realizar una divisi�n entre 0."]
+	864 [label=print]
+	864 -- 863
+	865 [label="\n"]
+	866 [label=print]
+	866 -- 865
+	867 [label=exit]
+	868 [label=main]
+	868 -- 745
+	868 -- 748
+	868 -- 752
+	868 -- 756
+	868 -- 760
+	868 -- 762
+	868 -- 764
+	868 -- 766
+	868 -- 768
+	868 -- 770
+	868 -- 772
+	868 -- 774
+	868 -- 776
+	868 -- 778
+	868 -- 780
+	868 -- 787
+	868 -- 789
+	868 -- 792
+	868 -- 794
+	868 -- 801
+	868 -- 803
+	868 -- 806
+	868 -- 808
+	868 -- 815
+	868 -- 817
+	868 -- 820
+	868 -- 822
+	868 -- 829
+	868 -- 834
+	868 -- 836
+	868 -- 839
+	868 -- 845
+	868 -- 848
+	868 -- 854
+	868 -- 861
+	868 -- 862
+	868 -- 864
+	868 -- 866
+	868 -- 867
 }

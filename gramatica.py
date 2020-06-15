@@ -153,6 +153,7 @@ def p_main(t):
     'main   :  MAIN DOSPUNTOS instrucciones'
     id = inc()
     t[0] = EtiquetaMain('main',t[3],id,t.lexer.lineno)
+    t.lexer.lineno = 1
     dot.node(str(id),str(t[1]))
     for item in t[3]:
         dot.edge(str(id),str(item.id_dot))
