@@ -103,14 +103,21 @@ def guardar_como():
         ruta = ""
 
 def debugAsc():
+    global linea_anterior
     t = contenedorEditor.Editor().get(1.0,'end-1c')
-    debugAscendente.run(t)
-    debugAscendente.Debug()
+    analizadorAscendente.run(t)
+    linea=analizadorAscendente.Debug()
+    consola.delete(1.0,'end-1c')
+    consola.insert("end",analizadorAscendente.salida)
+    contenedorEditor.MarcarLinea(linea,linea_anterior)
 
 def debugControl():
-    debugAscendente.Debug()
+    global linea_anterior
+    linea=analizadorAscendente.Debug()
     consola.delete(1.0,'end-1c')
-    consola.insert("end",debugAscendente.salida)
+    consola.insert("end",analizadorAscendente.salida)
+    contenedorEditor.MarcarLinea(linea,linea_anterior)
+    linea_anterior = linea
 
 def genearAst():
     analizadorAscendente.g.dot.view()
@@ -163,6 +170,8 @@ contenedorEditor.pack(side="left", fill="both", expand=1)
 #Mensaje
 mensaje = StringVar()
 mensaje.set("Bienvenido a tu Editor")
+#linea anterior para el debug
+linea_anterior=1
 # Monitor inferior
 consola = Text(root,bg="#003B74",fg="#fff")
 consola.pack(side="right",fill="both")

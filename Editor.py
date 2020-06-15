@@ -113,5 +113,12 @@ class ContenedorEditor(tk.Frame):
                     palabra = ""
                 columna += 1
 
+    def MarcarLinea(self,linea,linea_anterior):
+        self.text.tag_add("debug",str(float(linea)),str(float(linea+1)))
+        self.text.tag_config("debug",foreground="#fff",background="#003B74")
+        self.text.tag_remove("debug",str(float(linea_anterior)),str(float(linea_anterior+1)))
+        # self.text.tag_config("resetear",foreground="#000",background="#fff")
+        self.colorearTexto()
+
     def Editor(self):
         return self.text

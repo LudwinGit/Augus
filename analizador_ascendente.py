@@ -571,14 +571,18 @@ class Analizador():
     def Debug(self):
         if self.id_debug == len(self.cola.items): return False
         instruccion = self.cola.items[self.id_debug]
+        linea = instruccion.linea 
         if isinstance(instruccion,Etiqueta) or isinstance(instruccion,EtiquetaMain): 
             self.etiqueta_debug = instruccion.nombre
         salto =self.procesar_instruccion(instruccion,self.etiqueta_debug,self.id_debug)
         if salto == None: self.id_debug +=1
-        elif salto ==-1: self.id_debug = len(self.cola.items)
-        else: self.id_debug = salto
-        self.debugTablaPrint()
-        return True
+        elif salto ==-1: self.id_debug = len(self.cola.items) #instruccion exit
+        else: 
+            self.id_debug = salto
+            linea = self.cola.items[self.id_debug].linea
+
+        # self.debugTablaPrint()
+        return instruccion.linea 
 
     def llenarTabla(self):
         id_actual = 0
