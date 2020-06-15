@@ -1,6 +1,6 @@
 #ARCHIVO BASICO
 main:
-$t0 = "ARCHIVO BASICO");
+$t0 = "ARCHIVO BASICO";
 print($t0);
 print($t0[0]);
 print($t0[8]);
@@ -35,7 +35,7 @@ print($t3);
 #--------------conversion--------------------
  $t4 = (int)$t0;
  print($t4);
- $t4 = float($t3);
+ $t4 = (float)$t3;
  $t5 = $t4+$t5;
 
 

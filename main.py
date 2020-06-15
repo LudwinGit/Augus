@@ -4,6 +4,7 @@ from tkinter import filedialog as FileDialog
 from io import open
 from graphviz import Graph
 from Editor import * 
+from tablasimbolos import *
 
 ruta = "" # La utilizaremos para almacenar la ruta del fichero
 
@@ -33,6 +34,20 @@ def windowGramatica():
         produccion = analizadorAscendente.g.repgramatical[index]
         text = produccion+"\n"
         texto.insert('end', text)
+
+def windowTablaSimbolos():
+    newWindow = Toplevel(root)
+    newWindow.title("TABLA DE SIMBOLOS")
+    texto = Text(newWindow,bg="#fff")
+    texto.pack(side="left", fill="both", expand=1)
+    texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
+    texto.delete(1.0,'end')
+
+    texto.insert('end',"==================================TABLA SIMBOLOS=================\n")
+    for s in analizadorAscendente.tablasimbolos.simbolos:
+        simbolo = analizadorAscendente.tablasimbolos.obtener(s)
+        texto.insert('end',"||Id:"+str(simbolo.id)+"||Ambito: "+str(simbolo.declarada_en)+"||Tipo: "+str(simbolo.tipo)+"||Dimsensión: "+str(simbolo.dimension)+"||Valor:"+str(simbolo.valor)+"\n")
+        texto.insert('end',"=================================================================\n")
 
 def nuevo():
     global ruta
@@ -125,7 +140,7 @@ menubar.add_cascade(menu=filemenu, label="Archivo")
 menuReportes = Menu(menubar, tearoff=0)
 menuReportes.add_command(label="Arból AST", command=genearAst)
 menuReportes.add_command(label="Errores", command=createNewWindow)
-menuReportes.add_command(label="Tabla simbolos", command=createNewWindow)
+menuReportes.add_command(label="Tabla simbolos", command=windowTablaSimbolos)
 menuReportes.add_command(label="Gramatica",command=windowGramatica)
 menuReportes.add_separator()
 menubar.add_cascade(menu=menuReportes, label="Reportes")

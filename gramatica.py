@@ -566,6 +566,5 @@ def parse(i) :
     dot.clear()
     input = i
     errores.errores.clear()
-    errores.id = 1
     resultado = parser.parse(i)
     return resultado

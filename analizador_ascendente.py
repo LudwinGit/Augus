@@ -15,12 +15,13 @@ class Analizador():
         self.ast = None
         self.etiqueta_debug=""
         self.g = g
+        self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos({})
+        self.dimension_etiqueta = 0
 
     def run(self,entrada):
         self.cola = Cola()
         self.g.errores.errores.clear()
         self.main = g.parse(entrada)
-        self.tablasimbolos = TABLASIMBOLOS.TablaDeSimbolos({})
         self.salida = ""
         self.id_debug = 0
         self.procesar_main()
@@ -50,6 +51,13 @@ class Analizador():
 
     def procesar_read(self,instruccion,ambito):
         valor = instruccion.ingresar()
+        try:
+            valor = int(valor)
+        except ValueError:
+            try:
+                valor = float(valor)
+            except ValueError:
+                valor = str(valor)
         self.crear_variable(instruccion.id,valor,ambito)
 
     def procesar_unset(self,instruccion):
@@ -308,10 +316,11 @@ class Analizador():
             exp1 = self.resolver_numerica(expresion.exp1)
             exp2 = self.resolver_numerica(expresion.exp2)
             if type(exp1)==str and type(exp2)==str and expresion.operador == OPERACION_ARITMETICA.MAS: return (str(exp1)+str(exp2))
-            if type(exp1)==str or type(exp2)==str: 
-                error = Error("SEMANTICO","No se puede realizar la operación aritmetica entre una cadena y un numero",expresion.linea)
-                self.g.errores.agregar(error)
-                return None
+            if type(exp1)!=int or type(exp2)!=int: 
+                if type(exp1)!=float or type(exp2)!=float:
+                    error = Error("SEMANTICO","No se puede realizar la operación aritmetica entre "+str(type(exp1))+"y "+str(type(exp2)),expresion.linea)
+                    self.g.errores.agregar(error)
+                    return None
             if expresion.operador == OPERACION_ARITMETICA.MAS : return exp1 + exp2
             if expresion.operador == OPERACION_ARITMETICA.MENOS : return exp1 - exp2
             if expresion.operador == OPERACION_ARITMETICA.MUL : return exp1 * exp2
@@ -489,10 +498,11 @@ class Analizador():
 
     def agregar_simbolo(self,id,tipo_dato,val,ambito,puntero=0):
         simbolo=self.tablasimbolos.obtener(id)
-        nuevoSimbolo=TABLASIMBOLOS.Simbolo(id, tipo_dato, val,puntero,ambito)
         if(simbolo == None):
+            nuevoSimbolo=TABLASIMBOLOS.Simbolo(id, tipo_dato, val,puntero,ambito)
             self.tablasimbolos.agregar(nuevoSimbolo)
         else:
+            nuevoSimbolo=TABLASIMBOLOS.Simbolo(id, tipo_dato, val,puntero,simbolo.declarada_en)
             if(str(simbolo.puntero)!="0"):
                 nuevoSimbolo.puntero = simbolo.puntero
                 actualizarvalorpuntero = self.tablasimbolos.obtener(simbolo.puntero)
@@ -537,14 +547,24 @@ class Analizador():
         #Etiqueta inicial
         etiqueta_ambito = None
         while id_actual < len(self.cola.items):
+            self.dimension_etiqueta += 1
             instruccion = self.cola.items[id_actual]
             if isinstance(instruccion,Etiqueta) or isinstance(instruccion,EtiquetaMain): 
+                bloque = self.tablasimbolos.obtener(etiqueta_ambito)
+                if bloque != None:
+                    bloque.dimension = self.dimension_etiqueta
+                    self.tablasimbolos.actualizar(bloque)
                 etiqueta_ambito = instruccion.nombre
+                self.dimension_etiqueta = 0
             salto =self.procesar_instruccion(instruccion,etiqueta_ambito,id_actual)
             if salto == None: id_actual +=1
             elif salto ==-1: id_actual = len(self.cola.items)
             else: id_actual = salto
-        self.imprimirTabla()
+        bloque = self.tablasimbolos.obtener("main")
+        if bloque != None:
+            bloque.dimension = len(self.cola.items)
+            self.tablasimbolos.actualizar(bloque)
+        # self.imprimirTabla()
     
     def Debug(self):
         if self.id_debug == len(self.cola.items): return False

@@ -4,23 +4,23 @@ main:
   $t1[0]['direccion']="zona 4";
   $t1[0]['telefono'][0]=56457854;
   $t1[0]['telefono'][0]=45784565;
-  linea 2
+#  linea 2
   $t1[1]['nombre']="Paco";
   $t1[1]['direccion']="zona 8, villa nueva";
   $t1[1]['telefono'][0]=56412854;
   $t1[1]['telefono'][0]=45784125;
-  linea 3
+#  linea 3
   $t1[1]['nombre']="Luis";
   $t1[1]['direccion']="zona 1, San Jose Pinula ";
   $t1[1]['telefono'][0]=12412854;
   $t1[1]['telefono'][0]=45784125;
-  linea 4
+#  linea 4
   $t1[1]['nombre']="Peter Parker";
   $t1[1]['direccion']="Petapolis";
   $t1[1]['telefono'][0]=12412124;
   $t1[1]['telefono'][0]=45124125;
   
-  imprimir nombres y direccion
+#  imprimir nombres y direccion
   $t2 = 0;
   while0:
 	if ($t2>2) goto end0;
