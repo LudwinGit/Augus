@@ -28,7 +28,7 @@ class Read(Instruccion):
         self.linea = linea
 
     def ingresar(self):
-        self.valor = input('>')
+        self.valor = input('Ingrese el valor >')
         return self.valor
 
 class Exit(Instruccion):
