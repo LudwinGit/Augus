@@ -1,4 +1,5 @@
 from analizador_ascendente import *
+from analizador_descendente import *
 from tkinter import *
 from tkinter import filedialog as FileDialog
 from io import open
@@ -10,19 +11,27 @@ ruta = "" # La utilizaremos para almacenar la ruta del fichero
 
 #=======================================================VENTANAS
 def createNewWindow():
+    global ascendente
     newWindow = Toplevel(root)
     newWindow.title("REPORTE DE ERRORES")
     texto = Text(newWindow,bg="#fff")
     texto.pack(side="left", fill="both", expand=1)
     texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
     texto.delete(1.0,'end')
-    # print()
-    for index in analizadorAscendente.g.errores.errores:
-        error = analizadorAscendente.g.errores.errores[index]
-        text = "||"+error.tipo+"||"+error.descripcion+"||"+str(error.linea)+"\n"
-        texto.insert('end', text)
+    
+    if ascendente:
+        for index in analizadorAscendente.g.errores.errores:
+            error = analizadorAscendente.g.errores.errores[index]
+            text = "||"+error.tipo+"||"+error.descripcion+"||"+str(error.linea)+"\n"
+            texto.insert('end', text)
+    else:
+        for index in analizadorDescendente.g.errores.errores:
+            error = analizadorDescendente.g.errores.errores[index]
+            text = "||"+error.tipo+"||"+error.descripcion+"||"+str(error.linea)+"\n"
+            texto.insert('end', text)
 
 def windowGramatica():
+    global ascendente
     newWindow = Toplevel(root)
     newWindow.title("REPORTE GRAMATICAL")
     texto = Text(newWindow,bg="#fff")
@@ -30,12 +39,19 @@ def windowGramatica():
     texto.config(bd=0, padx=6, pady=4, font=("Consolas",12))
     texto.delete(1.0,'end')
     # print()
-    for index in reversed(analizadorAscendente.g.repgramatical):
-        produccion = analizadorAscendente.g.repgramatical[index]
-        text = produccion+"\n"
-        texto.insert('end', text)
+    if ascendente:
+        for index in reversed(analizadorAscendente.g.repgramatical):
+            produccion = analizadorAscendente.g.repgramatical[index]
+            text = produccion+"\n"
+            texto.insert('end', text)
+    else:
+        for index in reversed(analizadorDescendente.g.repgramatical):
+            produccion = analizadorDescendente.g.repgramatical[index]
+            text = produccion+"\n"
+            texto.insert('end', text)
 
 def windowTablaSimbolos():
+    global ascendente
     newWindow = Toplevel(root)
     newWindow.title("TABLA DE SIMBOLOS")
     texto = Text(newWindow,bg="#fff")
@@ -44,10 +60,16 @@ def windowTablaSimbolos():
     texto.delete(1.0,'end')
 
     texto.insert('end',"==================================TABLA SIMBOLOS=================\n")
-    for s in analizadorAscendente.tablasimbolos.simbolos:
-        simbolo = analizadorAscendente.tablasimbolos.obtener(s)
-        texto.insert('end',"||Id:"+str(simbolo.id)+"||Ambito: "+str(simbolo.declarada_en)+"||Tipo: "+str(simbolo.tipo)+"||Dimsensión: "+str(simbolo.dimension)+"||Valor:"+str(simbolo.valor)+"\n")
-        texto.insert('end',"=================================================================\n")
+    if ascendente:
+        for s in analizadorAscendente.tablasimbolos.simbolos:
+            simbolo = analizadorAscendente.tablasimbolos.obtener(s)
+            texto.insert('end',"||Id:"+str(simbolo.id)+"||Ambito: "+str(simbolo.declarada_en)+"||Tipo: "+str(simbolo.tipo)+"||Dimsensión: "+str(simbolo.dimension)+"||Valor:"+str(simbolo.valor)+"\n")
+            texto.insert('end',"=================================================================\n")
+    else:
+        for s in analizadorDescendente.tablasimbolos.simbolos:
+            simbolo = analizadorDescendente.tablasimbolos.obtener(s)
+            texto.insert('end',"||Id:"+str(simbolo.id)+"||Ambito: "+str(simbolo.declarada_en)+"||Tipo: "+str(simbolo.tipo)+"||Dimsensión: "+str(simbolo.dimension)+"||Valor:"+str(simbolo.valor)+"\n")
+            texto.insert('end',"=================================================================\n")
 
 def nuevo():
     global ruta
@@ -120,15 +142,31 @@ def debugControl():
     linea_anterior = linea
 
 def genearAst():
-    analizadorAscendente.g.dot.view()
+    global ascendente
+    if ascendente:
+        analizadorAscendente.g.dot.view()
+    else:
+        analizadorDescendente.g.dot.view()
 
 def ejecutar():
+    global ascendente
     t = contenedorEditor.Editor().get(1.0,'end-1c')
+    ascendente = True
     # t = editor.getText()
     analizadorAscendente.run(t)
     analizadorAscendente.Ejecutar()
     consola.delete(1.0,'end-1c')
     consola.insert("end",analizadorAscendente.salida)
+
+def ejecutarDescendente():
+    global ascendente
+    ascendente = False
+    t = contenedorEditor.Editor().get(1.0,'end-1c')
+    # t = editor.getText()
+    analizadorDescendente.run(t)
+    analizadorDescendente.Ejecutar()
+    consola.delete(1.0,'end-1c')
+    consola.insert("end",analizadorDescendente.salida)
 # Configuración de la raíz
 root = Tk()
 root.title("Mi editor")
@@ -158,6 +196,9 @@ toolbar.pack(side="top", fill="x")
 bold_btn = Button(toolbar, text="Ascendente",command=ejecutar)
 bold_btn.pack(side="left")
 
+bold_btn = Button(toolbar, text="Descendente",command=ejecutarDescendente)
+bold_btn.pack(side="left")
+
 bold_btn = Button(toolbar, text="Debug asc",command=debugAsc)
 bold_btn.pack(side="left")
 
@@ -175,9 +216,11 @@ linea_anterior=1
 # Monitor inferior
 consola = Text(root,bg="#003B74",fg="#fff")
 consola.pack(side="right",fill="both")
+ascendente = True
 #Debug ascendente
-debugAscendente = Analizador()
-analizadorAscendente = Analizador()
+debugAscendente = AnalizadorAscendente()
+analizadorAscendente = AnalizadorAscendente()
+analizadorDescendente = AnalizadorDescendente()
 root.config(menu=menubar)
 # Finalmente bucle de la apliación
 root.mainloop()

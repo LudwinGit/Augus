@@ -1,11 +1,11 @@
 from errores import *
-import ascendente as g
+import descendente as g
 import tablasimbolos as TABLASIMBOLOS
 from expresiones import *
 from instrucciones import *
 from cola import *
 
-class AnalizadorAscendente:
+class AnalizadorDescendente:
 
     def __init__(self):
         self.cola = None
@@ -38,9 +38,6 @@ class AnalizadorAscendente:
             array = self.crear_indice_array(instruccion.indices,valor,variable,None,instruccion.linea)
             self.crear_variable(instruccion.variable,array,ambito)
         elif variable.tipo == TABLASIMBOLOS.TIPO_DATO.ARRAY:
-            # if isinstance(valor,ExpresionArrayDeclare): 
-            #     self.resetear_indice(instruccion.indices,variable)
-            #     return
             array = self.crear_indice_array(instruccion.indices,valor,variable,None,instruccion.linea)
 
     # def resetear_indice(indices,variable):
@@ -390,7 +387,7 @@ class AnalizadorAscendente:
 
             array = {ultimo_indice:array[ultimo_indice]}
         else:
-            indice_raiz = self.resolver_expresion(indices[0])
+            indice_raiz = self.resolver_expresion(indices[len(indices)-1])
             if indice_raiz in variable.valor:
                 if not self.validar_indice_array(indices,variable,valor):
                     error = Error("SEMANTICO","No se puede usar un valor escalar como una matriz",linea)
@@ -407,7 +404,7 @@ class AnalizadorAscendente:
 
     def crear_sub_indice_array(self,indices,variable,valor):
         cp_indices = indices.copy()
-        index = self.resolver_expresion(cp_indices.pop(0))
+        index = self.resolver_expresion(cp_indices.pop(len(cp_indices)-1))
         array = variable.valor[index]
         #Obtengo el valor final donde se va adjuntar
         if type(array['valor']) == str:
@@ -428,7 +425,7 @@ class AnalizadorAscendente:
             return
 
         iteracion = 1;
-        for i in cp_indices:
+        for i in reversed(cp_indices):
             index = self.resolver_expresion(i)
             if 'subindices' in array:
                 if index not in array['subindices']:
@@ -461,7 +458,7 @@ class AnalizadorAscendente:
 
     def validar_indice_array(self,indices,array,valor):
         cp_indices = indices.copy()
-        index = self.resolver_expresion(cp_indices.pop(0))
+        index = self.resolver_expresion(cp_indices.pop(len(cp_indices)-1))
         var = array.valor[index]
         valor =var['valor']
 
@@ -471,7 +468,7 @@ class AnalizadorAscendente:
         # print("aca",index,array.valor[index])
         # simbolo =.obtener()
         count = len(cp_indices)
-        for i in cp_indices:
+        for i in reversed(cp_indices):
             index = self.resolver_expresion(i)
             if index in var['subindices']:
                 valor = var['subindices'][index]['valor']
@@ -534,7 +531,7 @@ class AnalizadorAscendente:
 
     def procesar_main(self) :
         self.cola.agregar(self.main)
-        for instruccion in self.main.instrucciones :
+        for instruccion in reversed(self.main.instrucciones) :
             self.cola.agregar(instruccion)
 
         #Primer recorrido para llenar la lista de simbolos

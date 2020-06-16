@@ -160,15 +160,19 @@ def p_main(t):
     addGramatical("S -> MAIN Instrucciones")
 
 def p_instrucciones_listado(t):
-    '''instrucciones    :   instrucciones   instruccion'''
-    t[1].append(t[2])
-    t[0] = t[1]
-    addGramatical("Instrucciones -> Instrucciones Instruccion")
+    '''instrucciones    :   instruccion instrucciones'''
+    t[2].append(t[1])
+    t[0] = t[2]
+    addGramatical("Instrucciones -> Instruccion Instrucciones")
 
 def p_instrucciones_instruccion(t):
     '''instrucciones      :   instruccion'''
     t[0] = [t[1]]
     addGramatical("Instrucciones -> Instruccion")
+
+def p_instrucciones_empty(t):
+    'instrucciones      :   empty'
+    addGramatical("Instrucciones ->empty")
 
 def p_instruccion(t):
     '''instruccion  :   print_instruccion
@@ -263,15 +267,19 @@ def p_asignacion_array(t):
     addGramatical('asignacion_instruccion -> variable indices IGUAL expresion_asignacion PUNTOCOMA')
 
 def p_indices_listado(t):
-    'indices                    :   indices indice'
-    t[1].append(t[2])
-    t[0] = t[1]
-    addGramatical('indices -> indices indice')
+    'indices                    :   indice  indices'
+    t[2].append(t[1])
+    t[0] = t[2]
+    addGramatical('indices -> indice indices')
 
 def p_indices(t):
     'indices                    :   indice'
     t[0] = [t[1]]
     addGramatical('indices -> indice')
+
+def p_indices_empty(t):
+    'indices                    :   empty'
+    addGramatical('indices -> empty')
 
 def p_indice(t):
     'indice                     :   ABRECORCHETE expresion_general  CIERRACORCHETE'

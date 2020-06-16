@@ -1,253 +1,41 @@
 graph {
-	743 [label="$t0"]
-	744 [label="ARCHIVO BASICO"]
-	745 -- 743
-	745 [label="="]
-	745 -- 744
-	746 [label="$t0"]
-	747 [label=Variable]
-	747 -- 746
-	748 [label=print]
-	748 -- 747
-	749 [label="$t0"]
-	750 [label=0]
-	751 [label=ARRAY]
-	751 -- 749
-	751 -- 750
-	752 [label=print]
-	752 -- 751
-	753 [label="$t0"]
-	754 [label=8]
-	755 [label=ARRAY]
-	755 -- 753
-	755 -- 754
-	756 [label=print]
-	756 -- 755
-	757 [label="$t0"]
-	758 [label=12]
-	759 [label=ARRAY]
-	759 -- 757
-	759 -- 758
-	760 [label=print]
-	760 -- 759
-	761 [label="$t0"]
-	762 [label=unset]
-	762 -- 761
-	763 [label="\n"]
-	764 [label=print]
-	764 -- 763
-	765 [label="\n"]
-	766 [label=print]
-	766 -- 765
-	767 [label="Ingresa un numero: "]
-	768 [label=print]
-	768 -- 767
-	769 [label="\n"]
-	770 [label=print]
-	770 -- 769
-	771 [label="$t1"]
-	772 [label=read]
-	772 -- 771
-	773 [label="\n"]
-	774 [label=print]
-	774 -- 773
-	775 [label="Ingreso un segundo numero: "]
-	776 [label=print]
-	776 -- 775
-	777 [label="\n"]
-	778 [label=print]
-	778 -- 777
-	779 [label="$t2"]
-	780 [label=read]
-	780 -- 779
-	781 [label="$t3"]
-	782 [label="$t1"]
-	783 [label=Variable]
-	783 -- 782
-	784 [label="$t2"]
-	785 [label=Variable]
-	785 -- 784
-	786 -- 783
-	786 [label="+"]
-	786 -- 785
-	787 -- 781
-	787 [label="="]
-	787 -- 786
-	788 [label="La suma de los numeros es: "]
-	789 [label=print]
-	789 -- 788
-	790 [label="$t3"]
-	791 [label=Variable]
-	791 -- 790
-	792 [label=print]
-	792 -- 791
-	793 [label="\n"]
-	794 [label=print]
-	794 -- 793
-	795 [label="$t3"]
-	796 [label="$t1"]
-	797 [label=Variable]
-	797 -- 796
-	798 [label="$t2"]
-	799 [label=Variable]
-	799 -- 798
-	800 -- 797
-	800 [label="-"]
-	800 -- 799
-	801 -- 795
-	801 [label="="]
-	801 -- 800
-	802 [label="La resta de los numeros es: "]
-	803 [label=print]
-	803 -- 802
-	804 [label="$t3"]
-	805 [label=Variable]
-	805 -- 804
-	806 [label=print]
-	806 -- 805
-	807 [label="\n"]
-	808 [label=print]
-	808 -- 807
-	809 [label="$t3"]
-	810 [label="$t1"]
-	811 [label=Variable]
-	811 -- 810
-	812 [label="$t2"]
-	813 [label=Variable]
-	813 -- 812
-	814 -- 811
-	814 [label="*"]
-	814 -- 813
-	815 -- 809
-	815 [label="="]
-	815 -- 814
-	816 [label="La multiplicación de los numeros es: "]
-	817 [label=print]
-	817 -- 816
-	818 [label="$t3"]
-	819 [label=Variable]
-	819 -- 818
-	820 [label=print]
-	820 -- 819
-	821 [label="\n"]
-	822 [label=print]
-	822 -- 821
-	823 [label="$t3"]
-	824 [label="$t1"]
-	825 [label=Variable]
-	825 -- 824
-	826 [label="$t2"]
-	827 [label=Variable]
-	827 -- 826
-	828 -- 825
-	828 [label="/"]
-	828 -- 827
-	829 -- 823
-	829 [label="="]
-	829 -- 828
-	830 [label="$t2"]
-	831 [label=Variable]
-	831 -- 830
-	832 [label=0]
-	833 -- 831
-	833 [label="=="]
-	833 -- 832
-	834 [label=if]
-	834 -- 833
-	835 [label="La division de los numeros es: "]
-	836 [label=print]
-	836 -- 835
-	837 [label="$t3"]
-	838 [label=Variable]
-	838 -- 837
-	839 [label=print]
-	839 -- 838
-	840 [label="$t4"]
-	841 [label=int]
-	842 [label="$t0"]
-	843 [label=Variable]
-	843 -- 842
-	844 [label=casteo]
-	844 -- int
-	844 -- 843
-	845 -- 840
-	845 [label="="]
-	845 -- 844
-	846 [label="$t4"]
-	847 [label=Variable]
-	847 -- 846
-	848 [label=print]
-	848 -- 847
-	849 [label="$t4"]
-	850 [label=float]
-	851 [label="$t3"]
-	852 [label=Variable]
-	852 -- 851
-	853 [label=casteo]
-	853 -- float
-	853 -- 852
-	854 -- 849
-	854 [label="="]
-	854 -- 853
-	855 [label="$t5"]
-	856 [label="$t4"]
-	857 [label=Variable]
-	857 -- 856
-	858 [label="$t5"]
-	859 [label=Variable]
-	859 -- 858
-	860 -- 857
-	860 [label="+"]
-	860 -- 859
-	861 -- 855
-	861 [label="="]
-	861 -- 860
-	862 [label="Etiqueta:error"]
-	863 [label="ERROR: no se puede realizar una divisi�n entre 0."]
-	864 [label=print]
-	864 -- 863
-	865 [label="\n"]
-	866 [label=print]
-	866 -- 865
-	867 [label=exit]
-	868 [label=main]
-	868 -- 745
-	868 -- 748
-	868 -- 752
-	868 -- 756
-	868 -- 760
-	868 -- 762
-	868 -- 764
-	868 -- 766
-	868 -- 768
-	868 -- 770
-	868 -- 772
-	868 -- 774
-	868 -- 776
-	868 -- 778
-	868 -- 780
-	868 -- 787
-	868 -- 789
-	868 -- 792
-	868 -- 794
-	868 -- 801
-	868 -- 803
-	868 -- 806
-	868 -- 808
-	868 -- 815
-	868 -- 817
-	868 -- 820
-	868 -- 822
-	868 -- 829
-	868 -- 834
-	868 -- 836
-	868 -- 839
-	868 -- 845
-	868 -- 848
-	868 -- 854
-	868 -- 861
-	868 -- 862
-	868 -- 864
-	868 -- 866
-	868 -- 867
+	1 [label="$t3"]
+	2 [label=nombre]
+	3 [label=Carla]
+	4 [label=ARRAY]
+	4 -- 1
+	4 -- 2
+	4 -- 3
+	5 [label="$t3"]
+	6 [label=nombre]
+	7 [label=4]
+	8 [label=o]
+	9 [label=ARRAY]
+	9 -- 5
+	9 -- 7
+	9 -- 6
+	9 -- 8
+	10 [label="$t3"]
+	11 [label=nombre]
+	12 [label=5]
+	13 [label=s]
+	14 [label=ARRAY]
+	14 -- 10
+	14 -- 12
+	14 -- 11
+	14 -- 13
+	15 [label="$t3"]
+	16 [label=nombre]
+	17 [label=7]
+	18 [label=s]
+	19 [label=ARRAY]
+	19 -- 15
+	19 -- 17
+	19 -- 16
+	19 -- 18
+	20 [label=main]
+	20 -- 19
+	20 -- 14
+	20 -- 9
+	20 -- 4
 }
