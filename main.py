@@ -218,9 +218,9 @@ consola = Text(root,bg="#003B74",fg="#fff")
 consola.pack(side="right",fill="both")
 ascendente = True
 #Debug ascendente
-debugAscendente = AnalizadorAscendente()
-analizadorAscendente = AnalizadorAscendente()
-analizadorDescendente = AnalizadorDescendente()
+debugAscendente = AnalizadorAscendente(root)
+analizadorAscendente = AnalizadorAscendente(root)
+analizadorDescendente = AnalizadorDescendente(root)
 root.config(menu=menubar)
 # Finalmente bucle de la apliación
 root.mainloop()

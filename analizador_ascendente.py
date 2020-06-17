@@ -1,3 +1,4 @@
+from tkinter import simpledialog
 from errores import *
 import ascendente as g
 import tablasimbolos as TABLASIMBOLOS
@@ -7,7 +8,8 @@ from cola import *
 
 class AnalizadorAscendente:
 
-    def __init__(self):
+    def __init__(self,root):
+        self.root = root
         self.cola = None
         self.main = None
         self.salida = ""
@@ -52,7 +54,8 @@ class AnalizadorAscendente:
         return -1
 
     def procesar_read(self,instruccion,ambito):
-        valor = instruccion.ingresar()
+        # valor = instruccion.ingresar()
+        valor = simpledialog.askstring("INGRESE VALOR","valor:",parent=self.root)
         try:
             valor = int(valor)
         except ValueError:
