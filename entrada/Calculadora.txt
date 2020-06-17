@@ -83,4 +83,4 @@ print('\n');
 goto fin;
 
 salir:
-
+exit;

@@ -547,29 +547,32 @@ class AnalizadorAscendente:
         # print(len(cola.items))
         # self.Ejecutar()
 
-    def Ejecutar(self):
-        id_actual = 0
+    def Ejecutar(self,id_ejecucion):
+        id_ejecucion = id_ejecucion
         #Etiqueta inicial
         etiqueta_ambito = None
-        while id_actual < len(self.cola.items):
-            self.dimension_etiqueta += 1
-            instruccion = self.cola.items[id_actual]
-            if isinstance(instruccion,Etiqueta) or isinstance(instruccion,EtiquetaMain): 
-                bloque = self.tablasimbolos.obtener(etiqueta_ambito)
-                if bloque != None:
-                    bloque.dimension = self.dimension_etiqueta
-                    self.tablasimbolos.actualizar(bloque)
-                etiqueta_ambito = instruccion.nombre
-                self.dimension_etiqueta = 0
-            salto =self.procesar_instruccion(instruccion,etiqueta_ambito,id_actual)
-            if salto == None: id_actual +=1
-            elif salto ==-1: id_actual = len(self.cola.items)
-            else: id_actual = salto
+        # while id_actual < len(self.cola.items):
+        self.dimension_etiqueta += 1
+        instruccion = self.cola.items[id_ejecucion]
+        if isinstance(instruccion,Etiqueta) or isinstance(instruccion,EtiquetaMain): 
+            bloque = self.tablasimbolos.obtener(etiqueta_ambito)
+            if bloque != None:
+                bloque.dimension = self.dimension_etiqueta
+                self.tablasimbolos.actualizar(bloque)
+            etiqueta_ambito = instruccion.nombre
+            self.dimension_etiqueta = 0
+        salto =self.procesar_instruccion(instruccion,etiqueta_ambito,id_ejecucion)
+        if salto == None: id_ejecucion +=1
+        elif salto ==-1: id_ejecucion = len(self.cola.items)
+        else: id_ejecucion = salto
         bloque = self.tablasimbolos.obtener("main")
         if bloque != None:
             bloque.dimension = len(self.cola.items)
             self.tablasimbolos.actualizar(bloque)
-        # self.imprimirTabla()
+        if len(self.cola.items) == id_ejecucion:
+            id_ejecucion = -1
+        return id_ejecucion
+        # print(len(self.cola.items),id_ejecucion)
     
     def Debug(self):
         if self.id_debug == len(self.cola.items): return False

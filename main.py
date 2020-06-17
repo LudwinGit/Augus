@@ -152,21 +152,24 @@ def ejecutar():
     global ascendente
     t = contenedorEditor.Editor().get(1.0,'end-1c')
     ascendente = True
-    # t = editor.getText()
     analizadorAscendente.run(t)
-    analizadorAscendente.Ejecutar()
-    consola.delete(1.0,'end-1c')
-    consola.insert("end",analizadorAscendente.salida)
+    id_instruccion = 0
+    while id_instruccion != -1:
+        id_instruccion = analizadorAscendente.Ejecutar(id_instruccion)
+        consola.delete(1.0,'end-1c')
+        consola.insert("end",analizadorAscendente.salida)
 
 def ejecutarDescendente():
     global ascendente
     ascendente = False
     t = contenedorEditor.Editor().get(1.0,'end-1c')
-    # t = editor.getText()
     analizadorDescendente.run(t)
-    analizadorDescendente.Ejecutar()
-    consola.delete(1.0,'end-1c')
-    consola.insert("end",analizadorDescendente.salida)
+    id_instruccion = 0
+    while id_instruccion != -1:
+        id_instruccion = analizadorDescendente.Ejecutar(id_instruccion)
+        consola.delete(1.0,'end-1c')
+        consola.insert("end",analizadorDescendente.salida)
+        
 # Configuración de la raíz
 root = Tk()
 root.title("Mi editor")
